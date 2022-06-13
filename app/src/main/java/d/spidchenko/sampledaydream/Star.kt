@@ -25,8 +25,9 @@ class Star(screenX: Int, screenY: Int) {
     }
 
     companion object {
-        const val STAR_MAX_SIZE = 10F
+        private const val TAG = "Star.LOG_TAG"
+        const val STAR_MAX_SIZE = 3F
         const val STAR_MIN_VELOCITY = 10F
-        const val STAR_MAX_VELOCITY = 100F
+        const val STAR_MAX_VELOCITY = 150F
     }
 }
