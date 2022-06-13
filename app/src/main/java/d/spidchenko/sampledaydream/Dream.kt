@@ -17,7 +17,7 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
     private var mScreenY: Int = 0
     private var mSceneInitialized = false
     private val mSurfaceHolder: SurfaceHolder = holder
-    private lateinit var mCanvas: Canvas
+    private var mCanvas: Canvas? = null
     private val mPaint: Paint = Paint()
     private var mStars: Array<Star>? = null
 
@@ -58,10 +58,10 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
                 mSceneInitialized = true
             }
             mCanvas = holder.lockCanvas()
-            mCanvas.drawColor(Color.BLACK)
+            mCanvas?.drawColor(Color.BLACK)
             mPaint.color = Color.WHITE
 
-            mStars?.forEach { mCanvas.drawRect(it.mRect, mPaint) }
+            mStars?.forEach { mCanvas?.drawRect(it.mRect, mPaint) }
 
             mSurfaceHolder.unlockCanvasAndPost(mCanvas)
         }
