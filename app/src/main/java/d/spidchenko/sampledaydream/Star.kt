@@ -1,6 +1,7 @@
 package d.spidchenko.sampledaydream
 
 import android.graphics.RectF
+import android.util.Log
 import java.util.*
 
 
