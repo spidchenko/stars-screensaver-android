@@ -52,18 +52,20 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
     private fun update() = mStars?.forEach { it.update(mCurrentFPS) }
 
     private fun draw() {
-        if (holder.surface.isValid) {
+        if (mSurfaceHolder.surface.isValid) {
             if (!mSceneInitialized) {
                 initialize2D()
                 mSceneInitialized = true
             }
-            mCanvas = holder.lockCanvas()
+            mCanvas = mSurfaceHolder.lockCanvas()
             mCanvas?.drawColor(Color.BLACK)
             mPaint.color = Color.WHITE
 
             mStars?.forEach { mCanvas?.drawRect(it.mRect, mPaint) }
 
-            mSurfaceHolder.unlockCanvasAndPost(mCanvas)
+            if (mSurfaceHolder.surface.isValid) {
+                mSurfaceHolder.unlockCanvasAndPost(mCanvas)
+            }
         }
     }
 
