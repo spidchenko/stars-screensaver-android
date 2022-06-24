@@ -2,19 +2,18 @@ package d.spidchenko.sampledaydream
 
 import android.graphics.RectF
 import android.util.Log
-import java.util.*
+import kotlin.random.Random
 
 
 class Star(
     private val screenX: Int,
     private val screenY: Int
 ) {
-    // TODO A lot of Random objects will be created, need refactoring
-    private var mX = Random().nextFloat() * screenX
-    private var mY = Random().nextFloat() * screenY
-    private val diameter = Random().nextFloat() * STAR_MAX_SIZE
+    private var mX = Random.nextFloat() * screenX
+    private var mY = Random.nextFloat() * screenY
+    private val diameter = Random.nextFloat() * STAR_MAX_SIZE
     private var mXVelocity =
-        -(Random().nextFloat() * STAR_MAX_VELOCITY + STAR_MAX_VELOCITY - STAR_MIN_VELOCITY)
+        -(Random.nextFloat() * STAR_MAX_VELOCITY + STAR_MAX_VELOCITY - STAR_MIN_VELOCITY)
     private var mYVelocity = 0
     val mRect = RectF(mX, mY, mX + diameter, mY + diameter)
 
@@ -36,7 +35,7 @@ class Star(
 
     private fun respawn() {
         mRect.left = screenX.toFloat() + 100
-        mRect.top = Random().nextFloat() * screenY
+        mRect.top = Random.nextFloat() * screenY
     }
 
     companion object {
