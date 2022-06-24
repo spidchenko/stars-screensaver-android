@@ -3,26 +3,30 @@ package d.spidchenko.sampledaydream
 import android.graphics.RectF
 import android.util.Log
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 
 class Star(
     private val screenX: Int,
     private val screenY: Int
 ) {
-    private var mX = Random.nextFloat() * screenX
-    private var mY = Random.nextFloat() * screenY
-    private val diameter = Random.nextFloat() * STAR_MAX_SIZE
-    private var mXVelocity =
-        -(Random.nextFloat() * STAR_MAX_VELOCITY + STAR_MAX_VELOCITY - STAR_MIN_VELOCITY)
-    private var mYVelocity = 0
+    private var mX = Random.nextInt(screenX).toFloat()
+    private var mY = Random.nextInt(screenY).toFloat()
+    private val diameter = Random.nextDouble(STAR_MAX_SIZE).toFloat()
+    private val mXVelocity: Float
+    private var mYVelocity: Float = 0F
     val mRect = RectF(mX, mY, mX + diameter, mY + diameter)
 
     init {
+        val minVelocity: Int = screenX / 8
+        val maxVelocity: Int = screenX / 3
+        mXVelocity = -Random.nextInt(minVelocity..maxVelocity).toFloat()
+        Log.d(TAG, ": Velocity range: $minVelocity..$maxVelocity")
         Log.d(TAG, "Star created: x:$mX y:$mY speed:$mXVelocity")
     }
 
     fun update(fps: Long) {
-        if (mRect.left < -100) {
+        if (mRect.left < 0) {
             respawn()
         }
         with(mRect) {
@@ -34,14 +38,12 @@ class Star(
     }
 
     private fun respawn() {
-        mRect.left = screenX.toFloat() + 100
+        mRect.left = screenX.toFloat()
         mRect.top = Random.nextFloat() * screenY
     }
 
     companion object {
         private const val TAG = "Star.LOG_TAG"
-        const val STAR_MAX_SIZE = 3F
-        const val STAR_MIN_VELOCITY = 10F
-        const val STAR_MAX_VELOCITY = 150F
+        const val STAR_MAX_SIZE = 3.0
     }
 }
