@@ -18,8 +18,8 @@ class Star(
     val mRect = RectF(mX, mY, mX + diameter, mY + diameter)
 
     init {
-        val minVelocity: Int = screenX / 8
-        val maxVelocity: Int = screenX / 3
+        val minVelocity: Int = screenX / MIN_VELOCITY_DIVIDER
+        val maxVelocity: Int = screenX / MAX_VELOCITY_DIVIDER
         mXVelocity = -Random.nextInt(minVelocity..maxVelocity).toFloat()
         Log.d(TAG, ": Velocity range: $minVelocity..$maxVelocity")
         Log.d(TAG, "Star created: x:$mX y:$mY speed:$mXVelocity")
@@ -45,5 +45,7 @@ class Star(
     companion object {
         private const val TAG = "Star.LOG_TAG"
         const val STAR_MAX_SIZE = 3.0
+        const val MIN_VELOCITY_DIVIDER = 8
+        const val MAX_VELOCITY_DIVIDER = 3
     }
 }
