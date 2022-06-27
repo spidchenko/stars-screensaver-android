@@ -12,9 +12,10 @@ class Star(
 ) {
     private var mX = Random.nextInt(screenX).toFloat()
     private var mY = Random.nextInt(screenY).toFloat()
-    private val diameter = Random.nextDouble(STAR_MAX_SIZE).toFloat()
+    private val diameter = Random.nextDouble(STAR_MIN_SIZE, STAR_MAX_SIZE).toFloat()
     private val mXVelocity: Float
-    private var mYVelocity: Float = 0F
+
+    //    private var mYVelocity: Float = 0F
     val mRect = RectF(mX, mY, mX + diameter, mY + diameter)
 
     init {
@@ -31,7 +32,7 @@ class Star(
         }
         with(mRect) {
             left += (mXVelocity / fps)
-            top += (mYVelocity / fps)
+//            top += (mYVelocity / fps)
             right = mRect.left + diameter
             bottom = mRect.top + diameter
         }
@@ -44,7 +45,8 @@ class Star(
 
     companion object {
         private const val TAG = "Star.LOG_TAG"
-        const val STAR_MAX_SIZE = 3.0
+        const val STAR_MIN_SIZE = 0.9
+        const val STAR_MAX_SIZE = 4.0
         const val MIN_VELOCITY_DIVIDER = 8
         const val MAX_VELOCITY_DIVIDER = 3
     }
