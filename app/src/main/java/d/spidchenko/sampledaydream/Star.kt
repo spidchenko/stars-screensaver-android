@@ -10,20 +10,17 @@ class Star(
     private val screenX: Int,
     private val screenY: Int
 ) {
-    private var mX = Random.nextInt(screenX).toFloat()
-    private var mY = Random.nextInt(screenY).toFloat()
+    private var x = Random.nextInt(screenX).toFloat()
+    private var y = Random.nextInt(screenY).toFloat()
     private val diameter = Random.nextDouble(STAR_MIN_SIZE, STAR_MAX_SIZE).toFloat()
-    private val mXVelocity: Float
-
-    //    private var mYVelocity: Float = 0F
-    val mRect = RectF(mX, mY, mX + diameter, mY + diameter)
+    private val xVelocity: Float
+    private val yVelocity: Float = 0F
+    private val rect = RectF(x, y, x + diameter, y + diameter)
 
     init {
         val minVelocity: Int = screenX / MIN_VELOCITY_DIVIDER
         val maxVelocity: Int = screenX / MAX_VELOCITY_DIVIDER
-        mXVelocity = -Random.nextInt(minVelocity..maxVelocity).toFloat()
-        Log.d(TAG, ": Velocity range: $minVelocity..$maxVelocity")
-        Log.d(TAG, "Star created: x:$mX y:$mY speed:$mXVelocity")
+        xVelocity = -Random.nextInt(minVelocity..maxVelocity).toFloat()
     }
 
     fun update(fps: Long) {

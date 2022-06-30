@@ -10,20 +10,20 @@ import android.view.SurfaceView
 
 class Dream(context: Context) : SurfaceView(context), Runnable {
 
-    private var mWorking = false
-    private lateinit var mThread: Thread
-    private var mCurrentFPS: Long = 0
-    private var mScreenX: Int = 0
-    private var mScreenY: Int = 0
-    private var mSceneInitialized = false
-    private val mSurfaceHolder: SurfaceHolder = holder
-    private var mCanvas: Canvas? = null
-    private val mPaint: Paint = Paint()
-    private var mStars: Array<Star>? = null
+    private var isWorking = false
+    private lateinit var thread: Thread
+    private var currentFPS: Long = 0
+    private var screenX: Int = 0
+    private var screenY: Int = 0
+    private var isSceneInitialized = false
+    private val surfaceHolder: SurfaceHolder = holder
+    private var canvas: Canvas? = null
+    private val paint: Paint = Paint()
+    private var stars: Array<Star>? = null
 
 
     override fun run() {
-        while (mWorking) {
+        while (isWorking) {
             val frameStartTime = System.currentTimeMillis()
 
             update()
@@ -31,48 +31,48 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
 
             val timeThisFrame = System.currentTimeMillis() - frameStartTime
             if (timeThisFrame > 0) {
-                mCurrentFPS = MILLIS_IN_SECOND / timeThisFrame
+                currentFPS = MILLIS_IN_SECOND / timeThisFrame
             }
         }
     }
 
     fun start() {
         Log.d(TAG, "start")
-        mWorking = true
-        mThread = Thread(this)
-        mThread.start()
+        isWorking = true
+        thread = Thread(this)
+        thread.start()
     }
 
     fun stop() {
         Log.d(TAG, "stop")
-        mWorking = false
-        mThread.join()
+        isWorking = false
+        thread.join()
     }
 
-    private fun update() = mStars?.forEach { it.update(mCurrentFPS) }
+    private fun update() = stars?.forEach { it.update(currentFPS) }
 
     private fun draw() {
-        if (mSurfaceHolder.surface.isValid) {
-            if (!mSceneInitialized) {
+        if (surfaceHolder.surface.isValid) {
+            if (!isSceneInitialized) {
                 initialize2D()
-                mSceneInitialized = true
+                isSceneInitialized = true
             }
-            mCanvas = mSurfaceHolder.lockCanvas()
-            mCanvas?.drawColor(Color.BLACK)
-            mPaint.color = Color.WHITE
+            canvas = surfaceHolder.lockCanvas()
+            canvas?.drawColor(Color.BLACK)
+            paint.color = Color.WHITE
 
             mStars?.forEach { mCanvas?.drawRect(it.mRect, mPaint) }
 
-            if (mSurfaceHolder.surface.isValid) {
-                mSurfaceHolder.unlockCanvasAndPost(mCanvas)
+            if (surfaceHolder.surface.isValid) {
+                surfaceHolder.unlockCanvasAndPost(canvas)
             }
         }
     }
 
     private fun initialize2D() {
-        mScreenX = mSurfaceHolder.surfaceFrame.width()
-        mScreenY = mSurfaceHolder.surfaceFrame.height()
-        mStars = Array(100) { Star(mScreenX, mScreenY) }
+        screenX = surfaceHolder.surfaceFrame.width()
+        screenY = surfaceHolder.surfaceFrame.height()
+        stars = Array(100) { Star(screenX, screenY) }
     }
 
     companion object {

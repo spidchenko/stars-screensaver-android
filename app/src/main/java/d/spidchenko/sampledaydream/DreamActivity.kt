@@ -5,26 +5,26 @@ import android.widget.LinearLayout
 
 class DreamActivity : DreamService() {
 
-    private lateinit var mDream: Dream
+    private lateinit var dream: Dream
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         isInteractive = false
         isFullscreen = true
         setContentView(R.layout.activity_main)
-        mDream = Dream(this)
+        dream = Dream(this)
         val dreamLayout = findViewById<LinearLayout>(R.id.DayDreamLayout)
-        dreamLayout.addView(mDream)
+        dreamLayout.addView(dream)
     }
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        mDream.start()
+        dream.start()
     }
 
     override fun onDreamingStopped() {
         super.onDreamingStopped()
-        mDream.stop()
+        dream.stop()
     }
 
     override fun onDetachedFromWindow() {
