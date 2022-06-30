@@ -1,7 +1,8 @@
 package d.spidchenko.sampledaydream
 
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.RectF
-import android.util.Log
 import kotlin.random.Random
 import kotlin.random.nextInt
 
@@ -23,25 +24,16 @@ class Star(
         xVelocity = -Random.nextInt(minVelocity..maxVelocity).toFloat()
     }
 
-    fun update(fps: Long) {
-        if (mRect.left < 0) {
-            respawn()
-        }
-        with(mRect) {
-            left += (mXVelocity / fps)
-//            top += (mYVelocity / fps)
-            right = mRect.left + diameter
-            bottom = mRect.top + diameter
-        }
-    }
+    fun update(fps: Long) =
+        if (rect.left < 0) respawn() else rect.offset(xVelocity / fps, yVelocity / fps)
 
-    private fun respawn() {
-        mRect.left = screenX.toFloat()
-        mRect.top = Random.nextFloat() * screenY
-    }
+    fun draw(canvas: Canvas?, paint: Paint) =
+        canvas?.let { canvas.drawRect(rect, paint) }
+
+    private fun respawn() =
+        rect.offsetTo(screenX.toFloat(), Random.nextInt(screenY).toFloat())
 
     companion object {
-        private const val TAG = "Star.LOG_TAG"
         const val STAR_MIN_SIZE = 0.9
         const val STAR_MAX_SIZE = 4.0
         const val MIN_VELOCITY_DIVIDER = 8

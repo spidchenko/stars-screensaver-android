@@ -61,7 +61,7 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
             canvas?.drawColor(Color.BLACK)
             paint.color = Color.WHITE
 
-            mStars?.forEach { mCanvas?.drawRect(it.mRect, mPaint) }
+            stars?.forEach { it.draw(canvas, paint) }
 
             if (surfaceHolder.surface.isValid) {
                 surfaceHolder.unlockCanvasAndPost(canvas)
