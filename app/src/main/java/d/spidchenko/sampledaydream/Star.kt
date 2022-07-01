@@ -4,7 +4,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 
 class Star(
@@ -19,9 +18,9 @@ class Star(
     private val rect = RectF(x, y, x + diameter, y + diameter)
 
     init {
-        val minVelocity: Int = screenX / MIN_VELOCITY_DIVIDER
-        val maxVelocity: Int = screenX / MAX_VELOCITY_DIVIDER
-        xVelocity = -Random.nextInt(minVelocity..maxVelocity).toFloat()
+        val minVelocity: Double = screenX / MIN_VELOCITY_DIVIDER
+        val maxVelocity: Double = screenX / MAX_VELOCITY_DIVIDER
+        xVelocity = -Random.nextDouble(minVelocity, maxVelocity).toFloat()
     }
 
     fun update(fps: Long) =
@@ -36,7 +35,7 @@ class Star(
     companion object {
         const val STAR_MIN_SIZE = 0.9
         const val STAR_MAX_SIZE = 4.0
-        const val MIN_VELOCITY_DIVIDER = 8
-        const val MAX_VELOCITY_DIVIDER = 3
+        const val MIN_VELOCITY_DIVIDER = 8.0
+        const val MAX_VELOCITY_DIVIDER = 3.0
     }
 }
