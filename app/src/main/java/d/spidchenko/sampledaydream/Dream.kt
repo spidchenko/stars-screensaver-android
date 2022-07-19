@@ -4,13 +4,15 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.os.Build
 import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 
-class Dream(context: Context) : SurfaceView(context), Runnable {
+class Dream(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Callback {
 
     private var isWorking = false
+    private var isSurfaceCreated = false
     private lateinit var thread: Thread
     private var currentFPS: Long = 0
     private var screenX: Int = 0
@@ -18,20 +20,26 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
     private var isSceneInitialized = false
     private val surfaceHolder: SurfaceHolder = holder
     private var canvas: Canvas? = null
-    private val paint: Paint = Paint()
-    private var stars: Array<Star>? = null
+    private val paint: Paint = Paint().apply {
+        color = Color.WHITE
+        isAntiAlias = false
+    }
+    private var stars: List<Star>? = null
 
 
     override fun run() {
+        surfaceHolder.addCallback(this)
         while (isWorking) {
-            val frameStartTime = System.currentTimeMillis()
+            if (isSurfaceCreated) {
+                val frameStartTime = System.currentTimeMillis()
 
-            update()
-            draw()
+                update()
+                draw()
 
-            val timeThisFrame = System.currentTimeMillis() - frameStartTime
-            if (timeThisFrame > 0) {
-                currentFPS = MILLIS_IN_SECOND / timeThisFrame
+                val timeThisFrame = System.currentTimeMillis() - frameStartTime
+                if (timeThisFrame > 0) {
+                    currentFPS = MILLIS_IN_SECOND / timeThisFrame
+                }
             }
         }
     }
@@ -55,11 +63,16 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
         if (surfaceHolder.surface.isValid) {
             if (!isSceneInitialized) {
                 initialize2D()
-                isSceneInitialized = true
             }
-            canvas = surfaceHolder.lockCanvas()
+
+            canvas =
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    surfaceHolder.lockHardwareCanvas()
+                } else {
+                    surfaceHolder.lockCanvas()
+                }
+
             canvas?.drawColor(Color.BLACK)
-            paint.color = Color.WHITE
 
             stars?.forEach { it.draw(canvas, paint) }
 
@@ -72,7 +85,26 @@ class Dream(context: Context) : SurfaceView(context), Runnable {
     private fun initialize2D() {
         screenX = surfaceHolder.surfaceFrame.width()
         screenY = surfaceHolder.surfaceFrame.height()
-        stars = Array(100) { Star(screenX, screenY) }
+        stars = MutableList(100) { Star(screenX, screenY) }
+        isSceneInitialized = true
+    }
+
+    override fun surfaceCreated(holder: SurfaceHolder) {
+        isSurfaceCreated = true
+        Log.d(TAG, "surfaceCreated: ")
+    }
+
+    override fun surfaceChanged(
+        holder: SurfaceHolder,
+        format: Int,
+        width: Int,
+        height: Int
+    ) {
+    }
+
+    override fun surfaceDestroyed(holder: SurfaceHolder) {
+        isSurfaceCreated = false
+        Log.d(TAG, "surfaceDestroyed: ")
     }
 
     companion object {
