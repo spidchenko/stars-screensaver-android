@@ -1,30 +1,32 @@
 package d.spidchenko.sampledaydream
 
+import android.opengl.GLSurfaceView
 import android.service.dreams.DreamService
-import android.widget.LinearLayout
 
 class DreamActivity : DreamService() {
 
     private lateinit var dream: Dream
+    private lateinit var gLView: GLSurfaceView
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        isInteractive = false
+        isInteractive = true
         isFullscreen = true
-        setContentView(R.layout.activity_main)
-        dream = Dream(this)
-        val dreamLayout = findViewById<LinearLayout>(R.id.DayDreamLayout)
-        dreamLayout.addView(dream)
+        gLView = MyGLSurfaceView(this)
+        setContentView(gLView)
+//        dream = Dream(this)
+//        val dreamLayout = findViewById<LinearLayout>(R.id.DayDreamLayout)
+//        dreamLayout.addView(dream)
     }
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        dream.start()
+//        dream.start()
     }
 
     override fun onDreamingStopped() {
         super.onDreamingStopped()
-        dream.stop()
+//        dream.stop()
     }
 
     override fun onDetachedFromWindow() {
