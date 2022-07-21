@@ -1,9 +1,9 @@
 package d.spidchenko.sampledaydream
 
 import android.opengl.GLES20
+import android.opengl.Matrix.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.FloatBuffer
 import kotlin.random.Random
 
 private const val screenX = 1.0
@@ -12,7 +12,9 @@ private const val TAG = "Star.LOG_TAG"
 
 class Star {
 
-    var pointCoords = floatArrayOf(0.0f, 0.0f, 0.0f)
+    private val modelMatrix = FloatArray(16)
+    private val viewportModelMatrix = FloatArray(16)
+    var pointCoords = floatArrayOf(0.2f, 0.2f, 0.0f)
 
     val color = floatArrayOf(1f, 1f, 1f, 1.0f)
     private var positionHandle: Int = 0
@@ -24,14 +26,20 @@ class Star {
     // Use to access and set the view transformation
     private var vPMatrixHandle: Int = 0
 
-    private lateinit var vertexBuffer: FloatBuffer
+    private val vertexBuffer = ByteBuffer.allocateDirect(pointCoords.size * 4).run {
+        order(ByteOrder.nativeOrder())
+        asFloatBuffer().apply {
+            put(pointCoords)
+            position(0)
+        }
+    }
 
     //    private val position: Point
     private var x = Random.nextDouble(-screenX, +screenX)
     private var y = Random.nextDouble(-screenY, +screenY)
 
     //    private val diameter = Random.nextDouble(STAR_MIN_SIZE, STAR_MAX_SIZE).toFloat()
-    val minVelocity: Double = 0.8
+    val minVelocity: Double = 0.3
     val maxVelocity: Double = 0.9
     private val xVelocity = -Random.nextDouble(minVelocity, maxVelocity)
     private val yVelocity: Double = 0.0
@@ -43,24 +51,30 @@ class Star {
 //            Log.d(TAG, "update: respawn")
             respawn()
         } else {
+//            Log.d(TAG, "update: $x $y fps: $fps")
             x += xVelocity / fps
             y += yVelocity / fps
 //            rect.offset(xVelocity / fps, yVelocity / fps)
         }
 
+
     fun draw(mvpMatrix: FloatArray) {
 
-        pointCoords[0] = x.toFloat()
-        pointCoords[1] = y.toFloat()
+        setIdentityM(modelMatrix, 0)
+        translateM(modelMatrix, 0, x.toFloat(), y.toFloat(), 0F)
+        multiplyMM(viewportModelMatrix, 0, mvpMatrix, 0, modelMatrix, 0)
+//        pointCoords[0] = x.toFloat()
+//        pointCoords[1] = y.toFloat()
 
         // (number of coordinate values * 4 bytes per float)
-        vertexBuffer = ByteBuffer.allocateDirect(pointCoords.size * 4).run {
-            order(ByteOrder.nativeOrder())
-            asFloatBuffer().apply {
-                put(pointCoords)
-                position(0)
-            }
-        }
+//        vertexBuffer.run {
+//            order(ByteOrder.nativeOrder())
+//            asFloatBuffer().apply {
+//                put(pointCoords)
+//                position(0)
+//            }
+//        }
+//        vertexBuffer.rewind()
 
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(GLManager.program)
@@ -93,7 +107,7 @@ class Star {
             vPMatrixHandle = GLES20.glGetUniformLocation(GLManager.program, "uMVPMatrix")
 
             // Pass the projection and view transformation to the shader
-            GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, mvpMatrix, 0)
+            GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, viewportModelMatrix, 0)
 
             // Draw the Point
             GLES20.glDrawArrays(GLES20.GL_POINTS, 0, vertexCount)
@@ -104,6 +118,7 @@ class Star {
     }
 
     private fun respawn() {
+//        Log.d(TAG, "respawn: $x < ${-screenX}")
         x = screenX
         y = Random.nextDouble(-screenY, +screenY)
 //        rect.offsetTo(screenX.toFloat(), Random.nextInt(screenY).toFloat())

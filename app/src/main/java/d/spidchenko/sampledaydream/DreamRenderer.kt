@@ -19,10 +19,10 @@ class DreamRenderer : GLSurfaceView.Renderer {
 
     var frameCounter = 0L
     var averageFPS = 0L
-    private var fps = 0L
+    private var fps = 60L
 //    private val dreamManager: GLManager
 
-    private val stars = List(1000) { Star() }
+    private val stars = List(100) { Star() }
 //    private lateinit var triangle: Triangle
 //    private lateinit var square: Square2
 
