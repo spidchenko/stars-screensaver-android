@@ -2,7 +2,6 @@ package d.spidchenko.sampledaydream
 
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.RectF
 import kotlin.random.Random
 
 
@@ -15,7 +14,6 @@ class Star(
     private val diameter = Random.nextDouble(STAR_MIN_SIZE, STAR_MAX_SIZE).toFloat()
     private val xVelocity: Float
     private val yVelocity: Float = 0F
-    private val rect = RectF(x, y, x + diameter, y + diameter)
 
     init {
         val minVelocity: Double = screenX / MIN_VELOCITY_DIVIDER
@@ -24,13 +22,21 @@ class Star(
     }
 
     fun update(fps: Long) =
-        if (rect.left < 0) respawn() else rect.offset(xVelocity / fps, yVelocity / fps)
+        if (x < 0) {
+            respawn()
+        } else {
+            x += xVelocity / fps
+            y += yVelocity / fps
+        }
 
     fun draw(canvas: Canvas?, paint: Paint) =
-        canvas?.let { canvas.drawRect(rect, paint) }
+        canvas?.let { it.drawPoint(x, y, paint.apply { strokeWidth = diameter }) }
 
-    private fun respawn() =
-        rect.offsetTo(screenX.toFloat(), Random.nextInt(screenY).toFloat())
+    private fun respawn() {
+        x = screenX.toFloat()
+        y = Random.nextInt(screenY).toFloat()
+    }
+
 
     companion object {
         const val STAR_MIN_SIZE = 0.9
