@@ -11,10 +11,13 @@ import android.view.SurfaceView
 
 class Dream(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Callback {
 
+    private val isDebugging = true
     private var isWorking = false
     private var isSurfaceCreated = false
     private lateinit var thread: Thread
     private var currentFPS: Long = 0
+    private var frameCounter = 0
+    private var averageFPS = 0L
     private var screenX: Int = 0
     private var screenY: Int = 0
     private var isSceneInitialized = false
@@ -39,6 +42,10 @@ class Dream(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Ca
                 val timeThisFrame = System.currentTimeMillis() - frameStartTime
                 if (timeThisFrame > 0) {
                     currentFPS = MILLIS_IN_SECOND / timeThisFrame
+                }
+
+                if (isDebugging){
+                    logAverageFPS()
                 }
             }
         }
@@ -107,6 +114,15 @@ class Dream(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Ca
         Log.d(TAG, "surfaceDestroyed: ")
     }
 
+    private fun logAverageFPS() {
+        frameCounter++
+        averageFPS += currentFPS
+        if (frameCounter > 100) {
+            averageFPS /= frameCounter
+            frameCounter = 0
+            Log.d(TAG, "Average FPS: $averageFPS")
+        }
+    }
     companion object {
         private const val TAG = "Dream.LOG_TAG"
         private const val MILLIS_IN_SECOND = 1000
