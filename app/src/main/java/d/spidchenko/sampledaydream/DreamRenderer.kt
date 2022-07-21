@@ -3,17 +3,28 @@ package d.spidchenko.sampledaydream
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import android.util.Log
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
+private const val MILLIS_IN_SECOND = 1000
+private const val TAG = "DreamRenderer.LOG_TAG"
 
-class MyGLRenderer : GLSurfaceView.Renderer {
+class DreamRenderer : GLSurfaceView.Renderer {
 
-    @Volatile
-    var angle: Float = 0f
+//    @Volatile
+//    var angle: Float = 0f
 
-    private lateinit var triangle: Triangle
-    private lateinit var square: Square2
+    val isDebugging = true
+
+    var frameCounter = 0L
+    var averageFPS = 0L
+    private var fps = 0L
+//    private val dreamManager: GLManager
+
+    private val stars = List(1000) { Star() }
+//    private lateinit var triangle: Triangle
+//    private lateinit var square: Square2
 
     // vPMatrix is an abbreviation for "Model View Projection Matrix"
     private val vPMatrix = FloatArray(16)
@@ -28,15 +39,40 @@ class MyGLRenderer : GLSurfaceView.Renderer {
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
+
+        GLManager.buildProgram()
         // initialize a triangle
-        triangle = Triangle()
-        // initialize a square
-        square = Square2()
+//        triangle = Triangle()
+
+//        stars  = Star()
+//        // initialize a square
+//        square = Square2()
     }
 
     override fun onDrawFrame(unused: GL10) {
 
-        val scratch = FloatArray(16)
+        val startFrameTime = System.currentTimeMillis()
+
+        update()
+        draw()
+
+        val timeThisFrame = System.currentTimeMillis() - startFrameTime
+        if (timeThisFrame > 0) {
+            fps = MILLIS_IN_SECOND / timeThisFrame
+        }
+
+        if (isDebugging) {
+            logAverageFPS()
+        }
+    }
+
+
+    private fun update() {
+        stars.forEach { it.update(fps) }
+    }
+
+    private fun draw() {
+//        val scratch = FloatArray(16)
 
         // Redraw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
@@ -53,18 +89,27 @@ class MyGLRenderer : GLSurfaceView.Renderer {
         // Create a rotation transformation for the triangle
 //        val time = SystemClock.uptimeMillis() % 4000L
 //        val angle = 0.090f * time.toInt()
-        Matrix.setRotateM(rotationMatrix, 0, angle, 0f, 0f, -1.0f)
+//        Matrix.setRotateM(rotationMatrix, 0, angle, 0f, 0f, -1.0f)
 
         // Combine the rotation matrix with the projection and camera view
         // Note that the vPMatrix factor *must be first* in order
         // for the matrix multiplication product to be correct.
-        Matrix.multiplyMM(scratch, 0, vPMatrix, 0, rotationMatrix, 0)
+//        Matrix.multiplyMM(scratch, 0, vPMatrix, 0, rotationMatrix, 0)
 
         // Draw triangle
-        triangle.draw(scratch)
-
+//        triangle.draw(scratch)
+        stars.forEach { it.draw(vPMatrix) }
     }
 
+    private fun logAverageFPS() {
+        frameCounter++
+        averageFPS += fps
+        if (frameCounter > 100) {
+            averageFPS /= frameCounter
+            frameCounter = 0
+            Log.d(TAG, "Average FPS: $averageFPS")
+        }
+    }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
         GLES20.glViewport(0, 0, width, height)

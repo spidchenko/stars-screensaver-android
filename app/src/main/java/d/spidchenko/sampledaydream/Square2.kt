@@ -5,8 +5,6 @@ import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.nio.ShortBuffer
 
-// number of coordinates per vertex in this array
-const val COORDS_PER_VERTEX = 3
 var squareCoords = floatArrayOf(
     -0.5f,  0.5f, 0.0f,      // top left
     -0.5f, -0.5f, 0.0f,      // bottom left

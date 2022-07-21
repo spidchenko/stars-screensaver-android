@@ -74,7 +74,7 @@ class Dream(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Ca
 
             canvas?.drawColor(Color.BLACK)
 
-            stars?.forEach { it.draw(canvas, paint) }
+//            stars?.forEach { it.draw(canvas, paint) }
 
             if (surfaceHolder.surface.isValid) {
                 surfaceHolder.unlockCanvasAndPost(canvas)
@@ -85,7 +85,7 @@ class Dream(context: Context) : SurfaceView(context), Runnable, SurfaceHolder.Ca
     private fun initialize2D() {
         screenX = surfaceHolder.surfaceFrame.width()
         screenY = surfaceHolder.surfaceFrame.height()
-        stars = MutableList(100) { Star(screenX, screenY) }
+//        stars = MutableList(100) { Star(screenX, screenY) }
         isSceneInitialized = true
     }
 

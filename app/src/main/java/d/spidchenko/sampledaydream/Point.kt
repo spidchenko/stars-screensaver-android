@@ -1,61 +1,39 @@
 package d.spidchenko.sampledaydream
 
 import android.opengl.GLES20
-import android.util.Log
-import d.spidchenko.sampledaydream.GLManager.ELEMENTS_PER_VERTEX
-import d.spidchenko.sampledaydream.GLManager.STRIDE
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
-private const val TAG = "Triangle.LOG_TAG"
+class Point {
 
-// number of coordinates per vertex in this array
-//const val COORDS_PER_VERTEX = 3
-var triangleCoords = floatArrayOf(     // in counterclockwise order:
-    0.0f, 0.622008459f, 0.0f,      // top
-    -0.5f, -0.311004243f, 0.0f,    // bottom left
-    0.5f, -0.311004243f, 0.0f      // bottom right
-)
+    var pointCoords = floatArrayOf(0.0f, 0.0f, 0.0f)
 
-class Triangle {
-
-    // Set color with red, green, blue and alpha (opacity) values
     val color = floatArrayOf(0.63671875f, 0.76953125f, 0.22265625f, 1.0f)
-
-
     private var positionHandle: Int = 0
     private var mColorHandle: Int = 0
 
-    private val vertexCount: Int = triangleCoords.size / ELEMENTS_PER_VERTEX
-    private val vertexStride: Int = STRIDE // 4 bytes per vertex
+    private val vertexCount = 1
+    private val vertexStride: Int = GLManager.STRIDE // 4 bytes per vertex
 
     // Use to access and set the view transformation
     private var vPMatrixHandle: Int = 0
 
+    private lateinit var vertexBuffer: FloatBuffer
 
-    private var vertexBuffer: FloatBuffer =
+    fun draw(mvpMatrix: FloatArray) {
+
+//        pointCoords[0] = x
+//        pointCoords[1] = y
+
         // (number of coordinate values * 4 bytes per float)
-        ByteBuffer.allocateDirect(triangleCoords.size * 4).run {
-            // use the device hardware's native byte order
+        vertexBuffer = ByteBuffer.allocateDirect(pointCoords.size * 4).run {
             order(ByteOrder.nativeOrder())
-
-            // create a floating point buffer from the ByteBuffer
             asFloatBuffer().apply {
-                // add the coordinates to the FloatBuffer
-                put(triangleCoords)
-                // set the buffer to read the first coordinate
+                put(pointCoords)
                 position(0)
             }
         }
-
- init {
-     Log.d(TAG, "Triangle init. Program: ${GLManager.program}")
- }
-
-
-
-    fun draw(mvpMatrix: FloatArray) { // pass in the calculated transformation matrix
 
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(GLManager.program)
@@ -69,7 +47,7 @@ class Triangle {
             // Prepare the triangle coordinate data
             GLES20.glVertexAttribPointer(
                 it,
-                ELEMENTS_PER_VERTEX,
+                GLManager.ELEMENTS_PER_VERTEX,
                 GLES20.GL_FLOAT,
                 false,
                 vertexStride,
@@ -77,10 +55,11 @@ class Triangle {
             )
 
             // get handle to fragment shader's vColor member
-            mColorHandle = GLES20.glGetUniformLocation(GLManager.program, "vColor").also { colorHandle ->
-                // Set color for drawing the triangle
-                GLES20.glUniform4fv(colorHandle, 1, color, 0)
-            }
+            mColorHandle =
+                GLES20.glGetUniformLocation(GLManager.program, "vColor").also { colorHandle ->
+                    // Set color for drawing the triangle
+                    GLES20.glUniform4fv(colorHandle, 1, color, 0)
+                }
 
 
             // get handle to shape's transformation matrix
@@ -89,7 +68,7 @@ class Triangle {
             // Pass the projection and view transformation to the shader
             GLES20.glUniformMatrix4fv(vPMatrixHandle, 1, false, mvpMatrix, 0)
 
-            // Draw the triangle
+            // Draw the Point
             GLES20.glDrawArrays(GLES20.GL_POINTS, 0, vertexCount)
 
             // Disable vertex array
