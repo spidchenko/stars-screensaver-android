@@ -12,24 +12,18 @@ private const val TAG = "DreamRenderer.LOG_TAG"
 
 class DreamRenderer : GLSurfaceView.Renderer {
 
-//    @Volatile
-//    var angle: Float = 0f
-
-    val isDebugging = true
+    private val isDebugging = true
 
     var frameCounter = 0L
     var averageFPS = 0L
     private var fps = 60L
-//    private val dreamManager: GLManager
 
     private val stars = List(100) { Star() }
-//    private lateinit var triangle: Triangle
-//    private lateinit var square: Square2
 
     // vPMatrix is an abbreviation for "Model View Projection Matrix"
     private val vPMatrix = FloatArray(16)
     private val projectionMatrix = FloatArray(16)
-    private val rotationMatrix = FloatArray(16)
+//    private val rotationMatrix = FloatArray(16)
 
     // For converting each game world coordinate
     // into a GL space coordinate (-1,-1 to 1,1)
@@ -41,12 +35,6 @@ class DreamRenderer : GLSurfaceView.Renderer {
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 
         GLManager.buildProgram()
-        // initialize a triangle
-//        triangle = Triangle()
-
-//        stars  = Star()
-//        // initialize a square
-//        square = Square2()
     }
 
     override fun onDrawFrame(unused: GL10) {
@@ -83,8 +71,6 @@ class DreamRenderer : GLSurfaceView.Renderer {
         // Calculate the projection and view transformation
         Matrix.multiplyMM(vPMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
 
-        // Draw shape
-//        triangle.draw(vPMatrix)
 
         // Create a rotation transformation for the triangle
 //        val time = SystemClock.uptimeMillis() % 4000L
@@ -96,8 +82,7 @@ class DreamRenderer : GLSurfaceView.Renderer {
         // for the matrix multiplication product to be correct.
 //        Matrix.multiplyMM(scratch, 0, vPMatrix, 0, rotationMatrix, 0)
 
-        // Draw triangle
-//        triangle.draw(scratch)
+
         stars.forEach { it.draw(vPMatrix) }
     }
 
