@@ -16,15 +16,6 @@ private const val STAR_MAX_SIZE = 4.0
 private const val STAR_MIN_VELOCITY: Double = 0.2
 private const val STAR_MAX_VELOCITY: Double = 0.8
 private const val VERTEX_COUNT = 1
-private val VERTEX = FloatArray(3)
-
-private val VERTEX_BUFFER = ByteBuffer.allocateDirect(GLManager.STRIDE).run {
-    order(ByteOrder.nativeOrder())
-    asFloatBuffer().apply {
-        put(VERTEX)
-        position(0)
-    }
-}
 
 class Star {
     private val modelMatrix = FloatArray(16)
@@ -52,19 +43,6 @@ class Star {
         // Add program to OpenGL ES environment
         GLES20.glUseProgram(GLManager.program)
 
-        // Enable a handle to the triangle vertices
-        GLES20.glEnableVertexAttribArray(GLManager.positionHandle)
-
-        // Prepare the triangle coordinate data
-        GLES20.glVertexAttribPointer(
-            GLManager.positionHandle,
-            GLManager.ELEMENTS_PER_VERTEX,
-            GLES20.GL_FLOAT,
-            false,
-            GLManager.STRIDE,
-            VERTEX_BUFFER
-        )
-
         // Set color for drawing the point
         GLES20.glUniform4fv(GLManager.colorHandle, 1, color, 0)
 
@@ -87,7 +65,9 @@ class Star {
     }
 
     private fun getRandomStarColor() = floatArrayOf(
-        Random.nextDouble(HALF_COLOR_COMPONENT_VALUE, MAX_COLOR_COMPONENT_VALUE).toFloat(), 1.0f,
-        Random.nextDouble(HALF_COLOR_COMPONENT_VALUE, MAX_COLOR_COMPONENT_VALUE).toFloat(), 1.0f
+        Random.nextDouble(HALF_COLOR_COMPONENT_VALUE, MAX_COLOR_COMPONENT_VALUE).toFloat(),
+        Random.nextDouble(HALF_COLOR_COMPONENT_VALUE, MAX_COLOR_COMPONENT_VALUE).toFloat(),
+        Random.nextDouble(HALF_COLOR_COMPONENT_VALUE, MAX_COLOR_COMPONENT_VALUE).toFloat(),
+        1.0f
     )
 }
