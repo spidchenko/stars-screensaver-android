@@ -3,6 +3,7 @@ package d.spidchenko.sampledaydream
 import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
+import android.os.SystemClock
 import android.util.Log
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
@@ -39,12 +40,12 @@ class DreamRenderer : GLSurfaceView.Renderer {
 
     override fun onDrawFrame(unused: GL10) {
 
-        val startFrameTime = System.currentTimeMillis()
+        val startFrameTime = SystemClock.elapsedRealtime()
 
         update()
         draw()
 
-        val timeThisFrame = System.currentTimeMillis() - startFrameTime
+        val timeThisFrame = SystemClock.elapsedRealtime() - startFrameTime
         if (timeThisFrame > 0) {
             fps = MILLIS_IN_SECOND / timeThisFrame
         }
