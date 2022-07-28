@@ -8,18 +8,21 @@ import android.util.Log
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
-private const val MILLIS_IN_SECOND = 1000
+private const val MILLIS_IN_SECOND = 1000.0
 private const val TAG = "DreamRenderer.LOG_TAG"
+const val SCREEN_Y = 1.0
+var SCREEN_X = 1.0
+    private set
 
 class DreamRenderer : GLSurfaceView.Renderer {
 
     private val isDebugging = true
 
     var frameCounter = 0L
-    var averageFPS = 0L
-    private var fps = 60L
+    var averageFPS = 0.0
+    private var fps = 60.0
 
-    private val stars = List(100) { Star() }
+    private val stars = List(50) { Star() }
 
     // vPMatrix is an abbreviation for "Model View Projection Matrix"
     private val vPMatrix = FloatArray(16)
@@ -46,6 +49,7 @@ class DreamRenderer : GLSurfaceView.Renderer {
         draw()
 
         val timeThisFrame = SystemClock.elapsedRealtime() - startFrameTime
+//        Log.d(TAG, "onDrawFrame: $timeThisFrame")
         if (timeThisFrame > 0) {
             fps = MILLIS_IN_SECOND / timeThisFrame
         }
@@ -101,6 +105,8 @@ class DreamRenderer : GLSurfaceView.Renderer {
         GLES20.glViewport(0, 0, width, height)
 
         val ratio: Float = width.toFloat() / height.toFloat()
+        SCREEN_X = ratio.toDouble()
+        Log.d(TAG, "onSurfaceChanged: Ratio: $ratio")
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method

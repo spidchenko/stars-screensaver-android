@@ -9,8 +9,6 @@ import kotlin.random.Random
 private const val TAG = "Star.LOG_TAG"
 private const val MAX_COLOR_COMPONENT_VALUE = 1.0
 private const val HALF_COLOR_COMPONENT_VALUE = 0.5
-private const val SCREEN_X = 1.0
-private const val SCREEN_Y = 1.0
 private const val STAR_MIN_SIZE = 1.0
 private const val STAR_MAX_SIZE = 4.0
 private const val STAR_MIN_VELOCITY: Double = 0.2
@@ -30,7 +28,7 @@ class Star {
 //    private val yVelocity: Double = 0.0
 
 
-    fun update(fps: Long) = if (x < -SCREEN_X) respawn() else x += xVelocity / fps
+    fun update(fps: Double) = if (x < -SCREEN_X) respawn() else x += xVelocity / fps
 
 
     fun draw(mvpMatrix: FloatArray) {
