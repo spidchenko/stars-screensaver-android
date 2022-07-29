@@ -3,9 +3,16 @@ package d.spidchenko.sampledaydream
 import android.opengl.GLES20
 import android.util.Log
 
-private const val TAG = "GLManager.LOG_TAG"
+
 
 object GLManager {
+    private const val TAG = "GLManager.LOG_TAG"
+
+    private const val U_MATRIX = "uMVPMatrix"
+    private const val U_POINT_SIZE = "diameter"
+    private const val A_POSITION = "vPosition"
+    private const val A_COLOR = "vColor"
+
     // number of coordinates per vertex in this array
     private const val COMPONENTS_PER_VERTEX = 3
     private const val FLOAT_SIZE = 4 // In bytes
@@ -13,16 +20,16 @@ object GLManager {
     const val ELEMENTS_PER_VERTEX = 3 // x,y,z
 
     // handle to fragment shader's vColor member
-    val colorHandle by lazy { GLES20.glGetUniformLocation(program, "vColor") }
+    val colorHandle by lazy { GLES20.glGetUniformLocation(program, A_COLOR) }
 
     // handle to vertex shader's vPosition member
-    val positionHandle by lazy { GLES20.glGetAttribLocation(program, "vPosition") }
+    val positionHandle by lazy { GLES20.glGetAttribLocation(program, A_POSITION) }
 
     // handle to vertex shader's diameter member
-    val pointDiameter by lazy { GLES20.glGetUniformLocation(program, "diameter") }
+    val pointDiameter by lazy { GLES20.glGetUniformLocation(program, U_POINT_SIZE) }
 
     // handle to shape's transformation matrix
-    val vPMatrixHandle by lazy { GLES20.glGetUniformLocation(program, "uMVPMatrix") }
+    val vPMatrixHandle by lazy { GLES20.glGetUniformLocation(program, U_MATRIX) }
 
     var program = 0
         private set
