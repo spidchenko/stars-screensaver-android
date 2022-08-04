@@ -2,8 +2,6 @@ package d.spidchenko.sampledaydream
 
 import android.opengl.GLES20
 import android.opengl.Matrix.*
-import java.nio.ByteBuffer
-import java.nio.ByteOrder
 import kotlin.random.Random
 
 private const val TAG = "Star.LOG_TAG"
@@ -42,19 +40,19 @@ class Star {
         GLES20.glUseProgram(GLManager.program)
 
         // Set color for drawing the point
-        GLES20.glUniform4fv(GLManager.colorHandle, 1, color, 0)
+//        GLES20.glUniform4fv(GLManager.colorHandle, 1, color, 0)
 
         // Set size for this point
-        GLES20.glUniform1f(GLManager.pointDiameter, diameter)
+//        GLES20.glUniform1f(GLManager.pointDiameter, diameter)
 
         // Pass the projection and view transformation to the shader
-        GLES20.glUniformMatrix4fv(GLManager.vPMatrixHandle, 1, false, viewportModelMatrix, 0)
+//        GLES20.glUniformMatrix4fv(GLManager.uMatrixLocation, 1, false, viewportModelMatrix, 0)
 
         // Draw the Point
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, VERTEX_COUNT)
 
         // Disable vertex array
-        GLES20.glDisableVertexAttribArray(GLManager.positionHandle)
+//        GLES20.glDisableVertexAttribArray(GLManager.positionHandle)
     }
 
     private fun respawn() {

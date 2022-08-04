@@ -10,7 +10,7 @@ private const val TOUCH_SCALE_FACTOR: Float = 180.0f / 320f
 
 class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
 
-    private val renderer: DreamRenderer
+    private val renderer: ParticlesRenderer
     private var previousX: Float = 0f
     private var previousY: Float = 0f
 
@@ -18,7 +18,7 @@ class MyGLSurfaceView(context: Context) : GLSurfaceView(context) {
         // Create an OpenGL ES 2.0 context
         setEGLContextClientVersion(2)
 
-        renderer = DreamRenderer()
+        renderer = ParticlesRenderer() // DreamRenderer()
 
         // Set the Renderer for drawing on the GLSurfaceView
         setRenderer(renderer)
