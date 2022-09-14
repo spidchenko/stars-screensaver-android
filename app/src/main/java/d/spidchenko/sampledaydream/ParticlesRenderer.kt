@@ -9,14 +9,14 @@ import android.os.SystemClock
 import d.spidchenko.sampledaydream.objects.ParticleShooter
 import d.spidchenko.sampledaydream.objects.ParticleSystem
 import d.spidchenko.sampledaydream.util.Point
+import d.spidchenko.sampledaydream.util.TextureHelper
 import d.spidchenko.sampledaydream.util.Vector
 import javax.microedition.khronos.egl.EGLConfig
-import javax.microedition.khronos.opengles.GL
 import javax.microedition.khronos.opengles.GL10
 
 private const val NANOS_IN_SECOND = 10e9F
 
-class ParticlesRenderer : GLSurfaceView.Renderer {
+class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     private val projectionMatrix = FloatArray(16)
     private val viewMatrix = FloatArray(16)
@@ -27,7 +27,7 @@ class ParticlesRenderer : GLSurfaceView.Renderer {
     private lateinit var greenParticleShooter: ParticleShooter
     private lateinit var blueParticleShooter: ParticleShooter
 
-//    private val texture = Textu
+    private var texture: Int = 0
 
     private var globalStartTime: Long = 0L
 
@@ -66,6 +66,7 @@ class ParticlesRenderer : GLSurfaceView.Renderer {
             speedVariance
         )
 
+        texture = TextureHelper.loadTexture(context, R.drawable.particle_texture)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -89,7 +90,7 @@ class ParticlesRenderer : GLSurfaceView.Renderer {
         blueParticleShooter.addParticles(particleSystem, currentTime, 5)
 
         GLManager.useProgram()
-        GLManager.setUniforms(viewProjectionMatrix, currentTime)
+        GLManager.setUniforms(viewProjectionMatrix, currentTime, texture)
         particleSystem.bindData()
         particleSystem.draw()
     }
