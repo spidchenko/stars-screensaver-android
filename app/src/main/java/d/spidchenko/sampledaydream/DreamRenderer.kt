@@ -1,6 +1,6 @@
 package d.spidchenko.sampledaydream
 
-import android.opengl.GLES20
+import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.os.SystemClock
@@ -36,7 +36,7 @@ class DreamRenderer : GLSurfaceView.Renderer {
 
     override fun onSurfaceCreated(unused: GL10, config: EGLConfig) {
         // Set the background frame color
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 
         GLManager.buildProgram()
     }
@@ -68,7 +68,7 @@ class DreamRenderer : GLSurfaceView.Renderer {
 //        val scratch = FloatArray(16)
 
         // Redraw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT)
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(viewMatrix, 0, 0f, 0f, 3f, 0f, 0f, 0f, 0f, 1.0f, 0.0f)
@@ -102,7 +102,7 @@ class DreamRenderer : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceChanged(unused: GL10, width: Int, height: Int) {
-        GLES20.glViewport(0, 0, width, height)
+        glViewport(0, 0, width, height)
 
         val ratio: Float = width.toFloat() / height.toFloat()
         SCREEN_X = ratio.toDouble()

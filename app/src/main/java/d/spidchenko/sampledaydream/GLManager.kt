@@ -1,6 +1,6 @@
 package d.spidchenko.sampledaydream
 
-import android.opengl.GLES20
+import android.opengl.GLES20.*
 import android.util.Log
 
 
@@ -24,25 +24,15 @@ object GLManager {
     //    const val STRIDE = COMPONENTS_PER_VERTEX * FLOAT_SIZE
     const val ELEMENTS_PER_VERTEX = 3 // x,y,z
 
-    //    val pointDiameter by lazy { GLES20.glGetUniformLocation(program, U_POINT_SIZE) }
-    private val uMatrixLocation by lazy { GLES20.glGetUniformLocation(program, U_MATRIX) }
-    private val uTimeLocation by lazy { GLES20.glGetUniformLocation(program, U_TIME) }
-    private val uTextureUnitLocation by lazy {
-        GLES20.glGetUniformLocation(
-            program,
-            U_TEXTURE_UNIT
-        )
-    }
+    //    val pointDiameter by lazy { glGetUniformLocation(program, U_POINT_SIZE) }
+    private val uMatrixLocation by lazy { glGetUniformLocation(program, U_MATRIX) }
+    private val uTimeLocation by lazy { glGetUniformLocation(program, U_TIME) }
+    private val uTextureUnitLocation by lazy { glGetUniformLocation(program, U_TEXTURE_UNIT) }
 
-    val aPositionLocation by lazy { GLES20.glGetAttribLocation(program, A_POSITION) }
-    val aColorLocation by lazy { GLES20.glGetAttribLocation(program, A_COLOR) }
-    val aDirectionVectorLocation by lazy { GLES20.glGetAttribLocation(program, A_DIRECTION_VECTOR) }
-    val aParticleStartTimeLocation by lazy {
-        GLES20.glGetAttribLocation(
-            program,
-            A_PARTICLE_START_TIME
-        )
-    }
+    val aPositionLocation by lazy { glGetAttribLocation(program, A_POSITION) }
+    val aColorLocation by lazy { glGetAttribLocation(program, A_COLOR) }
+    val aDirectionVectorLocation by lazy { glGetAttribLocation(program, A_DIRECTION_VECTOR) }
+    val aParticleStartTimeLocation by lazy { glGetAttribLocation(program, A_PARTICLE_START_TIME) }
 
     var program = 0
         private set
@@ -85,33 +75,33 @@ object GLManager {
 
     fun setUniforms(matrix: FloatArray, elapsedTime: Float, textureId: Int) {
         // Matrix
-        GLES20.glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0)
+        glUniformMatrix4fv(uMatrixLocation, 1, false, matrix, 0)
         // Time
-        GLES20.glUniform1f(uTimeLocation, elapsedTime)
+        glUniform1f(uTimeLocation, elapsedTime)
         // Texture
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0)
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureId)
-        GLES20.glUniform1i(uTextureUnitLocation, 0)
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, textureId)
+        glUniform1i(uTextureUnitLocation, 0)
     }
 
-    fun useProgram() = GLES20.glUseProgram(program)
+    fun useProgram() = glUseProgram(program)
 
     fun buildProgram() {
         Log.d(TAG, "GL Manager init")
-        val vertexShader: Int = loadShader(GLES20.GL_VERTEX_SHADER, vertexShader)
-        val fragmentShader: Int = loadShader(GLES20.GL_FRAGMENT_SHADER, fragmentShader)
+        val vertexShader: Int = loadShader(GL_VERTEX_SHADER, vertexShader)
+        val fragmentShader: Int = loadShader(GL_FRAGMENT_SHADER, fragmentShader)
 
         // create empty OpenGL ES Program
-        program = GLES20.glCreateProgram().also {
+        program = glCreateProgram().also {
 
             // add the vertex shader to program
-            GLES20.glAttachShader(it, vertexShader)
+            glAttachShader(it, vertexShader)
 
             // add the fragment shader to program
-            GLES20.glAttachShader(it, fragmentShader)
+            glAttachShader(it, fragmentShader)
 
             // creates OpenGL ES program executables
-            GLES20.glLinkProgram(it)
+            glLinkProgram(it)
         }
 
 
@@ -121,11 +111,10 @@ object GLManager {
 
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
         // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
-        return GLES20.glCreateShader(type).also { shader ->
-
+        return glCreateShader(type).also { shader ->
             // add the source code to the shader and compile it
-            GLES20.glShaderSource(shader, shaderCode)
-            GLES20.glCompileShader(shader)
+            glShaderSource(shader, shaderCode)
+            glCompileShader(shader)
         }
     }
 }

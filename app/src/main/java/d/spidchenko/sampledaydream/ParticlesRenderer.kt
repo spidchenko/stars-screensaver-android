@@ -2,7 +2,7 @@ package d.spidchenko.sampledaydream
 
 import android.content.Context
 import android.graphics.Color
-import android.opengl.GLES20
+import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix
 import android.os.SystemClock
@@ -32,7 +32,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private var globalStartTime: Long = 0L
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-        GLES20.glClearColor(0F, 0F, 0F, 0F)
+        glClearColor(0F, 0F, 0F, 0F)
         GLManager.buildProgram()
 
         particleSystem = ParticleSystem(10000)
@@ -70,9 +70,9 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-        GLES20.glEnable(GLES20.GL_BLEND)
-        GLES20.glBlendFunc(GLES20.GL_ONE, GLES20.GL_ONE)
-        GLES20.glViewport(0, 0, width, height)
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_ONE, GL_ONE)
+        glViewport(0, 0, width, height)
         val ratio: Float = width.toFloat() / height.toFloat()
         Matrix.perspectiveM(projectionMatrix, 0, 60F, ratio, 1F, 10F)
         Matrix.setIdentityM(viewMatrix, 0)
@@ -82,7 +82,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onDrawFrame(gl: GL10?) {
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT)
         val currentTime = (SystemClock.elapsedRealtimeNanos() - globalStartTime) / NANOS_IN_SECOND
 
         redParticleShooter.addParticles(particleSystem, currentTime, 5)

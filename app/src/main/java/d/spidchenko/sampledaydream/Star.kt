@@ -1,6 +1,6 @@
 package d.spidchenko.sampledaydream
 
-import android.opengl.GLES20
+import android.opengl.GLES20.*
 import android.opengl.Matrix.*
 import kotlin.random.Random
 
@@ -37,7 +37,7 @@ class Star {
         multiplyMM(viewportModelMatrix, 0, mvpMatrix, 0, modelMatrix, 0)
 
         // Add program to OpenGL ES environment
-        GLES20.glUseProgram(GLManager.program)
+        glUseProgram(GLManager.program)
 
         // Set color for drawing the point
 //        GLES20.glUniform4fv(GLManager.colorHandle, 1, color, 0)
@@ -49,7 +49,7 @@ class Star {
 //        GLES20.glUniformMatrix4fv(GLManager.uMatrixLocation, 1, false, viewportModelMatrix, 0)
 
         // Draw the Point
-        GLES20.glDrawArrays(GLES20.GL_POINTS, 0, VERTEX_COUNT)
+        glDrawArrays(GL_POINTS, 0, VERTEX_COUNT)
 
         // Disable vertex array
 //        GLES20.glDisableVertexAttribArray(GLManager.positionHandle)

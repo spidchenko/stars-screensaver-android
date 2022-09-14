@@ -1,13 +1,12 @@
 package d.spidchenko.sampledaydream.objects
 
 import android.graphics.Color
-import android.opengl.GLES20
+import android.opengl.GLES20.*
 import d.spidchenko.sampledaydream.GLManager.BYTES_PER_FLOAT
 import d.spidchenko.sampledaydream.GLManager.aColorLocation
 import d.spidchenko.sampledaydream.GLManager.aDirectionVectorLocation
 import d.spidchenko.sampledaydream.GLManager.aParticleStartTimeLocation
 import d.spidchenko.sampledaydream.GLManager.aPositionLocation
-import d.spidchenko.sampledaydream.GLManager.program
 import d.spidchenko.sampledaydream.data.VertexArray
 import d.spidchenko.sampledaydream.util.Point
 import d.spidchenko.sampledaydream.util.Vector
@@ -93,6 +92,6 @@ class ParticleSystem(
         )
     }
 
-    fun draw() = GLES20.glDrawArrays(GLES20.GL_POINTS, 0, currentParticleCount)
+    fun draw() = glDrawArrays(GL_POINTS, 0, currentParticleCount)
 
 }

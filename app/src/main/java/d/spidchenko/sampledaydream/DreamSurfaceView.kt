@@ -1,10 +1,7 @@
 package d.spidchenko.sampledaydream
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.opengl.GLSurfaceView
-import android.util.Log
-import android.view.MotionEvent
 
 private const val TOUCH_SCALE_FACTOR: Float = 180.0f / 320f
 
