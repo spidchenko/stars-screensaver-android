@@ -43,11 +43,10 @@ class ParticleShooter(
             resultVector[2] * speedAdjustment
         )
 
-        val randomX = Random.nextDouble(-1.0, 1.0).toFloat()
         val randomY = Random.nextDouble(-1.0, 1.0).toFloat()
-        val startPosition = Point(randomX, randomY, -0.1F)
+        val startPosition = Point(1F, randomY, -0.1F)
         val color = getRandomColor()
-        particleSystem.addParticle(startPosition, color, thisDirection, currentTime)
+        particleSystem.addParticle(startPosition, color, thisDirection, currentTime, 15F)
     }
 
     private fun getRandomColor() = Color.rgb(

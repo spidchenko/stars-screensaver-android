@@ -38,6 +38,9 @@ open class ShaderProgram protected constructor(
 
         @JvmStatic
         protected val A_PARTICLE_START_TIME = "a_ParticleStartTime"
+
+        @JvmStatic
+        protected val A_PARTICLE_SIZE = "a_ParticleSize"
     }
 
 

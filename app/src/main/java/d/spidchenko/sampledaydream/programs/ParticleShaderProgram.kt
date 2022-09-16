@@ -30,6 +30,7 @@ class ParticleShaderProgram(context: Context) :
     val aParticleStartTimeLocation by lazy {
         glGetAttribLocation(program, A_PARTICLE_START_TIME)
     }
+    val aParticleSizeLocation by lazy { glGetAttribLocation(program, A_PARTICLE_SIZE) }
 
     fun setUniforms(matrix: FloatArray, elapsedTime: Float, textureId: Int) {
         // Matrix

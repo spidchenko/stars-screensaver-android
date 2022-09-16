@@ -37,11 +37,11 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
 //        GLManager.buildProgram()
 
         particleProgram = ParticleShaderProgram(context)
-        particleSystem = ParticleSystem(10000)
+        particleSystem = ParticleSystem(1000)
         globalStartTime = SystemClock.elapsedRealtimeNanos()
 
-//        val particleDirection = Vector(-0.5F, 0F, 0F)
-        val particleDirection = Vector(0F, 0F, 0F)
+        val particleDirection = Vector(-0.5F, 0F, 0F)
+//        val particleDirection = Vector(0F, 0F, 0F)
         val angleVarianceInDegrees = 0F
         val speedVariance = 10F
 

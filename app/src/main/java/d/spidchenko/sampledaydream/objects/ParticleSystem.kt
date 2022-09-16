@@ -12,9 +12,10 @@ import d.spidchenko.sampledaydream.util.Vector
 private const val POSITION_COMPONENT_COUNT = 3
 private const val COLOR_COMPONENT_COUNT = 3
 private const val VECTOR_COMPONENT_COUNT = 3
-private const val PARTICLE_START_TIME_COMPONENT_COUNT = 3
-private const val TOTAL_COMPONENT_COUNT =
-    POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT + VECTOR_COMPONENT_COUNT + PARTICLE_START_TIME_COMPONENT_COUNT
+private const val PARTICLE_START_TIME_COMPONENT_COUNT = 1
+private const val SIZE_COMPONENT_COUNT = 1
+private const val TOTAL_COMPONENT_COUNT = SIZE_COMPONENT_COUNT +
+        POSITION_COMPONENT_COUNT + COLOR_COMPONENT_COUNT + VECTOR_COMPONENT_COUNT + PARTICLE_START_TIME_COMPONENT_COUNT
 private const val STRIDE = TOTAL_COMPONENT_COUNT * BYTES_PER_FLOAT
 
 class ParticleSystem(
@@ -26,7 +27,7 @@ class ParticleSystem(
     private var currentParticleCount: Int = 0
     private var nextParticle: Int = 0
 
-    fun addParticle(position: Point, color: Int, direction: Vector, particleStartTime: Float) {
+    fun addParticle(position: Point, color: Int, direction: Vector, particleStartTime: Float, size: Float) {
         val particleOffset = nextParticle * TOTAL_COMPONENT_COUNT
         var currentOffset = particleOffset
         nextParticle++
@@ -38,7 +39,6 @@ class ParticleSystem(
         if (nextParticle == maxParticleCount) {
             nextParticle = 0
         }
-
         particles[currentOffset++] = position.x
         particles[currentOffset++] = position.y
         particles[currentOffset++] = position.z
@@ -51,7 +51,9 @@ class ParticleSystem(
         particles[currentOffset++] = direction.y
         particles[currentOffset++] = direction.z
 
-        particles[currentOffset] = particleStartTime
+        particles[currentOffset++] = particleStartTime
+
+        particles[currentOffset] = size
 
         vertexArray.updateBuffer(particles, particleOffset, TOTAL_COMPONENT_COUNT)
     }
@@ -86,6 +88,14 @@ class ParticleSystem(
             dataOffset,
             particleProgram.aParticleStartTimeLocation,
             PARTICLE_START_TIME_COMPONENT_COUNT,
+            STRIDE
+        )
+        dataOffset += PARTICLE_START_TIME_COMPONENT_COUNT
+
+        vertexArray.setVertexAttribPointer(
+            dataOffset,
+            particleProgram.aParticleSizeLocation,
+            SIZE_COMPONENT_COUNT,
             STRIDE
         )
     }
