@@ -1,13 +1,11 @@
 package d.spidchenko.sampledaydream.objects
 
 import android.graphics.Color
-import android.opengl.GLES20.*
-import d.spidchenko.sampledaydream.GLManager.BYTES_PER_FLOAT
-import d.spidchenko.sampledaydream.GLManager.aColorLocation
-import d.spidchenko.sampledaydream.GLManager.aDirectionVectorLocation
-import d.spidchenko.sampledaydream.GLManager.aParticleStartTimeLocation
-import d.spidchenko.sampledaydream.GLManager.aPositionLocation
+import android.opengl.GLES20.GL_POINTS
+import android.opengl.GLES20.glDrawArrays
 import d.spidchenko.sampledaydream.data.VertexArray
+import d.spidchenko.sampledaydream.programs.BYTES_PER_FLOAT
+import d.spidchenko.sampledaydream.programs.ParticleShaderProgram
 import d.spidchenko.sampledaydream.util.Point
 import d.spidchenko.sampledaydream.util.Vector
 
@@ -53,16 +51,16 @@ class ParticleSystem(
         particles[currentOffset++] = direction.y
         particles[currentOffset++] = direction.z
 
-        particles[currentOffset++] = particleStartTime
+        particles[currentOffset] = particleStartTime
 
         vertexArray.updateBuffer(particles, particleOffset, TOTAL_COMPONENT_COUNT)
     }
 
-    fun bindData() {
+    fun bindData(particleProgram: ParticleShaderProgram) {
         var dataOffset = 0
         vertexArray.setVertexAttribPointer(
             dataOffset,
-            aPositionLocation,
+            particleProgram.aPositionLocation,
             POSITION_COMPONENT_COUNT,
             STRIDE
         )
@@ -70,7 +68,7 @@ class ParticleSystem(
 
         vertexArray.setVertexAttribPointer(
             dataOffset,
-            aColorLocation,
+            particleProgram.aColorLocation,
             COLOR_COMPONENT_COUNT,
             STRIDE
         )
@@ -78,7 +76,7 @@ class ParticleSystem(
 
         vertexArray.setVertexAttribPointer(
             dataOffset,
-            aDirectionVectorLocation,
+            particleProgram.aDirectionVectorLocation,
             VECTOR_COMPONENT_COUNT,
             STRIDE
         )
@@ -86,7 +84,7 @@ class ParticleSystem(
 
         vertexArray.setVertexAttribPointer(
             dataOffset,
-            aParticleStartTimeLocation,
+            particleProgram.aParticleStartTimeLocation,
             PARTICLE_START_TIME_COMPONENT_COUNT,
             STRIDE
         )

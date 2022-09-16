@@ -8,6 +8,7 @@ import android.opengl.Matrix
 import android.os.SystemClock
 import d.spidchenko.sampledaydream.objects.ParticleShooter
 import d.spidchenko.sampledaydream.objects.ParticleSystem
+import d.spidchenko.sampledaydream.programs.ParticleShaderProgram
 import d.spidchenko.sampledaydream.util.Point
 import d.spidchenko.sampledaydream.util.TextureHelper
 import d.spidchenko.sampledaydream.util.Vector
@@ -22,19 +23,20 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
+    private lateinit var particleProgram: ParticleShaderProgram
     private lateinit var particleSystem: ParticleSystem
     private lateinit var redParticleShooter: ParticleShooter
     private lateinit var greenParticleShooter: ParticleShooter
     private lateinit var blueParticleShooter: ParticleShooter
 
-    private var texture: Int = 0
-
     private var globalStartTime: Long = 0L
+    private var texture: Int = 0
 
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         glClearColor(0F, 0F, 0F, 0F)
-        GLManager.buildProgram()
+//        GLManager.buildProgram()
 
+        particleProgram = ParticleShaderProgram(context)
         particleSystem = ParticleSystem(10000)
         globalStartTime = SystemClock.elapsedRealtimeNanos()
 
@@ -89,9 +91,9 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         greenParticleShooter.addParticles(particleSystem, currentTime, 5)
         blueParticleShooter.addParticles(particleSystem, currentTime, 5)
 
-        GLManager.useProgram()
-        GLManager.setUniforms(viewProjectionMatrix, currentTime, texture)
-        particleSystem.bindData()
+        particleProgram.useProgram()
+        particleProgram.setUniforms(viewProjectionMatrix, currentTime, texture)
+        particleSystem.bindData(particleProgram)
         particleSystem.draw()
     }
 }

@@ -38,7 +38,7 @@ class DreamRenderer : GLSurfaceView.Renderer {
         // Set the background frame color
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f)
 
-        GLManager.buildProgram()
+//        GLManager.buildProgram()
     }
 
     override fun onDrawFrame(unused: GL10) {

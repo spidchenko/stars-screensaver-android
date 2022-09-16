@@ -37,7 +37,7 @@ class Star {
         multiplyMM(viewportModelMatrix, 0, mvpMatrix, 0, modelMatrix, 0)
 
         // Add program to OpenGL ES environment
-        glUseProgram(GLManager.program)
+//        glUseProgram(GLManager.program)
 
         // Set color for drawing the point
 //        GLES20.glUniform4fv(GLManager.colorHandle, 1, color, 0)

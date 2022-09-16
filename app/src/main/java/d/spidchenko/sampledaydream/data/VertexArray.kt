@@ -1,13 +1,13 @@
 package d.spidchenko.sampledaydream.data
 
 import android.opengl.GLES20.*
-import d.spidchenko.sampledaydream.GLManager.BYTES_PER_FLOAT
+import d.spidchenko.sampledaydream.programs.BYTES_PER_FLOAT
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 
 class VertexArray(
-    private val vertexData: FloatArray
+    vertexData: FloatArray
 ) {
     private val floatBuffer = ByteBuffer
         .allocateDirect(vertexData.size * BYTES_PER_FLOAT)
