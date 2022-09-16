@@ -1,14 +1,16 @@
 package d.spidchenko.sampledaydream.objects
 
+import android.graphics.Color
 import android.opengl.Matrix
 import d.spidchenko.sampledaydream.util.Point
 import d.spidchenko.sampledaydream.util.Vector
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 class ParticleShooter(
-    private val position: Point,
+//    private val position: Point,
     private val direction: Vector,
-    private val color: Int,
+//    private val color: Int,
     private val angleVariance: Float,
     private val speedVariance: Float
 ) {
@@ -41,6 +43,16 @@ class ParticleShooter(
             resultVector[2] * speedAdjustment
         )
 
-        particleSystem.addParticle(position, color, thisDirection, currentTime)
+        val randomX = Random.nextDouble(-1.0, 1.0).toFloat()
+        val randomY = Random.nextDouble(-1.0, 1.0).toFloat()
+        val startPosition = Point(randomX, randomY, -0.1F)
+        val color = getRandomColor()
+        particleSystem.addParticle(startPosition, color, thisDirection, currentTime)
     }
+
+    private fun getRandomColor() = Color.rgb(
+        Random.nextInt(127..255),
+        Random.nextInt(127..255),
+        Random.nextInt(127..255)
+    )
 }

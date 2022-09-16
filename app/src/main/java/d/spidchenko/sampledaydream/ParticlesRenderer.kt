@@ -25,9 +25,9 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
     private lateinit var particleProgram: ParticleShaderProgram
     private lateinit var particleSystem: ParticleSystem
-    private lateinit var redParticleShooter: ParticleShooter
-    private lateinit var greenParticleShooter: ParticleShooter
-    private lateinit var blueParticleShooter: ParticleShooter
+//    private lateinit var redParticleShooter: ParticleShooter
+//    private lateinit var greenParticleShooter: ParticleShooter
+    private lateinit var particleShooter: ParticleShooter
 
     private var globalStartTime: Long = 0L
     private var texture: Int = 0
@@ -40,30 +40,15 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         particleSystem = ParticleSystem(10000)
         globalStartTime = SystemClock.elapsedRealtimeNanos()
 
-        val particleDirection = Vector(0F, 0.5F, 0F)
-        val angleVarianceInDegrees = 5F
-        val speedVariance = 1F
+//        val particleDirection = Vector(-0.5F, 0F, 0F)
+        val particleDirection = Vector(0F, 0F, 0F)
+        val angleVarianceInDegrees = 0F
+        val speedVariance = 10F
 
-        redParticleShooter = ParticleShooter(
-            Point(-1F, 0F, 0F),
+        particleShooter = ParticleShooter(
+//            Point(0F, 0F, 0F),
             particleDirection,
-            Color.rgb(255, 50, 5),
-            angleVarianceInDegrees,
-            speedVariance
-        )
-
-        greenParticleShooter = ParticleShooter(
-            Point(0F, 0F, 0F),
-            particleDirection,
-            Color.rgb(25, 255, 25),
-            angleVarianceInDegrees,
-            speedVariance
-        )
-
-        blueParticleShooter = ParticleShooter(
-            Point(1F, 0F, 0F),
-            particleDirection,
-            Color.rgb(5, 50, 255),
+//            Color.rgb(5, 50, 255),
             angleVarianceInDegrees,
             speedVariance
         )
@@ -79,7 +64,7 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         Matrix.perspectiveM(projectionMatrix, 0, 60F, ratio, 1F, 10F)
         Matrix.setIdentityM(viewMatrix, 0)
         // Push things down and into the distance
-        Matrix.translateM(viewMatrix, 0, 0F, -1.5F, -5F)
+        Matrix.translateM(viewMatrix, 0, 0F, 0F, -1F)
         Matrix.multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
     }
 
@@ -87,9 +72,9 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
         glClear(GL_COLOR_BUFFER_BIT)
         val currentTime = (SystemClock.elapsedRealtimeNanos() - globalStartTime) / NANOS_IN_SECOND
 
-        redParticleShooter.addParticles(particleSystem, currentTime, 5)
-        greenParticleShooter.addParticles(particleSystem, currentTime, 5)
-        blueParticleShooter.addParticles(particleSystem, currentTime, 5)
+//        redParticleShooter.addParticles(particleSystem, currentTime, 5)
+//        greenParticleShooter.addParticles(particleSystem, currentTime, 5)
+        particleShooter.addParticles(particleSystem, currentTime, 5)
 
         particleProgram.useProgram()
         particleProgram.setUniforms(viewProjectionMatrix, currentTime, texture)
