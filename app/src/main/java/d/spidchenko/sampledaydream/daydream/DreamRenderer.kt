@@ -1,54 +1,53 @@
-package d.spidchenko.sampledaydream
+package d.spidchenko.sampledaydream.daydream
 
 import android.content.Context
-import android.graphics.Color
 import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
-import android.opengl.Matrix
+import android.opengl.Matrix.orthoM
 import android.os.SystemClock
+import android.util.Log
+import d.spidchenko.sampledaydream.R
 import d.spidchenko.sampledaydream.objects.ParticleShooter
 import d.spidchenko.sampledaydream.objects.ParticleSystem
 import d.spidchenko.sampledaydream.programs.ParticleShaderProgram
-import d.spidchenko.sampledaydream.util.Point
+import d.spidchenko.sampledaydream.util.LoggerConfig
 import d.spidchenko.sampledaydream.util.TextureHelper
 import d.spidchenko.sampledaydream.util.Vector
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 private const val NANOS_IN_SECOND = 10e9F
+private const val TAG = "StarsRenderer.LOG_TAG"
 
-class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
+class DreamRenderer(private val context: Context) : GLSurfaceView.Renderer {
 
-    private val projectionMatrix = FloatArray(16)
-    private val viewMatrix = FloatArray(16)
     private val viewProjectionMatrix = FloatArray(16)
 
     private lateinit var particleProgram: ParticleShaderProgram
     private lateinit var particleSystem: ParticleSystem
-//    private lateinit var redParticleShooter: ParticleShooter
-//    private lateinit var greenParticleShooter: ParticleShooter
     private lateinit var particleShooter: ParticleShooter
 
     private var globalStartTime: Long = 0L
     private var texture: Int = 0
 
+    private var frameCounter = 0L
+    private var averageFPS = 0.0
+    private var fps = 60.0
+
     override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
         glClearColor(0F, 0F, 0F, 0F)
-//        GLManager.buildProgram()
 
         particleProgram = ParticleShaderProgram(context)
-        particleSystem = ParticleSystem(1000)
+        particleSystem = ParticleSystem(10000)
         globalStartTime = SystemClock.elapsedRealtimeNanos()
 
         val particleDirection = Vector(-0.5F, 0F, 0F)
-//        val particleDirection = Vector(0F, 0F, 0F)
         val angleVarianceInDegrees = 0F
         val speedVariance = 10F
 
         particleShooter = ParticleShooter(
-//            Point(0F, 0F, 0F),
             particleDirection,
-//            Color.rgb(5, 50, 255),
+            1F,
             angleVarianceInDegrees,
             speedVariance
         )
@@ -57,28 +56,48 @@ class ParticlesRenderer(private val context: Context) : GLSurfaceView.Renderer {
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
+        val aspectRatio: Float = width.toFloat() / height.toFloat()
+        particleShooter.aspectRatio = aspectRatio
+        if (LoggerConfig.ON) {
+            Log.d(TAG, "onSurfaceChanged: $width x $height")
+            Log.d(TAG, "onSurfaceChanged: ratio= $aspectRatio")
+        }
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE)
+        // Set the OpenGL viewport to fill the entire surface
         glViewport(0, 0, width, height)
-        val ratio: Float = width.toFloat() / height.toFloat()
-        Matrix.perspectiveM(projectionMatrix, 0, 60F, ratio, 1F, 10F)
-        Matrix.setIdentityM(viewMatrix, 0)
-        // Push things down and into the distance
-        Matrix.translateM(viewMatrix, 0, 0F, 0F, -1F)
-        Matrix.multiplyMM(viewProjectionMatrix, 0, projectionMatrix, 0, viewMatrix, 0)
+        if (aspectRatio > 1.0) {
+            // Landscape
+            orthoM(viewProjectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f)
+        } else {
+            // Portrait or square
+            orthoM(viewProjectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f)
+        }
     }
 
     override fun onDrawFrame(gl: GL10?) {
         glClear(GL_COLOR_BUFFER_BIT)
         val currentTime = (SystemClock.elapsedRealtimeNanos() - globalStartTime) / NANOS_IN_SECOND
 
-//        redParticleShooter.addParticles(particleSystem, currentTime, 5)
-//        greenParticleShooter.addParticles(particleSystem, currentTime, 5)
-        particleShooter.addParticles(particleSystem, currentTime, 5)
+        particleShooter.addParticles(particleSystem, currentTime)
 
         particleProgram.useProgram()
         particleProgram.setUniforms(viewProjectionMatrix, currentTime, texture)
         particleSystem.bindData(particleProgram)
         particleSystem.draw()
+
+        if (LoggerConfig.ON) {
+            logAverageFPS()
+        }
+    }
+
+    private fun logAverageFPS() {
+        frameCounter++
+        averageFPS += fps
+        if (frameCounter > 100) {
+            averageFPS /= frameCounter
+            frameCounter = 0
+            Log.d(TAG, "Average FPS: $averageFPS")
+        }
     }
 }

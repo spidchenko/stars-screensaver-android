@@ -1,15 +1,16 @@
-package d.spidchenko.sampledaydream
+package d.spidchenko.sampledaydream.activities
 
 import android.app.Activity
 import android.opengl.GLSurfaceView
 import android.os.Bundle
+import d.spidchenko.sampledaydream.daydream.DreamSurfaceView
 
-class MainActivity : Activity() {
+class PreviewActivity : Activity() {
     private lateinit var gLView: GLSurfaceView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gLView = MyGLSurfaceView(this)
-        setContentView(gLView)
+//        gLView = DreamSurfaceView(this)
+//        setContentView(gLView)
     }
 }

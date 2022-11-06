@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">SampleDaydream</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -16,4 +16,14 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="greeting">Please select the screensaver and modify settings from the settings page.</string>
+    <string name="about_header">About</string>
+    <string name="author_name">by Dmytro Spidchenko</string>
+    <string name="charging_header">Charging options</string>
+    <string name="charging_title">Action when the device is fully charged</string>
+    <string name="author_beer_link">https://www.paypal.com/donate/?hosted_button_id=V28KTB2CGT7E8</string>
+    <string name="support_me">Support a Ukrainian developer</string>
+    <string name="buy_a_beer">Buy me a beer</string>
+    <string name="rate_app">Rate the app</string>
+    <string name="rate_app_description">Like the app? Have any questions or feedback? Click here to rate and/or review the app.</string>
 </resources>

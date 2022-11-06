@@ -101,5 +101,4 @@ class ParticleSystem(
     }
 
     fun draw() = glDrawArrays(GL_POINTS, 0, currentParticleCount)
-
 }

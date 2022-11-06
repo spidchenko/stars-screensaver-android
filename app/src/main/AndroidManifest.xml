@@ -7,15 +7,24 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <application android:icon="@mipmap/ic_launcher"
-        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" >
-
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activities.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.PreviewActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +34,7 @@
         </activity>
 
         <service
-            android:name=".DreamActivity"
+            android:name=".daydream.DayDream"
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:exported="true"

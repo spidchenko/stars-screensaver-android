@@ -8,9 +8,8 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 class ParticleShooter(
-//    private val position: Point,
-    private val direction: Vector,
-//    private val color: Int,
+    direction: Vector,
+    var aspectRatio: Float,
     private val angleVariance: Float,
     private val speedVariance: Float
 ) {
@@ -20,7 +19,7 @@ class ParticleShooter(
     private val resultVector = FloatArray(4)
 
 
-    fun addParticles(particleSystem: ParticleSystem, currentTime: Float, count: Int) {
+    fun addParticles(particleSystem: ParticleSystem, currentTime: Float) {
 
         Matrix.setRotateEulerM(
             rotationMatrix, 0,
@@ -43,10 +42,20 @@ class ParticleShooter(
             resultVector[2] * speedAdjustment
         )
 
-        val randomY = Random.nextDouble(-1.0, 1.0).toFloat()
-        val startPosition = Point(1F, randomY, -0.1F)
+        val randomY: Float
+        val startPosition: Point
+        if (aspectRatio > 1){
+            // Landscape
+             randomY = Random.nextDouble(-1.0, 1.0).toFloat()
+             startPosition = Point(aspectRatio, randomY, 0F)
+        } else {
+            // Portrait or square
+            randomY = Random.nextDouble((-aspectRatio).toDouble(), aspectRatio.toDouble()).toFloat()
+            startPosition = Point(1F, randomY, 0F)
+        }
         val color = getRandomColor()
-        particleSystem.addParticle(startPosition, color, thisDirection, currentTime, 15F)
+        val randomSize = Random.nextInt(5..15).toFloat()
+        particleSystem.addParticle(startPosition, color, thisDirection, currentTime, randomSize)
     }
 
     private fun getRandomColor() = Color.rgb(
