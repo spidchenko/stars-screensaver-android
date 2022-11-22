@@ -1,6 +1,7 @@
 package d.spidchenko.sampledaydream.daydream
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.orthoM
@@ -19,7 +20,7 @@ import javax.microedition.khronos.opengles.GL10
 private const val NANOS_IN_SECOND = 10e9F
 private const val TAG = "StarsRenderer.LOG_TAG"
 
-class DreamRenderer(private val context: Context) : GLSurfaceView.Renderer {
+class DreamRenderer(private val context: Context, preferences: SharedPreferences) : GLSurfaceView.Renderer {
 
     private val viewProjectionMatrix = FloatArray(16)
 
@@ -99,5 +100,9 @@ class DreamRenderer(private val context: Context) : GLSurfaceView.Renderer {
             frameCounter = 0
             Log.d(TAG, "Average FPS: $averageFPS")
         }
+    }
+
+    fun reloadPreferences() {
+        TODO("Not yet implemented")
     }
 }

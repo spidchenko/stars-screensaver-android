@@ -3,7 +3,7 @@ package d.spidchenko.sampledaydream.daydream
 import android.opengl.GLSurfaceView
 import android.service.dreams.DreamService
 import android.util.Log
-import android.view.WindowManager
+import androidx.preference.PreferenceManager
 import d.spidchenko.sampledaydream.util.LoggerConfig
 
 private const val TAG = "DayDream.LOG_TAG"
@@ -18,7 +18,8 @@ class DayDream : DreamService() {
         isFullscreen = true
         isScreenBright = true
 //        WindowManager.LayoutParams params = getWindow
-        gLView = DreamSurfaceView(this)
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        gLView = DreamSurfaceView(this, preferences)
         setContentView(gLView)
     }
 
