@@ -1,34 +1,70 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/charging_header">
+    <PreferenceCategory
+        app:key="particle_options_category"
+        app:singleLineTitle="true"
+        app:title="Particle options">
+        <SeekBarPreference
+            android:defaultValue="50"
+            android:max="100"
+            app:key="number_of_particles"
+            app:persistent="true"
+            app:title="Number of particles" />
+
+        <SeekBarPreference
+            android:defaultValue="50"
+            android:max="100"
+            app:key="size_of_particles"
+            app:persistent="true"
+            app:title="The size of the particle" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:key="charging_category"
+        app:title="@string/charging_header">
 
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="display_battery"
-            android:title="Display battery percentage" />
+            android:key="show_battery"
+            android:title="@string/show_battery" />
 
         <ListPreference
             app:defaultValue="none"
             app:entries="@array/charged_entries"
             app:entryValues="@array/charged_values"
-            app:key="charged"
-            app:title="@string/charging_title"
+            app:key="action_when_charged"
+            app:title="@string/action_when_charged"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/about_header">
+    <PreferenceCategory
+        app:key="about_category"
+        app:title="@string/about_header">
         <Preference
             app:summary="@string/author_name"
             app:title="@string/app_name" />
-        <d.spidchenko.sampledaydream.preferences.RatePreference
+
+        <Preference
+            app:key="rate_link"
             app:summary="@string/rate_app_description"
-            app:title="@string/rate_app" />
-        <d.spidchenko.sampledaydream.preferences.LinkPreference
+            app:title="@string/rate_app">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_market_address" />
+        </Preference>
+
+        <Preference
+            app:key="market_link"
             app:summary="@string/support_me"
-            app:title="@string/buy_a_beer" />
+            app:title="@string/buy_a_beer">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/author_beer_link" />
+        </Preference>
+
     </PreferenceCategory>
 
 </PreferenceScreen>
