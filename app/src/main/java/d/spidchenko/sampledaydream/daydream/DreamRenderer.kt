@@ -18,9 +18,14 @@ import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
 private const val NANOS_IN_SECOND = 10e9F
+private const val MAX_PARTICLE_COUNT = 10000
 private const val TAG = "StarsRenderer.LOG_TAG"
 
-class DreamRenderer(private val context: Context, preferences: SharedPreferences) : GLSurfaceView.Renderer {
+class DreamRenderer(
+    private val context: Context,
+    private val preferences: SharedPreferences
+) :
+    GLSurfaceView.Renderer {
 
     private val viewProjectionMatrix = FloatArray(16)
 
@@ -39,17 +44,16 @@ class DreamRenderer(private val context: Context, preferences: SharedPreferences
         glClearColor(0F, 0F, 0F, 0F)
 
         particleProgram = ParticleShaderProgram(context)
-        particleSystem = ParticleSystem(10000)
+        particleSystem = ParticleSystem(MAX_PARTICLE_COUNT)
         globalStartTime = SystemClock.elapsedRealtimeNanos()
 
         val particleDirection = Vector(-0.5F, 0F, 0F)
-        val angleVarianceInDegrees = 0F
         val speedVariance = 10F
 
         particleShooter = ParticleShooter(
+            preferences,
             particleDirection,
             1F,
-            angleVarianceInDegrees,
             speedVariance
         )
 
@@ -103,6 +107,6 @@ class DreamRenderer(private val context: Context, preferences: SharedPreferences
     }
 
     fun reloadPreferences() {
-        TODO("Not yet implemented")
+        particleShooter.reloadPreferences()
     }
 }
