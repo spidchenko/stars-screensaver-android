@@ -4,20 +4,21 @@
     <PreferenceCategory
         app:key="particle_options_category"
         app:singleLineTitle="true"
-        app:title="Particle options">
+        app:title="@string/particle_options_title">
+
         <SeekBarPreference
             android:defaultValue="50"
             android:max="100"
             app:key="number_of_particles"
             app:persistent="true"
-            app:title="Number of particles" />
+            app:title="@string/number_of_particles" />
 
         <SeekBarPreference
             android:defaultValue="50"
             android:max="100"
             app:key="size_of_particles"
             app:persistent="true"
-            app:title="The size of the particle" />
+            app:title="@string/size_of_particle" />
 
     </PreferenceCategory>
     <PreferenceCategory
