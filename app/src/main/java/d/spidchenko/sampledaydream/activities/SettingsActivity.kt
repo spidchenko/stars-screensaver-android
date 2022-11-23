@@ -28,7 +28,6 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        preferences.registerOnSharedPreferenceChangeListener(this)
         gLView = DreamSurfaceView(this, preferences)
         findViewById<LinearLayout>(R.id.dream_preview).addView(gLView)
     }
@@ -39,14 +38,19 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        preferences.registerOnSharedPreferenceChangeListener(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        preferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
+
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         Log.d(TAG, "onSharedPreferenceChanged: ")
         gLView.reloadPreferences()
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        preferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 }
