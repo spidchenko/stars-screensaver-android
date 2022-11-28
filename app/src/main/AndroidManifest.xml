@@ -9,6 +9,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <activity
             android:name=".activities.MainActivity"
