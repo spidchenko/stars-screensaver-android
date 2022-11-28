@@ -31,4 +31,5 @@
     <string name="particle_options_title">Particle options</string>
     <string name="size_of_particle">The size of the particle</string>
     <string name="number_of_particles">Number of particles</string>
+    <string name="preview">Preview</string>
 </resources>
