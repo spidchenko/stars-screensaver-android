@@ -1,26 +1,30 @@
 package d.spidchenko.sampledaydream.daydream
 
-import android.opengl.GLSurfaceView
+import android.content.Intent
+import android.content.IntentFilter
 import android.service.dreams.DreamService
 import android.util.Log
 import androidx.preference.PreferenceManager
 import d.spidchenko.sampledaydream.util.LoggerConfig
+import d.spidchenko.sampledaydream.util.SoundEngine
 
 private const val TAG = "DayDream.LOG_TAG"
 
 class DayDream : DreamService() {
 
-    private lateinit var gLView: GLSurfaceView
+    private lateinit var gLView: DreamSurfaceView
+
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         isInteractive = false
         isFullscreen = true
-        isScreenBright = true
-//        WindowManager.LayoutParams params = getWindow
+        isScreenBright = false
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        gLView = DreamSurfaceView(this, preferences)
+        gLView = DreamSurfaceView(this, preferences, SoundEngine(this))
         setContentView(gLView)
+        registerReceiver(gLView.batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        Log.d(TAG, "onAttachedToWindow: Registered batteryInfoReceiver")
     }
 
     override fun onDreamingStarted() {
@@ -42,5 +46,6 @@ class DayDream : DreamService() {
         if (LoggerConfig.ON) {
             Log.d(TAG, "onDetachedFromWindow: ")
         }
+        unregisterReceiver(gLView.batteryInfoReceiver)
     }
 }

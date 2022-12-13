@@ -31,7 +31,7 @@
             android:key="show_battery"
             android:title="@string/show_battery" />
 
-        <ListPreference
+        <DropDownPreference
             app:defaultValue="none"
             app:entries="@array/charged_entries"
             app:entryValues="@array/charged_values"
