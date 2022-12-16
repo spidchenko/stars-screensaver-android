@@ -27,7 +27,7 @@
     <string name="rate_app">Rate the app</string>
     <string name="rate_app_description">Like the app? Have any questions or feedback? Click here to rate and/or review the app.</string>
     <string name="show_battery">Show battery percentage</string>
-    <string name="app_market_address">market://details?id=d.spidchenko.sampledaydream</string>
+    <string name="app_market_address">market://details?id=d.spidchenko.stars2d</string>
     <string name="particle_options_title">Particle options</string>
     <string name="size_of_particle">The size of the particle</string>
     <string name="number_of_particles">Number of particles</string>
