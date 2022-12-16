@@ -16,7 +16,7 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="greeting">Please select the screensaver and modify settings from the settings page.</string>
+    <string name="greeting">Choose a screensaver. You can also change the settings.</string>
     <string name="about_header">About</string>
     <string name="author_name">by Dmytro Spidchenko</string>
     <string name="charging_header">Charging options</string>
