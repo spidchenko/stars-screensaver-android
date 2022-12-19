@@ -24,7 +24,9 @@ class DayDream : DreamService() {
         gLView = DreamSurfaceView(this, preferences, SoundEngine(this))
         setContentView(gLView)
         registerReceiver(gLView.batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        Log.d(TAG, "onAttachedToWindow: Registered batteryInfoReceiver")
+        if (LoggerConfig.ON) {
+            Log.d(TAG, "onAttachedToWindow: Registered batteryInfoReceiver")
+        }
     }
 
     override fun onDreamingStarted() {

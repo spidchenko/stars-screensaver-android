@@ -95,12 +95,14 @@ object ShaderHelper {
         glValidateProgram(programObjectId)
         val validateStatus = IntArray(1)
         glGetProgramiv(programObjectId, GL_VALIDATE_STATUS, validateStatus, 0)
-        Log.d(
-            TAG,
-            "Results of validating program: $validateStatus[0]\nLog:${
-                glGetProgramInfoLog(programObjectId)
-            }"
-        )
+        if (LoggerConfig.ON) {
+            Log.d(
+                TAG,
+                "Results of validating program: $validateStatus[0]\nLog:${
+                    glGetProgramInfoLog(programObjectId)
+                }"
+            )
+        }
         return validateStatus[0] != 0
     }
 }

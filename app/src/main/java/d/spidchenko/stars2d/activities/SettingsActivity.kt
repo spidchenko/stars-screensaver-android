@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -14,8 +13,6 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import d.spidchenko.stars2d.R
 import d.spidchenko.stars2d.daydream.DreamSurfaceView
-
-private const val TAG = "SettingsAct.LOG_TAG"
 
 class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private lateinit var preferences: SharedPreferences
@@ -29,7 +26,7 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.preview -> {
-            startActivity(Intent(this,PreviewActivity::class.java))
+            startActivity(Intent(this, PreviewActivity::class.java))
             true
         }
         android.R.id.home -> {
@@ -70,8 +67,6 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        Log.d(TAG, "onSharedPreferenceChanged: ")
         gLView.reloadPreferences()
-
     }
 }
