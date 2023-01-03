@@ -1,2 +1,2 @@
 <dream xmlns:android="http://schemas.android.com/apk/res/android"
-    android:settingsActivity="d.spidchenko.stars2d.activities.SettingsActivity" />
+    android:settingsActivity="d.spidchenko.stars2d/.activities.SettingsActivity" />

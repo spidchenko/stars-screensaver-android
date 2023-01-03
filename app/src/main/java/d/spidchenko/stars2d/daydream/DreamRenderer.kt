@@ -63,10 +63,7 @@ class DreamRenderer(
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
         val aspectRatio: Float = width.toFloat() / height.toFloat()
         particleShooter.aspectRatio = aspectRatio
-        if (LoggerConfig.ON) {
-            Log.d(TAG, "onSurfaceChanged: $width x $height")
-            Log.d(TAG, "onSurfaceChanged: ratio= $aspectRatio")
-        }
+        if (LoggerConfig.ON) Log.d(TAG, "onSurfaceChanged: ${width}x$height Ratio= $aspectRatio")
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE)
         // Set the OpenGL viewport to fill the entire surface
