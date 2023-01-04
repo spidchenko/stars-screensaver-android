@@ -25,6 +25,13 @@ class DayDream : DreamService(), LifecycleOwner {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
+        if (LoggerConfig.ON) Log.d(TAG, "onAttachedToWindow")
+    }
+
+
+    override fun onDreamingStarted() {
+        super.onDreamingStarted()
+        if (LoggerConfig.ON) Log.d(TAG, "onDreamingStarted")
         isInteractive = false
         isFullscreen = true
         isScreenBright = false
@@ -32,33 +39,22 @@ class DayDream : DreamService(), LifecycleOwner {
         gLView = DreamSurfaceView(this, preferences, SoundEngine(this))
         setContentView(gLView)
         registerReceiver(gLView.batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        if (LoggerConfig.ON) Log.d(TAG, "onAttachedToWindow: Registered batteryInfoReceiver")
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         exitAfter30Minutes()
-    }
-
-
-    override fun onDreamingStarted() {
-        super.onDreamingStarted()
-        if (LoggerConfig.ON) {
-            Log.d(TAG, "onDreamingStarted: ")
-        }
+        if (LoggerConfig.ON) Log.d(TAG, "onDreamingStarted: Registered batteryInfoReceiver")
     }
 
     override fun onDreamingStopped() {
         super.onDreamingStopped()
-        if (LoggerConfig.ON) {
-            Log.d(TAG, "onDreamingStopped: ")
-        }
+        gLView.releaseResources()
+        unregisterReceiver(gLView.batteryInfoReceiver)
+        if (LoggerConfig.ON) Log.d(TAG, "onDreamingStopped: ")
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        if (LoggerConfig.ON) {
-            Log.d(TAG, "onDetachedFromWindow: ")
-        }
-        unregisterReceiver(gLView.batteryInfoReceiver)
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+        if (LoggerConfig.ON) Log.d(TAG, "onDetachedFromWindow: ")
     }
 
     override fun getLifecycle() = lifecycleRegistry

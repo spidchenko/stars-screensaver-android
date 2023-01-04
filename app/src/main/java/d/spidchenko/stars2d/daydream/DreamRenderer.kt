@@ -34,7 +34,7 @@ class DreamRenderer(
     private lateinit var particleShooter: ParticleShooter
 
     private var globalStartTime: Long = 0L
-    private var texture: Int = 0
+    private var textureId: Int = 0
 
     private var frameCounter = 0L
     private var averageFPS = 0.0
@@ -57,7 +57,7 @@ class DreamRenderer(
             speedVariance
         )
 
-        texture = TextureHelper.loadTexture(context, R.drawable.particle_texture)
+        textureId = TextureHelper.loadTexture(context, R.drawable.particle_texture)
     }
 
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
@@ -84,13 +84,22 @@ class DreamRenderer(
         particleShooter.addParticles(particleSystem, currentTime)
 
         particleProgram.useProgram()
-        particleProgram.setUniforms(viewProjectionMatrix, currentTime, texture)
+        particleProgram.setUniforms(viewProjectionMatrix, currentTime, textureId)
         particleSystem.bindData(particleProgram)
         particleSystem.draw()
 
         if (LoggerConfig.ON) {
             logAverageFPS()
         }
+    }
+
+    fun reloadPreferences() {
+        particleShooter.reloadPreferences()
+    }
+
+    fun releaseResources() {
+        glDeleteTextures(1, intArrayOf(textureId), 0)
+        if (LoggerConfig.ON) Log.d(TAG, "releaseResources: Deleted textures")
     }
 
     private fun logAverageFPS() {
@@ -101,9 +110,5 @@ class DreamRenderer(
             frameCounter = 0
             Log.d(TAG, "Average FPS: $averageFPS")
         }
-    }
-
-    fun reloadPreferences() {
-        particleShooter.reloadPreferences()
     }
 }

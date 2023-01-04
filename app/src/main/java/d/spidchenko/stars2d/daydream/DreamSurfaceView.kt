@@ -46,4 +46,8 @@ class DreamSurfaceView(
     fun reloadPreferences() {
         renderer.reloadPreferences()
     }
+
+    fun releaseResources() {
+        renderer.releaseResources()
+    }
 }
