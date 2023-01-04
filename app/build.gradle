@@ -10,7 +10,7 @@ android {
         applicationId "d.spidchenko.stars2d"
         minSdk 21
         targetSdk 33
-        versionCode 4
+        versionCode 5
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.billingclient:billing-ktx:5.1.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'com.google.android.material:material:1.4.0'
