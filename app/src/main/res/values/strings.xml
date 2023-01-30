@@ -11,15 +11,11 @@
     <string name="reply_title">Default reply action</string>
 
     <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="greeting">Choose a screensaver. You can also change the settings.</string>
     <string name="about_header">About</string>
     <string name="author_name">by Dmytro Spidchenko</string>
-    <string name="charging_header">Charging options</string>
+    <string name="charging_header">Action when the device is fully charged</string>
     <string name="action_when_charged">Action when the device is fully charged</string>
     <string name="author_beer_link">https://www.paypal.com/donate/?hosted_button_id=V28KTB2CGT7E8</string>
     <string name="support_me">Support a Ukrainian developer</string>
@@ -32,4 +28,5 @@
     <string name="size_of_particle">The size of the particle</string>
     <string name="number_of_particles">Number of particles</string>
     <string name="preview">Preview</string>
+    <string name="premium_unlocked">Premium Feature Unlocked</string>
 </resources>

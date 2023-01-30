@@ -41,8 +41,13 @@ class DayDream : DreamService(), LifecycleOwner {
         registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         if (LoggerConfig.ON) Log.d(TAG, "onDreamingStarted: Registered batteryInfoReceiver")
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
-        exitAfter30Minutes()
-        if (LoggerConfig.ON) Log.d(TAG, "onDreamingStarted: Registered batteryInfoReceiver")
+        val isPremium = Billing.checkPremium(this)
+        if (isPremium.not()) {
+            lifecycleScope.launch { exitAfter30Minutes() }
+            if (LoggerConfig.ON) Log.d(TAG, "Screensaver will turn off after 30 minutes")
+        } else {
+            if (LoggerConfig.ON) Log.d(TAG, "Screensaver is in premium mode")
+        }
     }
 
     override fun onDreamingStopped() {
@@ -60,7 +65,7 @@ class DayDream : DreamService(), LifecycleOwner {
 
     override fun getLifecycle() = lifecycleRegistry
 
-    private fun exitAfter30Minutes() = lifecycleScope.launch {
+    private suspend fun exitAfter30Minutes() {
         if (LoggerConfig.ON) Log.d(TAG, "Coroutine: finish timer started.")
         delay(TIME_30_MINUTES)
         if (LoggerConfig.ON) Log.d(TAG, "Coroutine: dream is about to finish NOW.")
