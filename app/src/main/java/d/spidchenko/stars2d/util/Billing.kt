@@ -167,7 +167,7 @@ class Billing(val context: Context) {
             .edit()
             .putString(KEY_PREMIUM_TOKEN, purchaseToken)
             .apply()
-        Toast.makeText(context, context.getString(R.string.premium_unlocked), Toast.LENGTH_LONG)
+        Toast.makeText(context, context.getString(R.string.premium_unlocked_message), Toast.LENGTH_LONG)
             .show()
     }
 

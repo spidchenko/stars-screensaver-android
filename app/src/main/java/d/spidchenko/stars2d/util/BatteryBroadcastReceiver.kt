@@ -26,7 +26,7 @@ class BatteryBroadcastReceiver(
         if (isCharged) {
             if (playSound) soundEngine.playPop()
             if (vibrate) vibrateUtil.vibrate(context)
-            Toast.makeText(context, context.getString(R.string.device_is_charged), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.charged_message), Toast.LENGTH_SHORT).show()
         }
     }
 }

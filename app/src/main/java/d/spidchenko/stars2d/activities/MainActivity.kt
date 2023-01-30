@@ -13,7 +13,7 @@ class MainActivity : Activity() {
         startActivity(Intent("android.settings.DREAM_SETTINGS"))
         Toast.makeText(
             applicationContext,
-            getString(R.string.greeting),
+            getString(R.string.welcome_message),
             Toast.LENGTH_LONG
         ).show()
         finish()

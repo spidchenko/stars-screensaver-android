@@ -4,13 +4,13 @@
     <Preference
         app:icon="@drawable/offer_24"
         app:key="premium"
-        app:summary="Remove the 30-minute work limit"
-        app:title="Buy Premium" />
+        app:summary="@string/premium_summary"
+        app:title="@string/buy_premium" />
 
     <PreferenceCategory
         app:key="particle_options_category"
         app:singleLineTitle="true"
-        app:title="@string/particle_options_title">
+        app:title="@string/particle_options">
 
         <SeekBarPreference
             android:defaultValue="50"
@@ -31,25 +31,25 @@
     </PreferenceCategory>
     <PreferenceCategory
         app:key="charging_category"
-        app:title="@string/charging_header">
+        app:title="@string/charged_action">
 
         <SwitchPreference
             android:defaultValue="false"
             app:icon="@drawable/play_sound_24"
             app:key="play_sound"
-            app:title="Play sound" />
+            app:title="@string/play" />
 
         <SwitchPreference
             android:defaultValue="false"
             app:icon="@drawable/vibration_24"
             app:key="vibrate"
-            app:title="Vibrate" />
+            app:title="@string/vibrate" />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         app:key="about_category"
-        app:title="@string/about_header">
+        app:title="@string/about">
         <Preference
             app:icon="@drawable/app_shortcut_24"
             app:summary="@string/author_name"
@@ -58,7 +58,7 @@
         <Preference
             app:icon="@drawable/star_rate_24"
             app:key="rate_link"
-            app:summary="@string/rate_app_description"
+            app:summary="@string/rate_app_summary"
             app:title="@string/rate_app">
             <intent
                 android:action="android.intent.action.VIEW"
