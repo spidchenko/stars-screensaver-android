@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preview">Zapowiedź</string>
+    <string name="particle_options">Opcje cząstek</string>
+    <string name="about">O aplikacji</string>
+    <string name="charged_action">Działania, gdy urządzenie jest w pełni naładowane</string>
+    <string name="number_of_particles">Liczba cząstek</string>
+    <string name="size_of_particle">Rozmiar cząsteczki</string>
+    <string name="play">Odtwórz dźwięk</string>
+    <string name="vibrate">Wibrować</string>
+    <string name="author_name">autor Dmytro Spidchenko</string>
+    <string name="rate_app">Oceń aplikację</string>
+    <string name="rate_app_summary">Podoba Ci się aplikacja? Masz pytania lub uwagi? Kliknij tutaj, aby ocenić i/lub zrecenzować aplikację.</string>
+    <string name="buy_premium">Kup Premium</string>
+    <string name="premium_summary">Usuń 30-minutowy limit pracy</string>
+    <string name="welcome_message">Wybierz wygaszacz ekranu. Możesz także zmienić ustawienia.</string>
+    <string name="premium_unlocked_message">Funkcja premium odblokowana</string>
+    <string name="charged_message">Twoje urządzenie jest naładowane</string>
+    <string name="settings">Ustawienia</string>
+</resources>

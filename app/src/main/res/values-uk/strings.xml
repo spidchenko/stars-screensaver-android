@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preview">Перегляд</string>
+    <string name="particle_options">Параметри частинок</string>
+    <string name="about">Про додаток</string>
+    <string name="charged_action">Дії при повній зарядці пристрою</string>
+    <string name="number_of_particles">Кількість частинок</string>
+    <string name="size_of_particle">Розмір частки</string>
+    <string name="play">Відтворити звук</string>
+    <string name="vibrate">Вібрувати</string>
+    <string name="author_name">автор Дмитро Спідченко</string>
+    <string name="rate_app">Оцініть програму</string>
+    <string name="rate_app_summary">Подобається програма? Є питання чи відгуки? Натисніть тут, щоб оцінити та/або залишити відгук про програму.</string>
+    <string name="buy_premium">Купити Преміум</string>
+    <string name="premium_summary">Прибрати 30-хвилинний ліміт роботи</string>
+    <string name="welcome_message">Виберіть заставку. Також можна змінити налаштування.</string>
+    <string name="premium_unlocked_message">Преміум функцію розблоковано</string>
+    <string name="charged_message">Ваш пристрій заряджено</string>
+    <string name="settings">Налаштування</string>
+</resources>

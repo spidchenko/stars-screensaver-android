@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preview">Просмотр</string>
+    <string name="particle_options">Параметры частиц</string>
+    <string name="about">О приложении</string>
+    <string name="charged_action">Действия при полной зарядке устройства</string>
+    <string name="number_of_particles">Количество частиц</string>
+    <string name="size_of_particle">Размер частицы</string>
+    <string name="play">Воспроизвести звук</string>
+    <string name="vibrate">Вибрировать</string>
+    <string name="author_name">автор Дмитрий Спидченко</string>
+    <string name="rate_app">Оцените приложение</string>
+    <string name="rate_app_summary">Нравится приложение? Есть вопросы или отзывы? Нажмите здесь, чтобы оценить и/или оставить отзыв о приложении.</string>
+    <string name="settings">Настройки</string>
+    <string name="buy_premium">Купить Премиум</string>
+    <string name="premium_summary">Убрать 30-минутный лимит работы</string>
+    <string name="welcome_message">Выберите заставку. Вы также можете изменить настройки.</string>
+    <string name="premium_unlocked_message">Премиум-функция разблокирована</string>
+    <string name="charged_message">Ваше устройство заряжено</string>
+</resources>
