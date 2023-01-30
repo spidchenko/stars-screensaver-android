@@ -1,11 +1,8 @@
 package d.spidchenko.stars2d.util
 
 import android.opengl.GLES20.*
-import android.util.Log
 
 object ShaderHelper {
-
-    private const val TAG = "ShaderHelper.LOG_TAG"
 
     fun buildProgram(vertexShaderSource: String, fragmentShaderSource: String): Int {
 
@@ -30,9 +27,7 @@ object ShaderHelper {
         val shaderObjectId = glCreateShader(type)
 
         if (shaderObjectId == 0) {
-            if (LoggerConfig.ON) {
-                Log.d(TAG, "Could not create new shader.")
-            }
+            Logger.Log("Could not create new shader.")
             return 0
         }
 
@@ -41,18 +36,15 @@ object ShaderHelper {
         val compileStatus = IntArray(1)
         glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileStatus, 0)
 
-        if (LoggerConfig.ON) {
-            Log.d(
-                TAG,
-                "Results of compiling source:\n$shaderCode\n${glGetShaderInfoLog(shaderObjectId)}"
-            )
-        }
+        Logger.Log(
+            "Results of compiling source:\n" +
+                    "$shaderCode\n" +
+                    glGetShaderInfoLog(shaderObjectId)
+        )
 
         if (compileStatus[0] == 0) {
             glDeleteShader(shaderObjectId)
-            if (LoggerConfig.ON) {
-                Log.d(TAG, "Compilation of shader failed.")
-            }
+            Logger.Log("Compilation of shader failed.")
             return 0
         }
 
@@ -63,9 +55,7 @@ object ShaderHelper {
         val programObjectId = glCreateProgram()
 
         if (programObjectId == 0) {
-            if (LoggerConfig.ON) {
-                Log.d(TAG, "Could not create new program.")
-            }
+            Logger.Log("Could not create new program.")
             return 0
         }
 
@@ -76,15 +66,11 @@ object ShaderHelper {
         val linkStatus = IntArray(1)
         glGetProgramiv(programObjectId, GL_LINK_STATUS, linkStatus, 0)
 
-        if (LoggerConfig.ON) {
-            Log.d(TAG, "Results of linking program:\n${glGetProgramInfoLog(programObjectId)}")
-        }
+        Logger.Log("Results of linking program:\n${glGetProgramInfoLog(programObjectId)}")
 
         if (linkStatus[0] == 0) {
             glDeleteProgram(programObjectId)
-            if (LoggerConfig.ON) {
-                Log.d(TAG, "Linking of program failed.")
-            }
+            Logger.Log("Linking of program failed.")
             return 0
         }
 
@@ -95,14 +81,11 @@ object ShaderHelper {
         glValidateProgram(programObjectId)
         val validateStatus = IntArray(1)
         glGetProgramiv(programObjectId, GL_VALIDATE_STATUS, validateStatus, 0)
-        if (LoggerConfig.ON) {
-            Log.d(
-                TAG,
-                "Results of validating program: $validateStatus[0]\nLog:${
-                    glGetProgramInfoLog(programObjectId)
-                }"
-            )
-        }
+        Logger.Log(
+            "Results of validating program: $validateStatus[0]\n" +
+                    "Log:${glGetProgramInfoLog(programObjectId)}"
+        )
+
         return validateStatus[0] != 0
     }
 }

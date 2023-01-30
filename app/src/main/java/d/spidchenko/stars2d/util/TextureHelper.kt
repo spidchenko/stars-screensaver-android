@@ -4,9 +4,7 @@ import android.content.Context
 import android.graphics.BitmapFactory
 import android.opengl.GLES20.*
 import android.opengl.GLUtils
-import android.util.Log
 
-private const val TAG = "TextureHelper.LOG_TAG"
 
 object TextureHelper {
     fun loadTexture(context: Context, resourceId: Int): Int {
@@ -14,9 +12,7 @@ object TextureHelper {
         glGenTextures(1, textureObjectsIds, 0)
 
         if (textureObjectsIds[0] == 0) {
-            if (LoggerConfig.ON) {
-                Log.d(TAG, "Could not generate a new OpenGl texture object.")
-            }
+            Logger.Log("Could not generate a new OpenGl texture object.")
             return 0
         }
 
@@ -25,9 +21,7 @@ object TextureHelper {
         val bitmap = BitmapFactory.decodeResource(context.resources, resourceId, options)
 
         if (bitmap == null) {
-            if (LoggerConfig.ON) {
-                Log.d(TAG, "Resource ID $resourceId could not be decoded.")
-            }
+            Logger.Log("Resource ID $resourceId could not be decoded.")
             glDeleteTextures(1, textureObjectsIds, 0)
             return 0
         }

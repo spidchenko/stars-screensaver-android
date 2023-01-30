@@ -4,7 +4,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -16,11 +15,10 @@ import androidx.preference.PreferenceManager
 import d.spidchenko.stars2d.R
 import d.spidchenko.stars2d.daydream.DreamSurfaceView
 import d.spidchenko.stars2d.util.Billing
-import d.spidchenko.stars2d.util.LoggerConfig
+import d.spidchenko.stars2d.util.Logger
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
-private const val TAG = "Settings.LOG_TAG"
 
 class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
     private lateinit var preferences: SharedPreferences
@@ -66,7 +64,7 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            if (LoggerConfig.ON) Log.d(TAG, "onCreatePreferences: ")
+            Logger.Log("onCreatePreferences")
             billing.init()
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
@@ -75,7 +73,7 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
                 premiumOption?.isVisible = false
             } else {
                 premiumOption?.setOnPreferenceClickListener {
-                    if (LoggerConfig.ON) Log.d(TAG, "onCreatePreferences: CLICKED PREM LINK!")
+                    Logger.Log("onCreatePreferences: CLICKED PREM LINK!")
                     billing.launchBuyPremiumBillingFlow(requireActivity())
                     true
                 }

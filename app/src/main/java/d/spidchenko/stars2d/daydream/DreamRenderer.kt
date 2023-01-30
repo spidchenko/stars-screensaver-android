@@ -6,12 +6,11 @@ import android.opengl.GLES20.*
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.orthoM
 import android.os.SystemClock
-import android.util.Log
 import d.spidchenko.stars2d.R
 import d.spidchenko.stars2d.objects.ParticleShooter
 import d.spidchenko.stars2d.objects.ParticleSystem
 import d.spidchenko.stars2d.programs.ParticleShaderProgram
-import d.spidchenko.stars2d.util.LoggerConfig
+import d.spidchenko.stars2d.util.Logger
 import d.spidchenko.stars2d.util.TextureHelper
 import d.spidchenko.stars2d.util.Vector
 import javax.microedition.khronos.egl.EGLConfig
@@ -19,7 +18,6 @@ import javax.microedition.khronos.opengles.GL10
 
 private const val NANOS_IN_SECOND = 10e9F
 private const val MAX_PARTICLE_COUNT = 10000
-private const val TAG = "StarsRenderer.LOG_TAG"
 
 class DreamRenderer(
     private val context: Context,
@@ -63,7 +61,7 @@ class DreamRenderer(
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
         val aspectRatio: Float = width.toFloat() / height.toFloat()
         particleShooter.aspectRatio = aspectRatio
-        if (LoggerConfig.ON) Log.d(TAG, "onSurfaceChanged: ${width}x$height Ratio= $aspectRatio")
+        Logger.Log("onSurfaceChanged: ${width}x$height Ratio= $aspectRatio")
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE)
         // Set the OpenGL viewport to fill the entire surface
@@ -88,9 +86,9 @@ class DreamRenderer(
         particleSystem.bindData(particleProgram)
         particleSystem.draw()
 
-        if (LoggerConfig.ON) {
-            logAverageFPS()
-        }
+//        if (LoggerConfig.ON) {
+//            logAverageFPS()
+//        }
     }
 
     fun reloadPreferences() {
@@ -99,7 +97,7 @@ class DreamRenderer(
 
     fun releaseResources() {
         glDeleteTextures(1, intArrayOf(textureId), 0)
-        if (LoggerConfig.ON) Log.d(TAG, "releaseResources: Deleted textures")
+        Logger.Log("releaseResources: Deleted textures")
     }
 
     private fun logAverageFPS() {
@@ -108,7 +106,7 @@ class DreamRenderer(
         if (frameCounter > 100) {
             averageFPS /= frameCounter
             frameCounter = 0
-            Log.d(TAG, "Average FPS: $averageFPS")
+            Logger.Log( "Average FPS: $averageFPS")
         }
     }
 }
