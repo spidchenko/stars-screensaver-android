@@ -187,8 +187,6 @@ class Billing(val context: Context) {
     companion object {
         fun checkPremium(context: Context): Boolean =
             PreferenceManager.getDefaultSharedPreferences(context)
-                .getString(KEY_PREMIUM_TOKEN, null)
-                .isNullOrBlank()
-                .not()
+                .getString(KEY_PREMIUM_TOKEN, null) != null
     }
 }
