@@ -4,7 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.*
+import android.widget.Toast
 import androidx.preference.PreferenceManager
+import d.spidchenko.stars2d.R
 
 class BatteryBroadcastReceiver(
     private val soundEngine: SoundEngine,
@@ -24,6 +26,7 @@ class BatteryBroadcastReceiver(
         if (isCharged) {
             if (playSound) soundEngine.playPop()
             if (vibrate) vibrateUtil.vibrate(context)
+            Toast.makeText(context, context.getString(R.string.device_is_charged), Toast.LENGTH_SHORT).show()
         }
     }
 }
