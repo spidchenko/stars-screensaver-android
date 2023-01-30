@@ -1,6 +1,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <Preference
+        app:icon="@drawable/offer_24"
+        app:key="premium"
+        app:summary="Remove the 30-minute work limit"
+        app:title="Buy Premium" />
+
     <PreferenceCategory
         app:key="particle_options_category"
         app:singleLineTitle="true"
@@ -9,6 +15,7 @@
         <SeekBarPreference
             android:defaultValue="50"
             android:max="100"
+            app:icon="@drawable/three_dots_24"
             app:key="number_of_particles"
             app:persistent="true"
             app:title="@string/number_of_particles" />
@@ -16,6 +23,7 @@
         <SeekBarPreference
             android:defaultValue="50"
             android:max="100"
+            app:icon="@drawable/flare_24"
             app:key="size_of_particles"
             app:persistent="true"
             app:title="@string/size_of_particle" />
@@ -25,13 +33,17 @@
         app:key="charging_category"
         app:title="@string/charging_header">
 
-        <DropDownPreference
-            app:defaultValue="none"
-            app:entries="@array/charged_entries"
-            app:entryValues="@array/charged_values"
-            app:key="action_when_charged"
-            app:title="@string/action_when_charged"
-            app:useSimpleSummaryProvider="true" />
+        <SwitchPreference
+            android:defaultValue="false"
+            app:icon="@drawable/play_sound_24"
+            app:key="play_sound"
+            app:title="Play sound" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            app:icon="@drawable/vibration_24"
+            app:key="vibrate"
+            app:title="Vibrate" />
 
     </PreferenceCategory>
 
@@ -39,25 +51,18 @@
         app:key="about_category"
         app:title="@string/about_header">
         <Preference
+            app:icon="@drawable/app_shortcut_24"
             app:summary="@string/author_name"
             app:title="@string/app_name" />
 
         <Preference
+            app:icon="@drawable/star_rate_24"
             app:key="rate_link"
             app:summary="@string/rate_app_description"
             app:title="@string/rate_app">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/app_market_address" />
-        </Preference>
-
-        <Preference
-            app:key="market_link"
-            app:summary="@string/support_me"
-            app:title="@string/buy_a_beer">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/author_beer_link" />
         </Preference>
 
     </PreferenceCategory>
