@@ -9,8 +9,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
-import d.spidchenko.stars2d.util.LoggerConfig
-import d.spidchenko.stars2d.util.SoundEngine
+import d.spidchenko.stars2d.util.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -21,7 +20,8 @@ class DayDream : DreamService(), LifecycleOwner {
 
     private lateinit var gLView: DreamSurfaceView
     private val lifecycleRegistry = LifecycleRegistry(this)
-
+    private val soundEngine by lazy {SoundEngine(this)}
+    private val batteryInfoReceiver by lazy {BatteryBroadcastReceiver(soundEngine, VibrateUtil)}
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -36,9 +36,10 @@ class DayDream : DreamService(), LifecycleOwner {
         isFullscreen = true
         isScreenBright = false
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        gLView = DreamSurfaceView(this, preferences, SoundEngine(this))
+        gLView = DreamSurfaceView(this, preferences)
         setContentView(gLView)
-        registerReceiver(gLView.batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+        if (LoggerConfig.ON) Log.d(TAG, "onDreamingStarted: Registered batteryInfoReceiver")
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         exitAfter30Minutes()
         if (LoggerConfig.ON) Log.d(TAG, "onDreamingStarted: Registered batteryInfoReceiver")
@@ -47,7 +48,7 @@ class DayDream : DreamService(), LifecycleOwner {
     override fun onDreamingStopped() {
         super.onDreamingStopped()
         gLView.releaseResources()
-        unregisterReceiver(gLView.batteryInfoReceiver)
+        unregisterReceiver(batteryInfoReceiver)
         if (LoggerConfig.ON) Log.d(TAG, "onDreamingStopped: ")
     }
 
