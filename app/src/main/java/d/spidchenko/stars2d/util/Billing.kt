@@ -18,15 +18,8 @@ class Billing(val context: Context) {
 
     private val purchasesUpdatedListener =
         PurchasesUpdatedListener { billingResult, purchases ->
-            when (billingResult.responseCode) {
-                BillingClient.BillingResponseCode.OK -> purchases?.forEach { handlePurchase(it) }
-                BillingClient.BillingResponseCode.ITEM_ALREADY_OWNED -> {
-                    Logger.Log( "Already Bought Premium!: ")
-                }
-                BillingClient.BillingResponseCode.USER_CANCELED -> {
-                    Logger.Log("User canceled billing flow")
-                }
-                else -> {}// Handle any other error codes.
+            if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                purchases?.forEach { handlePurchase(it) }
             }
         }
 
@@ -39,14 +32,11 @@ class Billing(val context: Context) {
     fun init() =
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
-                when (billingResult.responseCode) {
-                    BillingClient.BillingResponseCode.OK -> {
-                        Logger.Log(
-                            "onBillingSetupFinished: BillingResponseCode.OK"
-                        )
-                        MainScope().launch { premiumProduct = queryPremiumProductDetails() }
-                    }
-                    else ->Logger.Log("onBillingSetupFinished: ${billingResult.debugMessage}")
+                if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
+                    Logger.Log("onBillingSetupFinished: BillingResponseCode.OK")
+                    MainScope().launch { premiumProduct = queryPremiumProductDetails() }
+                } else {
+                    Logger.Log("onBillingSetupFinished: ${billingResult.debugMessage}")
                 }
             }
 
@@ -57,7 +47,7 @@ class Billing(val context: Context) {
 
 
     suspend fun querySuccessfulPurchases() {
-        Logger.Log( "queryPurchases onResume() ")
+        Logger.Log("queryPurchases onResume() ")
         val params = QueryPurchasesParams
             .newBuilder()
             .setProductType(BillingClient.ProductType.INAPP)
@@ -77,7 +67,7 @@ class Billing(val context: Context) {
         if (premium !== null) {
             launchBillingFlow(activity, premium)
         } else {
-            Logger.Log( "launchBuyPremiumBillingFlow: Premium product is not initialized!")
+            Logger.Log("launchBuyPremiumBillingFlow: Premium product is not initialized!")
         }
     }
 
@@ -117,8 +107,6 @@ class Billing(val context: Context) {
 
 
     private fun launchBillingFlow(activity: Activity, productDetails: ProductDetails) {
-        val selectedOfferToken = productDetails.oneTimePurchaseOfferDetails.toString()
-        Logger.Log("launchBillingFlow: token:$selectedOfferToken")
         val productDetailsParamsList = listOf(
             BillingFlowParams.ProductDetailsParams.newBuilder()
                 .setProductDetails(productDetails)
@@ -135,40 +123,39 @@ class Billing(val context: Context) {
 
 
     private fun handlePurchase(purchase: Purchase) = mainCoroutineScope.launch {
-        when (purchase.purchaseState) {
-            Purchase.PurchaseState.PURCHASED -> {
-                Logger.Log("PurchaseUpdateListener found new purchase!\nPurchase: $purchase\n" +
-                            "handlePurchase: Token: ${purchase.purchaseToken}"
-                )
-                processPurchase(purchase)
-                acknowledgePurchase(purchase)
-            }
-            Purchase.PurchaseState.PENDING -> {
-                Logger.Log("handlePurchase: PENDING")
-            }
+        if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
+            Logger.Log(
+                "PurchaseUpdateListener found new purchase!\nPurchase: $purchase\n" +
+                        "handlePurchase: Token: ${purchase.purchaseToken}"
+            )
+            processPurchase(purchase)
+            acknowledgePurchase(purchase)
         }
     }
 
 
-    private fun processPurchase(purchase: Purchase) {
-        Logger.Log("Unlocking new Purchase: $purchase")
+    private fun processPurchase(purchase: Purchase) =
         purchase.products.forEach {
             if (it == PREMIUM_ID) {
                 unlockPremium(purchase.purchaseToken)
-                Logger.Log( "unlockPurchase: PREMIUM BOUGHT!")
+                Logger.Log("unlockPurchase: PREMIUM BOUGHT!")
             }
         }
-    }
 
 
     private fun unlockPremium(purchaseToken: String) {
         Logger.Log("unlockPremium: saving token to shared pref")
+
         PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
             .putString(KEY_PREMIUM_TOKEN, purchaseToken)
             .apply()
-        Toast.makeText(context, context.getString(R.string.premium_unlocked_message), Toast.LENGTH_LONG)
-            .show()
+
+        Toast.makeText(
+            context,
+            context.getString(R.string.premium_unlocked_message),
+            Toast.LENGTH_LONG
+        ).show()
     }
 
 
