@@ -61,6 +61,9 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         override fun onResume() {
             super.onResume()
             MainScope().launch { billing.querySuccessfulPurchases() }
+            if (Billing.checkPremium(requireContext())) {
+                findPreference<Preference>("premium")?.isVisible = false
+            }
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
