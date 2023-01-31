@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Stars2D Screensaver</string>
+    <string name="app_name">Stars2D Screensaver</string>
     <string name="settings">Settings</string>
     <string name="preview">Preview</string>
 

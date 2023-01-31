@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preview">معاينة</string>
+    <string name="particle_options">خيارات الجسيمات</string>
+    <string name="about">حول</string>
+    <string name="charged_action">الإجراء عند تحميل الجهاز بالكامل</string>
+    <string name="number_of_particles">عدد الجسيمات</string>
+    <string name="size_of_particle">حجم الجسيمة</string>
+    <string name="play">تشغيل الصوت</string>
+    <string name="vibrate">اهتزاز</string>
+    <string name="author_name">بواسطة دميترو سبيدشنكو</string>
+    <string name="rate_app">تقييم التطبيق</string>
+    <string name="rate_app_summary">هل تحب التطبيق؟ هل لديك أسئلة أو ملاحظات؟ انقر هنا لتقييم و / أو مراجعة التطبيق.</string>
+    <string name="buy_premium">شراء الإصدار الممتاز</string>
+    <string name="premium_summary">إزالة حد العمل لمدة 30 دقيقة</string>
+    <string name="welcome_message">اختر خلفية سطح المكتب. يمكنك أيضًا تغيير الإعدادات.</string>
+    <string name="premium_unlocked_message">تم فتح ميزة الإصدار الممتاز</string>
+    <string name="charged_message">تم تشغيل جهازك</string>
+    <string name="app_name">Stars2D Screensaver</string>
+    <string name="settings">الإعدادات</string>
+</resources>

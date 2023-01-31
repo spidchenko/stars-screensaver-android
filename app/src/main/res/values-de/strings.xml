@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="preview">Vorschau</string>
+    <string name="particle_options">Partikeloptionen</string>
+    <string name="about">Über</string>
+    <string name="charged_action">Aktion bei vollständig geladener Gerätebatterie</string>
+    <string name="number_of_particles">Anzahl der Teilchen</string>
+    <string name="size_of_particle">Größe des Teilchens</string>
+    <string name="play">Ton abspielen</string>
+    <string name="vibrate">Vibrieren</string>
+    <string name="author_name">Von Dmytro Spidchenko</string>
+    <string name="rate_app">Bewerte die App</string>
+    <string name="rate_app_summary">Wie gefällt Ihnen die App? Haben Sie Fragen oder Feedback? Klicken Sie hier, um die App zu bewerten und/oder zu überprüfen.</string>
+    <string name="buy_premium">Kaufe Premium</string>
+    <string name="premium_summary">Entfernen der 30-Minuten-Arbeitsbeschränkung</string>
+    <string name="welcome_message">Wählen Sie einen Bildschirmschoner. Sie können auch die Einstellungen ändern.</string>
+    <string name="premium_unlocked_message">Funktionen des Premium-Kontos freigeschaltet.</string>
+    <string name="charged_message">Ihr Gerät ist vollständig aufgeladen.</string>
+    <string name="app_name">Stars2D Screensaver</string>
+    <string name="settings">Konfiguration</string>
+</resources>
