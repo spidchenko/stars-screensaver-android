@@ -61,7 +61,7 @@ class DreamRenderer(
     override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
         val aspectRatio: Float = width.toFloat() / height.toFloat()
         particleShooter.aspectRatio = aspectRatio
-        Logger.Log("onSurfaceChanged: ${width}x$height Ratio= $aspectRatio")
+        Logger.log("onSurfaceChanged: ${width}x$height Ratio= $aspectRatio")
         glEnable(GL_BLEND)
         glBlendFunc(GL_ONE, GL_ONE)
         // Set the OpenGL viewport to fill the entire surface
@@ -97,7 +97,7 @@ class DreamRenderer(
 
     fun releaseResources() {
         glDeleteTextures(1, intArrayOf(textureId), 0)
-        Logger.Log("releaseResources: Deleted textures")
+        Logger.log("releaseResources: Deleted textures")
     }
 
     private fun logAverageFPS() {
@@ -106,7 +106,7 @@ class DreamRenderer(
         if (frameCounter > 100) {
             averageFPS /= frameCounter
             frameCounter = 0
-            Logger.Log( "Average FPS: $averageFPS")
+            Logger.log( "Average FPS: $averageFPS")
         }
     }
 }

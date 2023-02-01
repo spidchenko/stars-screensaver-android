@@ -12,7 +12,7 @@ object TextureHelper {
         glGenTextures(1, textureObjectsIds, 0)
 
         if (textureObjectsIds[0] == 0) {
-            Logger.Log("Could not generate a new OpenGl texture object.")
+            Logger.log("Could not generate a new OpenGl texture object.")
             return 0
         }
 
@@ -21,7 +21,7 @@ object TextureHelper {
         val bitmap = BitmapFactory.decodeResource(context.resources, resourceId, options)
 
         if (bitmap == null) {
-            Logger.Log("Resource ID $resourceId could not be decoded.")
+            Logger.log("Resource ID $resourceId could not be decoded.")
             glDeleteTextures(1, textureObjectsIds, 0)
             return 0
         }

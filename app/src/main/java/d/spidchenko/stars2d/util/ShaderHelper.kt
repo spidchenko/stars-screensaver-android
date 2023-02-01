@@ -27,7 +27,7 @@ object ShaderHelper {
         val shaderObjectId = glCreateShader(type)
 
         if (shaderObjectId == 0) {
-            Logger.Log("Could not create new shader.")
+            Logger.log("Could not create new shader.")
             return 0
         }
 
@@ -36,7 +36,7 @@ object ShaderHelper {
         val compileStatus = IntArray(1)
         glGetShaderiv(shaderObjectId, GL_COMPILE_STATUS, compileStatus, 0)
 
-        Logger.Log(
+        Logger.log(
             "Results of compiling source:\n" +
                     "$shaderCode\n" +
                     glGetShaderInfoLog(shaderObjectId)
@@ -44,7 +44,7 @@ object ShaderHelper {
 
         if (compileStatus[0] == 0) {
             glDeleteShader(shaderObjectId)
-            Logger.Log("Compilation of shader failed.")
+            Logger.log("Compilation of shader failed.")
             return 0
         }
 
@@ -55,7 +55,7 @@ object ShaderHelper {
         val programObjectId = glCreateProgram()
 
         if (programObjectId == 0) {
-            Logger.Log("Could not create new program.")
+            Logger.log("Could not create new program.")
             return 0
         }
 
@@ -66,11 +66,11 @@ object ShaderHelper {
         val linkStatus = IntArray(1)
         glGetProgramiv(programObjectId, GL_LINK_STATUS, linkStatus, 0)
 
-        Logger.Log("Results of linking program:\n${glGetProgramInfoLog(programObjectId)}")
+        Logger.log("Results of linking program:\n${glGetProgramInfoLog(programObjectId)}")
 
         if (linkStatus[0] == 0) {
             glDeleteProgram(programObjectId)
-            Logger.Log("Linking of program failed.")
+            Logger.log("Linking of program failed.")
             return 0
         }
 
@@ -81,7 +81,7 @@ object ShaderHelper {
         glValidateProgram(programObjectId)
         val validateStatus = IntArray(1)
         glGetProgramiv(programObjectId, GL_VALIDATE_STATUS, validateStatus, 0)
-        Logger.Log(
+        Logger.log(
             "Results of validating program: $validateStatus[0]\n" +
                     "Log:${glGetProgramInfoLog(programObjectId)}"
         )

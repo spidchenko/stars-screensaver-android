@@ -33,24 +33,24 @@ class Billing(val context: Context) {
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    Logger.Log("onBillingSetupFinished: BillingResponseCode.OK")
+                    Logger.log("onBillingSetupFinished: BillingResponseCode.OK")
                     MainScope().launch {
                         premiumProduct = queryPremiumProductDetails()
                         querySuccessfulPurchases()
                     }
                 } else {
-                    Logger.Log("onBillingSetupFinished: ${billingResult.debugMessage}")
+                    Logger.log("onBillingSetupFinished: ${billingResult.debugMessage}")
                 }
             }
 
             override fun onBillingServiceDisconnected() {
-                Logger.Log("onBillingServiceDisconnected")
+                Logger.log("onBillingServiceDisconnected")
             }
         })
 
 
     suspend fun querySuccessfulPurchases() {
-        Logger.Log("queryPurchases onResume() ")
+        Logger.log("queryPurchases onResume() ")
         val params = QueryPurchasesParams
             .newBuilder()
             .setProductType(BillingClient.ProductType.INAPP)
@@ -70,7 +70,7 @@ class Billing(val context: Context) {
         if (premium !== null) {
             launchBillingFlow(activity, premium)
         } else {
-            Logger.Log("launchBuyPremiumBillingFlow: Premium product is not initialized!")
+            Logger.log("launchBuyPremiumBillingFlow: Premium product is not initialized!")
         }
     }
 
@@ -86,21 +86,21 @@ class Billing(val context: Context) {
             .setProductList(products)
             .build()
 
-        Logger.Log("queryPurchases: queryProductDetails")
+        Logger.log("queryPurchases: queryProductDetails")
 
         val productDetailsResult = withContext(Dispatchers.IO) {
             billingClient.queryProductDetails(queryProductDetailsParams)
         }
 
         if (productDetailsResult.billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-            Logger.Log(
+            Logger.log(
                 "queryProductDetails: $productDetailsResult\n" +
                         "queryProductDetails: got ${productDetailsResult.productDetailsList?.size}\n" +
                         "All products: ${productDetailsResult.productDetailsList.toString()}"
             )
             return productDetailsResult.productDetailsList?.find { it.productId == PREMIUM_ID }
         } else {
-            Logger.Log(
+            Logger.log(
                 "queryPremiumProductDetails: Can't query products." +
                         "Response code: ${productDetailsResult.billingResult.responseCode}"
             )
@@ -121,13 +121,13 @@ class Billing(val context: Context) {
             .build()
 
         val billingResult = billingClient.launchBillingFlow(activity, billingFlowParams)
-        Logger.Log("launchBillingFlow: $billingResult")
+        Logger.log("launchBillingFlow: $billingResult")
     }
 
 
     private fun handlePurchase(purchase: Purchase) = mainCoroutineScope.launch {
         if (purchase.purchaseState == Purchase.PurchaseState.PURCHASED) {
-            Logger.Log(
+            Logger.log(
                 "PurchaseUpdateListener found new purchase!\nPurchase: $purchase\n" +
                         "handlePurchase: Token: ${purchase.purchaseToken}"
             )
@@ -141,7 +141,7 @@ class Billing(val context: Context) {
         purchase.products.forEach {
             if (it == PREMIUM_ID) {
                 unlockPremium(purchase.purchaseToken)
-                Logger.Log("unlockPurchase: PREMIUM BOUGHT!")
+                Logger.log("unlockPurchase: PREMIUM BOUGHT!")
             }
         }
 
@@ -149,9 +149,9 @@ class Billing(val context: Context) {
     private fun unlockPremium(purchaseToken: String) {
         val prefManager = PreferenceManager.getDefaultSharedPreferences(context)
         if (checkPremium(context)) {
-            Logger.Log("Premium feature has been unlocked earlier")
+            Logger.log("Premium feature has been unlocked earlier")
         } else {
-            Logger.Log("unlockPremium: saving token to shared pref")
+            Logger.log("unlockPremium: saving token to shared pref")
             prefManager.edit()
                 .putString(KEY_PREMIUM_TOKEN, purchaseToken)
                 .apply()
@@ -172,7 +172,7 @@ class Billing(val context: Context) {
             val ackPurchaseResult = withContext(Dispatchers.IO) {
                 billingClient.acknowledgePurchase(acknowledgePurchaseParams.build())
             }
-            Logger.Log("acknowledgePurchase: $ackPurchaseResult")
+            Logger.log("acknowledgePurchase: $ackPurchaseResult")
         }
     }
 

@@ -23,13 +23,13 @@ class DayDream : DreamService(), LifecycleOwner {
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        Logger.Log("onAttachedToWindow")
+        Logger.log("onAttachedToWindow")
     }
 
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        Logger.Log("onDreamingStarted")
+        Logger.log("onDreamingStarted")
         isInteractive = false
         isFullscreen = true
         isScreenBright = false
@@ -37,14 +37,14 @@ class DayDream : DreamService(), LifecycleOwner {
         gLView = DreamSurfaceView(this, preferences)
         setContentView(gLView)
         registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
-        Logger.Log("onDreamingStarted: Registered batteryInfoReceiver")
+        Logger.log("onDreamingStarted: Registered batteryInfoReceiver")
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
         val isPremium = Billing.checkPremium(this)
         if (isPremium.not()) {
             lifecycleScope.launch { exitAfter30Minutes() }
-            Logger.Log("Screensaver will turn off after 30 minutes")
+            Logger.log("Screensaver will turn off after 30 minutes")
         } else {
-            Logger.Log("Screensaver is in premium mode")
+            Logger.log("Screensaver is in premium mode")
         }
     }
 
@@ -52,21 +52,21 @@ class DayDream : DreamService(), LifecycleOwner {
         super.onDreamingStopped()
         gLView.releaseResources()
         unregisterReceiver(batteryInfoReceiver)
-        Logger.Log("onDreamingStopped: ")
+        Logger.log("onDreamingStopped: ")
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
-        Logger.Log("onDetachedFromWindow: ")
+        Logger.log("onDetachedFromWindow: ")
     }
 
     override fun getLifecycle() = lifecycleRegistry
 
     private suspend fun exitAfter30Minutes() {
-        Logger.Log("Coroutine: finish timer started.")
+        Logger.log("Coroutine: finish timer started.")
         delay(TIME_30_MINUTES)
-        Logger.Log("Coroutine: dream is about to finish NOW.")
+        Logger.log("Coroutine: dream is about to finish NOW.")
         finish()
     }
 }

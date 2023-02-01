@@ -63,13 +63,13 @@ class SettingsActivity : AppCompatActivity() {
         private var premiumOption: Preference? = null
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-            Logger.Log("onCreatePreferences")
+            Logger.log("onCreatePreferences")
             billing.init()
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             premiumOption = findPreference("premium")
             premiumOption?.setOnPreferenceClickListener {
-                Logger.Log("onCreatePreferences: CLICKED PREM LINK!")
+                Logger.log("onCreatePreferences: CLICKED PREM LINK!")
                 billing.launchBuyPremiumBillingFlow(requireActivity())
                 true
             }
@@ -80,7 +80,7 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onSharedPreferenceChanged(sharedPref: SharedPreferences?, key: String?) {
             gLView.reloadPreferences()
-            Logger.Log("onSharedChanged: isPrem: ${Billing.checkPremium(requireContext())}")
+            Logger.log("onSharedChanged: isPrem: ${Billing.checkPremium(requireContext())}")
             if (Billing.checkPremium(requireContext())) {
                 premiumOption?.isVisible = false
             }
