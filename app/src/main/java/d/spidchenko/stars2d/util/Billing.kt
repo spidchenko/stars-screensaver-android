@@ -34,7 +34,10 @@ class Billing(val context: Context) {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     Logger.Log("onBillingSetupFinished: BillingResponseCode.OK")
-                    MainScope().launch { premiumProduct = queryPremiumProductDetails() }
+                    MainScope().launch {
+                        premiumProduct = queryPremiumProductDetails()
+                        querySuccessfulPurchases()
+                    }
                 } else {
                     Logger.Log("onBillingSetupFinished: ${billingResult.debugMessage}")
                 }
@@ -144,18 +147,21 @@ class Billing(val context: Context) {
 
 
     private fun unlockPremium(purchaseToken: String) {
-        Logger.Log("unlockPremium: saving token to shared pref")
+        val prefManager = PreferenceManager.getDefaultSharedPreferences(context)
+        if (checkPremium(context)) {
+            Logger.Log("Premium feature has been unlocked earlier")
+        } else {
+            Logger.Log("unlockPremium: saving token to shared pref")
+            prefManager.edit()
+                .putString(KEY_PREMIUM_TOKEN, purchaseToken)
+                .apply()
 
-        PreferenceManager.getDefaultSharedPreferences(context)
-            .edit()
-            .putString(KEY_PREMIUM_TOKEN, purchaseToken)
-            .apply()
-
-        Toast.makeText(
-            context,
-            context.getString(R.string.premium_unlocked_message),
-            Toast.LENGTH_LONG
-        ).show()
+            Toast.makeText(
+                context,
+                context.getString(R.string.premium_unlocked_message),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
 

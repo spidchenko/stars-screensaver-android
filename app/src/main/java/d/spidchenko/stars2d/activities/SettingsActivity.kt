@@ -16,13 +16,12 @@ import d.spidchenko.stars2d.R
 import d.spidchenko.stars2d.daydream.DreamSurfaceView
 import d.spidchenko.stars2d.util.Billing
 import d.spidchenko.stars2d.util.Logger
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
 
 
-class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
+class SettingsActivity : AppCompatActivity() {
     private lateinit var preferences: SharedPreferences
     private lateinit var gLView: DreamSurfaceView
+    private lateinit var settingsFragment: SettingsFragment
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -30,71 +29,71 @@ class SettingsActivity : AppCompatActivity(), OnSharedPreferenceChangeListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.preview -> {
-            startActivity(Intent(this, PreviewActivity::class.java))
-            true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.preview -> {
+                startActivity(Intent(this, PreviewActivity::class.java))
+                true
+            }
+            android.R.id.home -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        android.R.id.home -> {
-            finish()
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
-    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
+        preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        gLView = DreamSurfaceView(this, preferences)
+        settingsFragment = SettingsFragment(gLView)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.settings, SettingsFragment())
+            supportFragmentManager.beginTransaction().replace(R.id.settings, settingsFragment)
                 .commit()
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        gLView = DreamSurfaceView(this, preferences)
         findViewById<LinearLayout>(R.id.dream_preview).addView(gLView)
     }
 
-    class SettingsFragment : PreferenceFragmentCompat() {
+    class SettingsFragment(private val gLView: DreamSurfaceView) : PreferenceFragmentCompat(),
+        OnSharedPreferenceChangeListener {
         private val billing by lazy { Billing(requireContext()) }
-        override fun onResume() {
-            super.onResume()
-            MainScope().launch { billing.querySuccessfulPurchases() }
-            if (Billing.checkPremium(requireContext())) {
-                findPreference<Preference>("premium")?.isVisible = false
-            }
-        }
+        private var premiumOption: Preference? = null
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             Logger.Log("onCreatePreferences")
             billing.init()
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            val premiumOption = findPreference<Preference>("premium")
+            premiumOption = findPreference("premium")
+            premiumOption?.setOnPreferenceClickListener {
+                Logger.Log("onCreatePreferences: CLICKED PREM LINK!")
+                billing.launchBuyPremiumBillingFlow(requireActivity())
+                true
+            }
             if (Billing.checkPremium(requireContext())) {
                 premiumOption?.isVisible = false
-            } else {
-                premiumOption?.setOnPreferenceClickListener {
-                    Logger.Log("onCreatePreferences: CLICKED PREM LINK!")
-                    billing.launchBuyPremiumBillingFlow(requireActivity())
-                    true
-                }
+            }
+        }
+
+        override fun onSharedPreferenceChanged(sharedPref: SharedPreferences?, key: String?) {
+            gLView.reloadPreferences()
+            Logger.Log("onSharedChanged: isPrem: ${Billing.checkPremium(requireContext())}")
+            if (Billing.checkPremium(requireContext())) {
+                premiumOption?.isVisible = false
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        preferences.registerOnSharedPreferenceChangeListener(this)
+        preferences.registerOnSharedPreferenceChangeListener(settingsFragment)
     }
 
     override fun onPause() {
         super.onPause()
-        preferences.unregisterOnSharedPreferenceChangeListener(this)
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        gLView.reloadPreferences()
+        preferences.unregisterOnSharedPreferenceChangeListener(settingsFragment)
     }
 }
