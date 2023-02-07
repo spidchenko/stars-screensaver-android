@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Économiseur d\'écran Stars2D</string>
+    <string name="settings">Paramètres</string>
+    <string name="preview">Prévisualisation</string>
+    <string name="particle_options">Options de particules</string>
+    <string name="about">À propos</string>
+    <string name="charged_action">Action lorsque l\'appareil est complètement chargé</string>
+    <string name="number_of_particles">Nombre de particules</string>
+    <string name="size_of_particle">La taille de la particule</string>
+    <string name="play">Jouer du son</string>
+    <string name="vibrate">Vibrer</string>
+    <string name="author_name">par Dmytro Spidchenko</string>
+    <string name="rate_app">Évaluer l\'application</string>
+    <string name="rate_app_summary">Vous aimez l\'application? Vous avez des questions ou des commentaires? Cliquez ici pour noter et/ou évaluer l\'application.</string>
+    <string name="buy_premium">Acheter Premium</string>
+    <string name="premium_summary">Supprimer la limite de travail de 30 minutes</string>
+    <string name="welcome_message">Choisissez un économiseur d\'écran. Vous pouvez également modifier les paramètres.</string>
+    <string name="premium_unlocked_message">Fonction Premium déverrouillée</string>
+    <string name="charged_message">Votre appareil est chargé</string>
+</resources>
