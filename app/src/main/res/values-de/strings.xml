@@ -16,6 +16,6 @@
     <string name="welcome_message">Wählen Sie einen Bildschirmschoner. Sie können auch die Einstellungen ändern.</string>
     <string name="premium_unlocked_message">Funktionen des Premium-Kontos freigeschaltet.</string>
     <string name="charged_message">Ihr Gerät ist vollständig aufgeladen.</string>
-    <string name="app_name">Stars2D Screensaver</string>
+    <string name="app_name">Stars2D-Bildschirmschoner</string>
     <string name="settings">Konfiguration</string>
 </resources>

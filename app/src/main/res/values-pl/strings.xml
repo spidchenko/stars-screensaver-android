@@ -16,6 +16,6 @@
     <string name="welcome_message">Wybierz wygaszacz ekranu. Możesz także zmienić ustawienia.</string>
     <string name="premium_unlocked_message">Funkcja premium odblokowana</string>
     <string name="charged_message">Twoje urządzenie jest naładowane</string>
-    <string name="app_name">Stars2D Screensaver</string>
+    <string name="app_name">Wygaszacz ekranu Stars2D</string>
     <string name="settings">Ustawienia</string>
 </resources>
