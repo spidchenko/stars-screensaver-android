@@ -24,7 +24,7 @@ class BatteryBroadcastReceiver(
 
         val isCharged = status == statusNotCharging || status == statusFull
         if (isCharged) {
-            if (playSound) soundEngine.playPop()
+            if (playSound) soundEngine.playDingDong()
             if (vibrate) vibrateUtil.vibrate(context)
             Toast.makeText(context, context.getString(R.string.charged_message), Toast.LENGTH_SHORT).show()
         }

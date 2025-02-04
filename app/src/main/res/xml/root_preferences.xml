@@ -13,18 +13,20 @@
         app:title="@string/particle_options">
 
         <SeekBarPreference
-            android:defaultValue="50"
+            android:defaultValue="53"
             android:max="100"
             app:icon="@drawable/three_dots_24"
             app:key="number_of_particles"
+            app:min="6"
             app:persistent="true"
             app:title="@string/number_of_particles" />
 
         <SeekBarPreference
-            android:defaultValue="50"
-            android:max="100"
+            android:defaultValue="80"
+            android:max="130"
             app:icon="@drawable/flare_24"
             app:key="size_of_particles"
+            app:min="30"
             app:persistent="true"
             app:title="@string/size_of_particle" />
 
