@@ -16,6 +16,8 @@ private const val MAX_SLIDER_VALUE = 100F
 private const val MIN_Y = -1.0
 private const val MAX_Y = 1.0
 private const val MAX_X = 1.0
+private const val DEFAULT_PARTICLE_SIZE_MODIFIER = 50
+private const val DEFAULT_PARTICLE_COUNT_MODIFIER = 50
 
 class ParticleShooter(
     private val preferences: SharedPreferences,
@@ -24,8 +26,8 @@ class ParticleShooter(
     private val speedVariance: Float
 ) {
 
-    private var particleSizeModifier: Float = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, 1) / 100F
-    private var particleCountModifier: Float = preferences.getInt(PARTICLE_NUMBER_MODIFIER_KEY, 1) / 100F
+    private var particleSizeModifier: Float = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, DEFAULT_PARTICLE_SIZE_MODIFIER) / 100F
+    private var particleCountModifier: Float = preferences.getInt(PARTICLE_NUMBER_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
     private val directionVector = floatArrayOf(direction.x, direction.y, direction.z, 0F)
 
 
