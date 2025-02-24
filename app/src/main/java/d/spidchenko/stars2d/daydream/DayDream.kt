@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleRegistry
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.PreferenceManager
 import d.spidchenko.stars2d.util.*
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -20,6 +21,7 @@ class DayDream : DreamService(), LifecycleOwner {
     private val lifecycleRegistry = LifecycleRegistry(this)
     private val soundEngine by lazy { SoundEngine(this) }
     private val batteryInfoReceiver by lazy { BatteryBroadcastReceiver(soundEngine, VibrateUtil) }
+    private var timerJob: Job? = null
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
@@ -46,7 +48,7 @@ class DayDream : DreamService(), LifecycleOwner {
         Logger.log("onDreamingStarted: Registered batteryInfoReceiver")
         val isPremium = Billing.checkPremium(this)
         if (isPremium.not()) {
-            lifecycleScope.launch { exitAfter30Minutes() }
+            startTimer()
             Logger.log("Screensaver will turn off after 30 minutes")
         } else {
             Logger.log("Screensaver is in premium mode")
@@ -56,6 +58,7 @@ class DayDream : DreamService(), LifecycleOwner {
     override fun onDreamingStopped() {
         super.onDreamingStopped()
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
+        stopTimer()
         Logger.log("onDreamingStopped: ")
     }
 
@@ -64,14 +67,22 @@ class DayDream : DreamService(), LifecycleOwner {
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
         gLView.releaseResources()
         unregisterReceiver(batteryInfoReceiver)
+        stopTimer()
         Logger.log("onDetachedFromWindow: ")
     }
 
-    private suspend fun exitAfter30Minutes() {
-        Logger.log("Coroutine: finish timer started.")
-        delay(TIME_30_MINUTES)
-        Logger.log("Coroutine: dream is about to finish NOW.")
-        finish()
+    private fun startTimer() {
+        timerJob = lifecycleScope.launch {
+            Logger.log("Coroutine: finish timer started.")
+            delay(TIME_30_MINUTES)
+            Logger.log("Coroutine: dream is about to finish NOW.")
+            finish()
+        }
+    }
+
+    private fun stopTimer() {
+        timerJob?.cancel()
+        timerJob = null
     }
 
     override val lifecycle: Lifecycle
