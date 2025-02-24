@@ -13,7 +13,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private const val TIME_30_MINUTES = 3 * 60 * 1000L
+private const val TIME_30_MINUTES = 30 * 60 * 1000L
 
 class DayDream : DreamService(), LifecycleOwner {
 
