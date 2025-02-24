@@ -40,7 +40,7 @@ class DayDream : DreamService(), LifecycleOwner {
         isInteractive = false
         isFullscreen = true
         // TODO Add this to settings:
-        isScreenBright = false
+        isScreenBright = true
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         gLView = DreamSurfaceView(this, preferences)
         setContentView(gLView)
