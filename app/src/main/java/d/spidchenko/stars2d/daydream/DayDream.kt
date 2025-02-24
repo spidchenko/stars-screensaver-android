@@ -18,27 +18,32 @@ class DayDream : DreamService(), LifecycleOwner {
 
     private lateinit var gLView: DreamSurfaceView
     private val lifecycleRegistry = LifecycleRegistry(this)
-    private val soundEngine by lazy {SoundEngine(this)}
-    private val batteryInfoReceiver by lazy {BatteryBroadcastReceiver(soundEngine, VibrateUtil)}
+    private val soundEngine by lazy { SoundEngine(this) }
+    private val batteryInfoReceiver by lazy { BatteryBroadcastReceiver(soundEngine, VibrateUtil) }
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         Logger.log("onAttachedToWindow")
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        lifecycleRegistry.currentState = Lifecycle.State.CREATED
+    }
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
         Logger.log("onDreamingStarted")
         isInteractive = false
         isFullscreen = true
+        // TODO Add this to settings:
         isScreenBright = false
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
         gLView = DreamSurfaceView(this, preferences)
         setContentView(gLView)
         registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
         Logger.log("onDreamingStarted: Registered batteryInfoReceiver")
-        lifecycleRegistry.currentState = Lifecycle.State.STARTED
         val isPremium = Billing.checkPremium(this)
         if (isPremium.not()) {
             lifecycleScope.launch { exitAfter30Minutes() }
@@ -50,6 +55,7 @@ class DayDream : DreamService(), LifecycleOwner {
 
     override fun onDreamingStopped() {
         super.onDreamingStopped()
+        lifecycleRegistry.currentState = Lifecycle.State.STARTED
         gLView.releaseResources()
         unregisterReceiver(batteryInfoReceiver)
         Logger.log("onDreamingStopped: ")
@@ -61,12 +67,13 @@ class DayDream : DreamService(), LifecycleOwner {
         Logger.log("onDetachedFromWindow: ")
     }
 
-    override fun getLifecycle() = lifecycleRegistry
-
     private suspend fun exitAfter30Minutes() {
         Logger.log("Coroutine: finish timer started.")
         delay(TIME_30_MINUTES)
         Logger.log("Coroutine: dream is about to finish NOW.")
         finish()
     }
+
+    override val lifecycle: Lifecycle
+        get() = lifecycleRegistry
 }
