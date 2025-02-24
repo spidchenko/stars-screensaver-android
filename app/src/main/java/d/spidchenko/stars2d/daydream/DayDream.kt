@@ -12,7 +12,7 @@ import d.spidchenko.stars2d.util.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private const val TIME_30_MINUTES = 30 * 60 * 1000L
+private const val TIME_30_MINUTES = 3 * 60 * 1000L
 
 class DayDream : DreamService(), LifecycleOwner {
 
@@ -56,14 +56,14 @@ class DayDream : DreamService(), LifecycleOwner {
     override fun onDreamingStopped() {
         super.onDreamingStopped()
         lifecycleRegistry.currentState = Lifecycle.State.STARTED
-        gLView.releaseResources()
-        unregisterReceiver(batteryInfoReceiver)
         Logger.log("onDreamingStopped: ")
     }
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         lifecycleRegistry.currentState = Lifecycle.State.DESTROYED
+        gLView.releaseResources()
+        unregisterReceiver(batteryInfoReceiver)
         Logger.log("onDetachedFromWindow: ")
     }
 
