@@ -16,6 +16,8 @@ import d.spidchenko.stars2d.R
 import d.spidchenko.stars2d.daydream.DreamSurfaceView
 import d.spidchenko.stars2d.util.Billing
 import d.spidchenko.stars2d.util.Logger
+import d.spidchenko.stars2d.util.SoundEngine
+import d.spidchenko.stars2d.util.VibrateUtil
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -60,11 +62,13 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment(private val gLView: DreamSurfaceView) : PreferenceFragmentCompat(),
         OnSharedPreferenceChangeListener {
         private val billing by lazy { Billing(requireContext()) }
+        private lateinit var soundEngine: SoundEngine
         private var premiumOption: Preference? = null
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             Logger.log("onCreatePreferences")
             billing.init()
+            soundEngine = SoundEngine(requireContext())
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
             premiumOption = findPreference("premium")
@@ -83,6 +87,18 @@ class SettingsActivity : AppCompatActivity() {
             Logger.log("onSharedChanged: isPrem: ${Billing.checkPremium(requireContext())}")
             if (Billing.checkPremium(requireContext())) {
                 premiumOption?.isVisible = false
+            }
+
+            // TODO Move "magic strings" to PreferenceKeys object
+
+            if ((key == "play_sound")&&(sharedPref?.getBoolean("play_sound", false) == true)) {
+                Logger.log("onSharedChanged: pop!")
+                soundEngine.playPop()
+            }
+
+            if ((key == "vibrate")&&(sharedPref?.getBoolean("vibrate", false) == true)) {
+                Logger.log("onSharedChanged: vibrate!")
+                VibrateUtil.vibrate(requireContext())
             }
         }
     }
