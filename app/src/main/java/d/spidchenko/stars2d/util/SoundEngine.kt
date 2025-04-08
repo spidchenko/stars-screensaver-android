@@ -21,11 +21,11 @@ class SoundEngine(context: Context) {
             .build()
 
         val assetManager = context.assets
-        val descriptor = assetManager.openFd("dingdong.ogg")
+        val descriptor = assetManager.openFd("bubble-pop.ogg")
         popId = soundPool.load(descriptor, 0)
     }
 
-    fun playDingDong() = playSoundById(popId)
+    fun playPop() = playSoundById(popId)
 
     private fun playSoundById(soundId: Int) {
         val priority = 0
