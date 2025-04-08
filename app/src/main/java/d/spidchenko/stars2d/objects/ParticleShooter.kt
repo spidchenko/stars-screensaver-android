@@ -8,16 +8,16 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 private const val PARTICLE_SIZE_MODIFIER_KEY = "size_of_particles"
-private const val PARTICLE_NUMBER_MODIFIER_KEY = "number_of_particles"
+private const val PARTICLE_COUNT_MODIFIER_KEY = "number_of_particles"
 private const val PARTICLE_MIN_SIZE = 10
 private const val PARTICLE_MAX_SIZE = 30
 private const val COLOR_COMPONENT_MAX_VALUE = 255
-private const val MAX_SLIDER_VALUE = 100F
 private const val MIN_Y = -1.0
 private const val MAX_Y = 1.0
 private const val MAX_X = 1.0
-private const val DEFAULT_PARTICLE_SIZE_MODIFIER = 50
-private const val DEFAULT_PARTICLE_COUNT_MODIFIER = 50
+// As in default preferences:
+private const val DEFAULT_PARTICLE_COUNT_MODIFIER = 53  // 6-100
+private const val DEFAULT_PARTICLE_SIZE_MODIFIER = 80   // 30-130
 
 class ParticleShooter(
     private val preferences: SharedPreferences,
@@ -27,7 +27,7 @@ class ParticleShooter(
 ) {
 
     private var particleSizeModifier: Float = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, DEFAULT_PARTICLE_SIZE_MODIFIER) / 100F
-    private var particleCountModifier: Float = preferences.getInt(PARTICLE_NUMBER_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
+    private var particleCountModifier: Float = preferences.getInt(PARTICLE_COUNT_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
     private val directionVector = floatArrayOf(direction.x, direction.y, direction.z, 0F)
 
 
@@ -62,8 +62,8 @@ class ParticleShooter(
     }
 
     fun reloadPreferences() {
-        particleSizeModifier = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, 1) / MAX_SLIDER_VALUE
-        particleCountModifier = preferences.getInt(PARTICLE_NUMBER_MODIFIER_KEY, 1) / MAX_SLIDER_VALUE
+        particleSizeModifier = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, DEFAULT_PARTICLE_SIZE_MODIFIER) / 100F
+        particleCountModifier = preferences.getInt(PARTICLE_COUNT_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
     }
 
     private fun getRandomColor() = Color.rgb(
