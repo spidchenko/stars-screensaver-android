@@ -14,6 +14,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 private const val TIME_30_MINUTES = 30 * 60 * 1000L
+private const val KEEP_SCREEN_BRIGHT_KEY = "is_screen_bright"
+private const val DEFAULT_KEEP_SCREEN_BRIGHT = true
 
 class DayDream : DreamService(), LifecycleOwner {
 
@@ -39,9 +41,8 @@ class DayDream : DreamService(), LifecycleOwner {
         Logger.log("onDreamingStarted")
         isInteractive = false
         isFullscreen = true
-        // TODO Add this to settings:
-        isScreenBright = true
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        isScreenBright = preferences.getBoolean(KEEP_SCREEN_BRIGHT_KEY, DEFAULT_KEEP_SCREEN_BRIGHT)
         gLView = DreamSurfaceView(this, preferences)
         setContentView(gLView)
         registerReceiver(batteryInfoReceiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))

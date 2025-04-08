@@ -16,6 +16,6 @@
     <string name="welcome_message">Escolha um protetor de tela. Você também pode alterar as configurações.</string>
     <string name="premium_unlocked_message">Recurso Premium desbloqueado</string>
     <string name="charged_message">Seu dispositivo está carregado</string>
-    <string name="app_name">Protetor de Tela Stars2D</string>
     <string name="settings">Configurações</string>
+    <string name="is_screen_bright">Manter a tela brilhante durante o modo de sonho</string>
 </resources>

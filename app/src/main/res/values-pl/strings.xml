@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="preview">Zapowiedź</string>
+    <string name="preview">Podgląd</string>
     <string name="particle_options">Opcje cząstek</string>
     <string name="about">O aplikacji</string>
     <string name="charged_action">Działania, gdy urządzenie jest w pełni naładowane</string>
@@ -16,6 +16,6 @@
     <string name="welcome_message">Wybierz wygaszacz ekranu. Możesz także zmienić ustawienia.</string>
     <string name="premium_unlocked_message">Funkcja premium odblokowana</string>
     <string name="charged_message">Twoje urządzenie jest naładowane</string>
-    <string name="app_name">Wygaszacz ekranu Stars2D</string>
     <string name="settings">Ustawienia</string>
+    <string name="is_screen_bright">Utrzymuj jasny ekran w trybie snu</string>
 </resources>

@@ -16,6 +16,6 @@
     <string name="welcome_message">Виберіть заставку. Також можна змінити налаштування.</string>
     <string name="premium_unlocked_message">Преміум функцію розблоковано</string>
     <string name="charged_message">Ваш пристрій заряджено</string>
-    <string name="app_name">Заставка Stars2D</string>
     <string name="settings">Налаштування</string>
+    <string name="is_screen_bright">Залишати екран яскравим у режимі сну</string>
 </resources>

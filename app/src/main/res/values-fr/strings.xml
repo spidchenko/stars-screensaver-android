@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Économiseur d\'écran Stars2D</string>
     <string name="settings">Paramètres</string>
     <string name="preview">Prévisualisation</string>
     <string name="particle_options">Options de particules</string>
@@ -18,4 +17,5 @@
     <string name="welcome_message">Choisissez un économiseur d\'écran. Vous pouvez également modifier les paramètres.</string>
     <string name="premium_unlocked_message">Fonction Premium déverrouillée</string>
     <string name="charged_message">Votre appareil est chargé</string>
+    <string name="is_screen_bright">Garder l\'écran lumineux pendant le mode rêve</string>
 </resources>

@@ -30,6 +30,12 @@
             app:persistent="true"
             app:title="@string/size_of_particle" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            app:icon="@drawable/brightness_24"
+            app:key="is_screen_bright"
+            app:title="@string/is_screen_bright" />
+
     </PreferenceCategory>
     <PreferenceCategory
         app:key="charging_category"

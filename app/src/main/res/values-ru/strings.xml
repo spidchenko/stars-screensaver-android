@@ -11,11 +11,11 @@
     <string name="author_name">автор Дмитрий Спидченко</string>
     <string name="rate_app">Оцените приложение</string>
     <string name="rate_app_summary">Нравится приложение? Есть вопросы или отзывы? Нажмите здесь, чтобы оценить и/или оставить отзыв о приложении.</string>
-    <string name="app_name">Звезды2D Заставка</string>
     <string name="settings">Настройки</string>
     <string name="buy_premium">Купить Премиум</string>
     <string name="premium_summary">Убрать 30-минутный лимит работы</string>
     <string name="welcome_message">Выберите заставку. Вы также можете изменить настройки.</string>
     <string name="premium_unlocked_message">Премиум-функция разблокирована</string>
     <string name="charged_message">Ваше устройство заряжено</string>
+    <string name="is_screen_bright">Сохранять яркость экрана в спящем режиме</string>
 </resources>

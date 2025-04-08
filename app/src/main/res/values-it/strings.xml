@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Salvaschermo Stars2D</string>
     <string name="settings">Impostazioni</string>
     <string name="preview">Anteprima</string>
     <string name="particle_options">Opzioni di particelle</string>
@@ -18,4 +17,5 @@
     <string name="welcome_message">Scegli un salvaschermo. Puoi anche modificare le impostazioni.</string>
     <string name="premium_unlocked_message">Funzionalità premium sbloccata</string>
     <string name="charged_message">Il tuo dispositivo è carico</string>
+    <string name="is_screen_bright">Mantieni lo schermo luminoso durante la modalità sogno</string>
 </resources>

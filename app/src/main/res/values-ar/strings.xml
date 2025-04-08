@@ -16,6 +16,6 @@
     <string name="welcome_message">اختر خلفية سطح المكتب. يمكنك أيضًا تغيير الإعدادات.</string>
     <string name="premium_unlocked_message">تم فتح ميزة الإصدار الممتاز</string>
     <string name="charged_message">تم تشغيل جهازك</string>
-    <string name="app_name">Stars2D شاشة التوقف</string>
     <string name="settings">الإعدادات</string>
+    <string name="is_screen_bright">"حافظ على سطوع الشاشة أثناء الحلم "</string>
 </resources>
