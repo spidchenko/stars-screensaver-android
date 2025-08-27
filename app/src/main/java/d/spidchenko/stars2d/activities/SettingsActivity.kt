@@ -1,5 +1,6 @@
 package d.spidchenko.stars2d.activities
 
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -7,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.Preference
@@ -37,33 +39,58 @@ class SettingsActivity : AppCompatActivity() {
                 startActivity(Intent(this, PreviewActivity::class.java))
                 true
             }
+
             android.R.id.home -> {
                 finish()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.settings_activity)
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
         gLView = DreamSurfaceView(this, preferences)
-        settingsFragment = SettingsFragment(gLView)
+        setContentView(R.layout.settings_activity)
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.settings, settingsFragment)
+            settingsFragment = SettingsFragment()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.settings, settingsFragment)
                 .commit()
+        } else {
+            settingsFragment = supportFragmentManager.findFragmentById(R.id.settings) as SettingsFragment
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         findViewById<LinearLayout>(R.id.dream_preview).addView(gLView)
     }
 
-    class SettingsFragment(private val gLView: DreamSurfaceView) : PreferenceFragmentCompat(),
+    class SettingsFragment : PreferenceFragmentCompat(),
         OnSharedPreferenceChangeListener {
         private val billing by lazy { Billing(requireContext()) }
         private lateinit var soundEngine: SoundEngine
         private var premiumOption: Preference? = null
+        private var gLView: DreamSurfaceView? = null
+
+        override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+            super.onViewCreated(view, savedInstanceState)
+            if (activity is SettingsActivity) {
+                this.gLView = (activity as SettingsActivity).gLView
+            } else {
+                throw RuntimeException("Fragment not attached to SettingsActivity")
+            }
+
+            // Now you can use gLViewFromActivity
+            if (gLView == null) {
+                Logger.log("SettingsFragment: gLView is null in onViewCreated!")
+            }
+        }
+
+        override fun onDetach() {
+            super.onDetach()
+            gLView = null // Clear the reference to avoid memory leaks
+        }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             Logger.log("onCreatePreferences")
@@ -80,10 +107,13 @@ class SettingsActivity : AppCompatActivity() {
             if (Billing.checkPremium(requireContext())) {
                 premiumOption?.isVisible = false
             }
+            if (gLView == null) {
+                Logger.log("SettingsFragment: gLView is null in onCreatePreferences!")
+            }
         }
 
         override fun onSharedPreferenceChanged(sharedPref: SharedPreferences?, key: String?) {
-            gLView.reloadPreferences()
+            gLView?.reloadPreferences()
             Logger.log("onSharedChanged: isPrem: ${Billing.checkPremium(requireContext())}")
             if (Billing.checkPremium(requireContext())) {
                 premiumOption?.isVisible = false
@@ -91,12 +121,12 @@ class SettingsActivity : AppCompatActivity() {
 
             // TODO Move "magic strings" to PreferenceKeys object
 
-            if ((key == "play_sound")&&(sharedPref?.getBoolean("play_sound", false) == true)) {
+            if ((key == "play_sound") && (sharedPref?.getBoolean("play_sound", false) == true)) {
                 Logger.log("onSharedChanged: pop!")
                 soundEngine.playPop()
             }
 
-            if ((key == "vibrate")&&(sharedPref?.getBoolean("vibrate", false) == true)) {
+            if ((key == "vibrate") && (sharedPref?.getBoolean("vibrate", false) == true)) {
                 Logger.log("onSharedChanged: vibrate!")
                 VibrateUtil.vibrate(requireContext())
             }
