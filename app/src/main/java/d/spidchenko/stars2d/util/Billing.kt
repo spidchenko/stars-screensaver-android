@@ -7,6 +7,7 @@ import androidx.preference.PreferenceManager
 import com.android.billingclient.api.*
 import d.spidchenko.stars2d.R
 import kotlinx.coroutines.*
+import androidx.core.content.edit
 
 
 private const val PREMIUM_ID = "d.spidchenko.stars2d.inapp.premium"
@@ -152,9 +153,9 @@ class Billing(val context: Context) {
             Logger.log("Premium feature has been unlocked earlier")
         } else {
             Logger.log("unlockPremium: saving token to shared pref")
-            prefManager.edit()
-                .putString(KEY_PREMIUM_TOKEN, purchaseToken)
-                .apply()
+            prefManager.edit {
+                putString(KEY_PREMIUM_TOKEN, purchaseToken)
+            }
 
             Toast.makeText(
                 context,
