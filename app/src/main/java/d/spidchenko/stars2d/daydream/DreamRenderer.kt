@@ -2,17 +2,25 @@ package d.spidchenko.stars2d.daydream
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.opengl.GLES20.*
+import android.opengl.GLES20.GL_BLEND
+import android.opengl.GLES20.GL_COLOR_BUFFER_BIT
+import android.opengl.GLES20.GL_ONE
+import android.opengl.GLES20.glBlendFunc
+import android.opengl.GLES20.glClear
+import android.opengl.GLES20.glClearColor
+import android.opengl.GLES20.glDeleteTextures
+import android.opengl.GLES20.glEnable
+import android.opengl.GLES20.glViewport
 import android.opengl.GLSurfaceView
 import android.opengl.Matrix.orthoM
 import android.os.SystemClock
 import d.spidchenko.stars2d.R
+import d.spidchenko.stars2d.objects.MovementDirection
 import d.spidchenko.stars2d.objects.ParticleShooter
 import d.spidchenko.stars2d.objects.ParticleSystem
 import d.spidchenko.stars2d.programs.ParticleShaderProgram
 import d.spidchenko.stars2d.util.Logger
 import d.spidchenko.stars2d.util.TextureHelper
-import d.spidchenko.stars2d.util.Vector
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
 
@@ -45,12 +53,11 @@ class DreamRenderer(
         particleSystem = ParticleSystem(MAX_PARTICLE_COUNT)
         globalStartTime = SystemClock.elapsedRealtimeNanos()
 
-        val particleDirection = Vector(-0.5F, 0F, 0F)
         val speedVariance = 10F
 
         particleShooter = ParticleShooter(
             preferences,
-            particleDirection,
+            MovementDirection.BOTTOM_TO_UP,
             1F,
             speedVariance
         )
