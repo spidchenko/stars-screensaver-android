@@ -30,7 +30,7 @@ class ParticleShooter(
     private val speedVariance: Float
 ) {
 
-    private val isLandscape = aspectRatio > 1f
+    private val isLandscape get() = (aspectRatio > 1f)
     private var particleSizeModifier: Float = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, DEFAULT_PARTICLE_SIZE_MODIFIER) / 100F
     private var particleCountModifier: Float = preferences.getInt(PARTICLE_COUNT_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
 
