@@ -5,6 +5,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.android.billingclient.api.*
+import com.android.billingclient.api.PendingPurchasesParams
 import d.spidchenko.stars2d.R
 import kotlinx.coroutines.*
 import androidx.core.content.edit
@@ -26,7 +27,8 @@ class Billing(val context: Context) {
 
     private var billingClient = BillingClient.newBuilder(context)
         .setListener(purchasesUpdatedListener)
-        .enablePendingPurchases()
+        .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+        .enableAutoServiceReconnection()
         .build()
 
 
@@ -35,7 +37,7 @@ class Billing(val context: Context) {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
                     Logger.log("onBillingSetupFinished: BillingResponseCode.OK")
-                    MainScope().launch {
+                    mainCoroutineScope.launch {
                         premiumProduct = queryPremiumProductDetails()
                         querySuccessfulPurchases()
                     }
