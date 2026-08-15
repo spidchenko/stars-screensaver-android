@@ -3,9 +3,9 @@
     <string name="preview">Перегляд</string>
     <string name="particle_options">Параметри частинок</string>
     <string name="about">Про додаток</string>
-    <string name="charged_action">Дії при повній зарядці пристрою</string>
+    <string name="charged_action">Дія при повній зарядці</string>
     <string name="number_of_particles">Кількість частинок</string>
-    <string name="size_of_particle">Розмір частки</string>
+    <string name="size_of_particle">Розмір частинок</string>
 
     <string name="movement_direction_title">Напрямок руху</string>
     <string name="movement_direction_left_to_right">Зліва направо</string>
@@ -23,5 +23,5 @@
     <string name="premium_unlocked_message">Преміум функцію розблоковано</string>
     <string name="charged_message">Ваш пристрій заряджено</string>
     <string name="settings">Налаштування</string>
-    <string name="is_screen_bright">Залишати екран яскравим у режимі сну</string>
+    <string name="is_screen_bright">Не гасити екран під час роботи заставки</string>
 </resources>

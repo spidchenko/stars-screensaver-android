@@ -3,9 +3,9 @@
     <string name="preview">Vista previa</string>
     <string name="particle_options">Opciones de partículas</string>
     <string name="about">Acerca de la aplicación</string>
-    <string name="charged_action">Acción cuando el dispositivo está completamente cargado</string>
+    <string name="charged_action">Acción al completar la carga</string>
     <string name="number_of_particles">Número de partículas</string>
-    <string name="size_of_particle">El tamaño de la partícula</string>
+    <string name="size_of_particle">Tamaño de la partícula</string>
 
     <string name="movement_direction_title">Dirección del movimiento</string>
     <string name="movement_direction_left_to_right">De izquierda a derecha</string>
@@ -23,5 +23,5 @@
     <string name="premium_unlocked_message">Función Premium Desbloqueada</string>
     <string name="charged_message">Su dispositivo está cargado</string>
     <string name="settings">Configuración</string>
-    <string name="is_screen_bright">Mantener lapantalla brillante durante el modo de sueño</string>
+    <string name="is_screen_bright">Mantener la pantalla brillante durante el salvapantallas</string>
 </resources>

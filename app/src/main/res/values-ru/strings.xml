@@ -3,9 +3,9 @@
     <string name="preview">Просмотр</string>
     <string name="particle_options">Параметры частиц</string>
     <string name="about">О приложении</string>
-    <string name="charged_action">Действия при полной зарядке устройства</string>
+    <string name="charged_action">Действие при полной зарядке</string>
     <string name="number_of_particles">Количество частиц</string>
-    <string name="size_of_particle">Размер частицы</string>
+    <string name="size_of_particle">Размер частиц</string>
 
     <string name="movement_direction_title">Направление движения</string>
     <string name="movement_direction_left_to_right">Слева направо</string>
@@ -23,5 +23,5 @@
     <string name="welcome_message">Выберите заставку. Вы также можете изменить настройки.</string>
     <string name="premium_unlocked_message">Премиум-функция разблокирована</string>
     <string name="charged_message">Ваше устройство заряжено</string>
-    <string name="is_screen_bright">Сохранять яркость экрана в спящем режиме</string>
+    <string name="is_screen_bright">Не гасить экран во время работы заставки</string>
 </resources>

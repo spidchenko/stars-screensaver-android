@@ -6,11 +6,11 @@
     <!-- Preference Titles -->
     <string name="particle_options">Particle options</string>
     <string name="about">About</string>
-    <string name="charged_action">Action when the device is fully charged</string>
+    <string name="charged_action">Full charge action</string>
 
     <!-- Particle Preferences -->
     <string name="number_of_particles">Number of particles</string>
-    <string name="size_of_particle">The size of the particle</string>
+    <string name="size_of_particle">Particle size</string>
 
     <string name="movement_direction_title">Movement direction</string>
     <string name="movement_direction_left_to_right">Left to Right</string>
@@ -37,7 +37,7 @@
     <string name="premium_unlocked_message">Premium Feature Unlocked</string>
     <string name="charged_message">Your device is charged</string>
 
-    <string name="is_screen_bright">Keep the screen bright while dreaming</string>
+    <string name="is_screen_bright">Keep screen bright during screensaver</string>
 
 
 </resources>
