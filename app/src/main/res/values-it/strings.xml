@@ -7,6 +7,12 @@
     <string name="charged_action">Azione quando il dispositivo è completamente carico</string>
     <string name="number_of_particles">Numero di particelle</string>
     <string name="size_of_particle">La dimensione della particella</string>
+
+    <string name="movement_direction_title">Direzione del movimento</string>
+    <string name="movement_direction_left_to_right">Da sinistra a destra</string>
+    <string name="movement_direction_right_to_left">Da destra a sinistra</string>
+    <string name="movement_direction_top_to_bottom">Dall\'alto verso il basso</string>
+    <string name="movement_direction_bottom_to_up">Dal basso verso l\'alto</string>
     <string name="play">Riproduci suono</string>
     <string name="vibrate">Vibrare</string>
     <string name="author_name">di Dmytro Spidchenko</string>

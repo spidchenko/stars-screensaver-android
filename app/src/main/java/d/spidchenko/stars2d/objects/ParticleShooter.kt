@@ -5,7 +5,6 @@ import android.graphics.Color
 import d.spidchenko.stars2d.util.Point
 import d.spidchenko.stars2d.util.Vector
 import kotlin.random.Random
-import kotlin.random.nextInt
 
 enum class MovementDirection {
     LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_UP

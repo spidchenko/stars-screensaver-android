@@ -6,6 +6,12 @@
     <string name="charged_action">Действия при полной зарядке устройства</string>
     <string name="number_of_particles">Количество частиц</string>
     <string name="size_of_particle">Размер частицы</string>
+
+    <string name="movement_direction_title">Направление движения</string>
+    <string name="movement_direction_left_to_right">Слева направо</string>
+    <string name="movement_direction_right_to_left">Справа налево</string>
+    <string name="movement_direction_top_to_bottom">Сверху вниз</string>
+    <string name="movement_direction_bottom_to_up">Снизу вверх</string>
     <string name="play">Воспроизвести звук</string>
     <string name="vibrate">Вибрировать</string>
     <string name="author_name">автор Дмитрий Спидченко</string>

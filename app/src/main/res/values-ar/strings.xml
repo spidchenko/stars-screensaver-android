@@ -6,6 +6,12 @@
     <string name="charged_action">الإجراء عند تحميل الجهاز بالكامل</string>
     <string name="number_of_particles">عدد الجسيمات</string>
     <string name="size_of_particle">حجم الجسيمة</string>
+
+    <string name="movement_direction_title">اتجاه الحركة</string>
+    <string name="movement_direction_left_to_right">من اليسار إلى اليمين</string>
+    <string name="movement_direction_right_to_left">من اليمين إلى اليسار</string>
+    <string name="movement_direction_top_to_bottom">من الأعلى إلى الأسفل</string>
+    <string name="movement_direction_bottom_to_up">من الأسفل إلى الأعلى</string>
     <string name="play">تشغيل الصوت</string>
     <string name="vibrate">اهتزاز</string>
     <string name="author_name">بواسطة دميترو سبيدشنكو</string>
