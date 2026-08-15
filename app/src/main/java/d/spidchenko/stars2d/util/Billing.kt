@@ -15,7 +15,7 @@ private const val PREMIUM_ID = "d.spidchenko.stars2d.inapp.premium"
 private const val KEY_PREMIUM_TOKEN = "purchaseToken"
 
 class Billing(val context: Context) {
-    private val mainCoroutineScope = CoroutineScope(Dispatchers.Main.immediate)
+    private val mainCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var premiumProduct: ProductDetails? = null
 
     private val purchasesUpdatedListener =
@@ -25,9 +25,14 @@ class Billing(val context: Context) {
             }
         }
 
-    private var billingClient = BillingClient.newBuilder(context)
+    private val billingClient = BillingClient.newBuilder(context.applicationContext)
         .setListener(purchasesUpdatedListener)
-        .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
+        .enablePendingPurchases(
+            PendingPurchasesParams.newBuilder()
+                .enableOneTimeProducts()
+                .enablePrepaidPlans()
+                .build()
+        )
         .enableAutoServiceReconnection()
         .build()
 
