@@ -15,7 +15,6 @@ import android.opengl.GLSurfaceView
 import android.opengl.Matrix.orthoM
 import android.os.SystemClock
 import d.spidchenko.stars2d.R
-import d.spidchenko.stars2d.objects.MovementDirection
 import d.spidchenko.stars2d.objects.ParticleShooter
 import d.spidchenko.stars2d.objects.ParticleSystem
 import d.spidchenko.stars2d.programs.ParticleShaderProgram
@@ -57,7 +56,6 @@ class DreamRenderer(
 
         particleShooter = ParticleShooter(
             preferences,
-            MovementDirection.BOTTOM_TO_UP,
             1F,
             speedVariance
         )
@@ -78,7 +76,7 @@ class DreamRenderer(
             orthoM(viewProjectionMatrix, 0, -aspectRatio, aspectRatio, -1f, 1f, -1f, 1f)
         } else {
             // Portrait or square
-            orthoM(viewProjectionMatrix, 0, -1f, 1f, -aspectRatio, aspectRatio, -1f, 1f)
+            orthoM(viewProjectionMatrix, 0, -1f, 1f, -1f / aspectRatio, 1f / aspectRatio, -1f, 1f)
         }
     }
 

@@ -13,19 +13,19 @@ enum class MovementDirection {
 
 private const val PARTICLE_SIZE_MODIFIER_KEY = "size_of_particles"
 private const val PARTICLE_COUNT_MODIFIER_KEY = "number_of_particles"
+private const val MOVEMENT_DIRECTION_KEY = "movement_direction"
 private const val PARTICLE_MIN_SIZE = 10
 private const val PARTICLE_MAX_SIZE = 30
 private const val COLOR_COMPONENT_MAX_VALUE = 255
-private const val MIN_Y = -1.0
-private const val MAX_Y = 1.0
-private const val MAX_X = 1.0
+private const val COLOR_MIN = COLOR_COMPONENT_MAX_VALUE / 2
+
 // As in default preferences:
 private const val DEFAULT_PARTICLE_COUNT_MODIFIER = 53  // 6-100
 private const val DEFAULT_PARTICLE_SIZE_MODIFIER = 80   // 30-130
+private val DEFAULT_MOVEMENT_DIRECTION = MovementDirection.RIGHT_TO_LEFT
 
 class ParticleShooter(
     private val preferences: SharedPreferences,
-    private val movementDirection: MovementDirection,
     var aspectRatio: Float,
     private val speedVariance: Float
 ) {
@@ -33,72 +33,84 @@ class ParticleShooter(
     private val isLandscape get() = (aspectRatio > 1f)
     private var particleSizeModifier: Float = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, DEFAULT_PARTICLE_SIZE_MODIFIER) / 100F
     private var particleCountModifier: Float = preferences.getInt(PARTICLE_COUNT_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
+    private var movementDirection: MovementDirection = DEFAULT_MOVEMENT_DIRECTION
 
     // Reusable vector object used to store the direction
     private var thisDirection = Vector(0f,0f,0f)
     // Reusable point object used to store start position
     private var startPosition = Point(0f,0f,0f)
 
+    init { loadPreferences() }
 
     fun addParticles(particleSystem: ParticleSystem, currentTime: Float) {
+        if (Random.nextFloat() >= particleCountModifier) return
 
-        val speedAdjustment = 1F + Random.nextFloat() * speedVariance
+        val speedAdjustment = 1f + Random.nextFloat() * speedVariance
+        val boundsX = if (isLandscape) aspectRatio else 1f
+        val boundsY = if (isLandscape) 1f else 1f / aspectRatio
 
-        // Calculate a scaling factor to normalize speed across different aspect ratios
-        val horizontalSpeed = if (isLandscape) 0.5f * aspectRatio else 0.5f
-        val verticalSpeed = if (isLandscape) 0.5f else 0.5f * aspectRatio / 2f // DONE
+        val hSpeed = 0.4f * speedAdjustment
+        val vSpeed = 0.4f * speedAdjustment
 
-        thisDirection = when (movementDirection) {
-            MovementDirection.LEFT_TO_RIGHT -> Vector(horizontalSpeed * speedAdjustment, 0f, 0f)
-            MovementDirection.RIGHT_TO_LEFT -> Vector(-horizontalSpeed * speedAdjustment, 0f, 0f)
-            MovementDirection.TOP_TO_BOTTOM -> Vector(0f, -verticalSpeed * speedAdjustment, 0f)
-            MovementDirection.BOTTOM_TO_UP -> Vector(0f, verticalSpeed * speedAdjustment, 0f)
-        }
+        val startX: Float
+        val startY: Float
+        val dirX: Float
+        val dirY: Float
 
         when (movementDirection) {
             MovementDirection.LEFT_TO_RIGHT -> {
-                val boundsY = if (isLandscape) 1f else aspectRatio
-                val randomY = Random.nextDouble(-boundsY.toDouble(), boundsY.toDouble()).toFloat()
-                val startX = if (isLandscape) -aspectRatio else -1f
-                startPosition = Point(startX, randomY, 0f)
+                startX = -boundsX
+                startY = Random.nextFloat(-boundsY, boundsY)
+                dirX = hSpeed
+                dirY = 0f
             }
             MovementDirection.RIGHT_TO_LEFT -> {
-                val boundsY = if (isLandscape) 1f else aspectRatio
-                val randomY = Random.nextDouble(-boundsY.toDouble(), boundsY.toDouble()).toFloat()
-                val startX = if (isLandscape) aspectRatio else 1f
-                startPosition = Point(startX, randomY, 0f)
+                startX = boundsX
+                startY = Random.nextFloat(-boundsY, boundsY)
+                dirX = -hSpeed
+                dirY = 0f
             }
             MovementDirection.TOP_TO_BOTTOM -> {
-                val boundsX = if (isLandscape) aspectRatio else 1f
-                val randomX = Random.nextDouble(-boundsX.toDouble(), boundsX.toDouble()).toFloat()
-                val startY = if (isLandscape) 1f else aspectRatio
-                startPosition = Point(randomX, startY, 0f)
+                startX = Random.nextFloat(-boundsX, boundsX)
+                startY = boundsY
+                dirX = 0f
+                dirY = -vSpeed
             }
             MovementDirection.BOTTOM_TO_UP -> {
-                val boundsX = if (isLandscape) aspectRatio else 1f
-                val randomX = Random.nextDouble(-boundsX.toDouble(), boundsX.toDouble()).toFloat()
-                val startY = if (isLandscape) -1f else -aspectRatio
-                startPosition = Point(randomX, startY, 0f)
+                startX = Random.nextFloat(-boundsX, boundsX)
+                startY = -boundsY
+                dirX = 0f
+                dirY = vSpeed
             }
         }
 
-        val color = getRandomColor()
-        val randomSize =
-            Random.nextInt(PARTICLE_MIN_SIZE..PARTICLE_MAX_SIZE).toFloat() * particleSizeModifier
+        thisDirection = Vector(dirX, dirY, 0f)
+        startPosition = Point(startX, startY, 0f)
 
-        if (Random.nextFloat() < particleCountModifier) {
-            particleSystem.addParticle(startPosition, color, thisDirection, currentTime, randomSize)
-        }
+        val size = Random.nextInt(PARTICLE_MIN_SIZE, PARTICLE_MAX_SIZE + 1).toFloat() * particleSizeModifier
+        particleSystem.addParticle(startPosition, getRandomColor(), thisDirection, currentTime, size)
     }
 
-    fun reloadPreferences() {
+    fun reloadPreferences() = loadPreferences()
+
+    private fun loadPreferences() {
         particleSizeModifier = preferences.getInt(PARTICLE_SIZE_MODIFIER_KEY, DEFAULT_PARTICLE_SIZE_MODIFIER) / 100F
         particleCountModifier = preferences.getInt(PARTICLE_COUNT_MODIFIER_KEY, DEFAULT_PARTICLE_COUNT_MODIFIER) / 100F
+        val directionString = preferences.getString(MOVEMENT_DIRECTION_KEY, DEFAULT_MOVEMENT_DIRECTION.name)
+        movementDirection = try {
+            MovementDirection.valueOf(directionString!!)
+        } catch (e: Exception) {
+            DEFAULT_MOVEMENT_DIRECTION
+        }
     }
 
     private fun getRandomColor() = Color.rgb(
-        Random.nextInt(COLOR_COMPONENT_MAX_VALUE / 2..COLOR_COMPONENT_MAX_VALUE),
-        Random.nextInt(COLOR_COMPONENT_MAX_VALUE / 2..COLOR_COMPONENT_MAX_VALUE),
-        Random.nextInt(COLOR_COMPONENT_MAX_VALUE / 2..COLOR_COMPONENT_MAX_VALUE)
+        Random.nextInt(COLOR_MIN, COLOR_COMPONENT_MAX_VALUE),
+        Random.nextInt(COLOR_MIN, COLOR_COMPONENT_MAX_VALUE),
+        Random.nextInt(COLOR_MIN, COLOR_COMPONENT_MAX_VALUE)
     )
+
+    private fun Random.nextFloat(from: Float, until: Float): Float {
+        return from + nextFloat() * (until - from)
+    }
 }

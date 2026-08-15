@@ -30,6 +30,15 @@
             app:persistent="true"
             app:title="@string/size_of_particle" />
 
+        <ListPreference
+            android:defaultValue="RIGHT_TO_LEFT"
+            android:entries="@array/movement_direction_entries"
+            android:entryValues="@array/movement_direction_values"
+            app:icon="@drawable/direction_24"
+            app:key="movement_direction"
+            app:title="@string/movement_direction_title"
+            app:useSimpleSummaryProvider="true" />
+
         <SwitchPreference
             android:defaultValue="true"
             app:icon="@drawable/brightness_24"

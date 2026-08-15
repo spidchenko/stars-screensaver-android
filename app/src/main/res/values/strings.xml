@@ -12,6 +12,12 @@
     <string name="number_of_particles">Number of particles</string>
     <string name="size_of_particle">The size of the particle</string>
 
+    <string name="movement_direction_title">Movement direction</string>
+    <string name="movement_direction_left_to_right">Left to Right</string>
+    <string name="movement_direction_right_to_left">Right to Left</string>
+    <string name="movement_direction_top_to_bottom">Top to Bottom</string>
+    <string name="movement_direction_bottom_to_up">Bottom to Top</string>
+
     <!-- Charged Preferences -->
     <string name="play">Play sound</string>
     <string name="vibrate">Vibrate</string>

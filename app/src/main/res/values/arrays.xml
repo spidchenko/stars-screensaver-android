@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="movement_direction_entries">
+        <item>@string/movement_direction_left_to_right</item>
+        <item>@string/movement_direction_right_to_left</item>
+        <item>@string/movement_direction_top_to_bottom</item>
+        <item>@string/movement_direction_bottom_to_up</item>
+    </string-array>
+
+    <string-array name="movement_direction_values">
+        <item>LEFT_TO_RIGHT</item>
+        <item>RIGHT_TO_LEFT</item>
+        <item>TOP_TO_BOTTOM</item>
+        <item>BOTTOM_TO_UP</item>
+    </string-array>
+</resources>
