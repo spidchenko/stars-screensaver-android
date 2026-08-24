@@ -13,15 +13,15 @@ import d.spidchenko.stars2d.util.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.minutes
 
-private const val TIME_30_MINUTES = 30 * 60 * 1000L
+private val TIME_30_MINUTES = 30.minutes
 private const val KEEP_SCREEN_BRIGHT_KEY = "is_screen_bright"
 private const val DEFAULT_KEEP_SCREEN_BRIGHT = true
 
 class DayDream : DreamService(), LifecycleOwner {
 
     private var gLView: DreamSurfaceView? = null
-    private val lifecycleRegistry = LifecycleRegistry(this)
     private var soundEngine: SoundEngine? = null
     private var batteryInfoReceiver: BatteryBroadcastReceiver? = null
     private var timerJob: Job? = null
@@ -33,7 +33,7 @@ class DayDream : DreamService(), LifecycleOwner {
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         Logger.log("onAttachedToWindow")
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
     }
 
     override fun onCreate() {
@@ -45,7 +45,7 @@ class DayDream : DreamService(), LifecycleOwner {
 
     override fun onDreamingStarted() {
         super.onDreamingStarted()
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START)
         Logger.log("onDreamingStarted")
 
         try {
@@ -82,7 +82,7 @@ class DayDream : DreamService(), LifecycleOwner {
     override fun onDreamingStopped() {
         super.onDreamingStopped()
         Logger.log("onDreamingStopped")
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
 
         // Clean up resources when dreaming stops
         stopTimer()
@@ -96,7 +96,7 @@ class DayDream : DreamService(), LifecycleOwner {
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         Logger.log("onDetachedFromWindow")
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        lifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY)
 
         // Final cleanup - ensure everything is properly released
         cleanup()
@@ -167,9 +167,12 @@ class DayDream : DreamService(), LifecycleOwner {
     }
 
     private fun stopTimer() {
-        timerJob?.cancel()
-        timerJob = null
-        Logger.log("Timer stopped")
+        val job = timerJob
+        if (job != null) {
+            timerJob = null
+            job.cancel()
+            Logger.log("Timer stopped")
+        }
     }
 
     private fun cleanup() {
@@ -185,5 +188,5 @@ class DayDream : DreamService(), LifecycleOwner {
     }
 
     override val lifecycle: Lifecycle
-        get() = lifecycleRegistry
+        field = LifecycleRegistry(this)
 }
