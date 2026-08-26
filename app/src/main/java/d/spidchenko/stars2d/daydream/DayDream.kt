@@ -108,8 +108,6 @@ class DayDream : DreamService(), LifecycleOwner {
 
         // Final safety cleanup
         cleanup()
-        soundEngine = null
-        batteryInfoReceiver = null
     }
 
     private fun registerBatteryReceiver() {
@@ -181,10 +179,15 @@ class DayDream : DreamService(), LifecycleOwner {
 
         // Unregister receiver if needed
         unregisterBatteryReceiver()
+        batteryInfoReceiver = null
 
         // Release GL resources
         gLView?.releaseResources()
         gLView = null
+
+        // Free native resources
+        soundEngine?.release()
+        soundEngine = null
     }
 
     override val lifecycle: Lifecycle
