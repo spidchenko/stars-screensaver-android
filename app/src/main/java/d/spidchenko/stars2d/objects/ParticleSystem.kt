@@ -61,44 +61,46 @@ class ParticleSystem(
     fun bindData(particleProgram: ParticleShaderProgram) {
         var dataOffset = 0
         vertexArray.setVertexAttribPointer(
-            dataOffset,
-            particleProgram.aPositionLocation,
-            POSITION_COMPONENT_COUNT,
-            STRIDE
+            offsetInFloats = dataOffset,
+            attributeLocation = particleProgram.aPositionLocation,
+            componentCount = POSITION_COMPONENT_COUNT,
+            strideInBytes = STRIDE
         )
         dataOffset += POSITION_COMPONENT_COUNT
 
         vertexArray.setVertexAttribPointer(
-            dataOffset,
-            particleProgram.aColorLocation,
-            COLOR_COMPONENT_COUNT,
-            STRIDE
+            offsetInFloats = dataOffset,
+            attributeLocation = particleProgram.aColorLocation,
+            componentCount = COLOR_COMPONENT_COUNT,
+            strideInBytes = STRIDE
         )
         dataOffset += COLOR_COMPONENT_COUNT
 
         vertexArray.setVertexAttribPointer(
-            dataOffset,
-            particleProgram.aDirectionVectorLocation,
-            VECTOR_COMPONENT_COUNT,
-            STRIDE
+            offsetInFloats = dataOffset,
+            attributeLocation = particleProgram.aDirectionVectorLocation,
+            componentCount = VECTOR_COMPONENT_COUNT,
+            strideInBytes = STRIDE
         )
         dataOffset += VECTOR_COMPONENT_COUNT
 
         vertexArray.setVertexAttribPointer(
-            dataOffset,
-            particleProgram.aParticleStartTimeLocation,
-            PARTICLE_START_TIME_COMPONENT_COUNT,
-            STRIDE
+            offsetInFloats = dataOffset,
+            attributeLocation = particleProgram.aParticleStartTimeLocation,
+            componentCount = PARTICLE_START_TIME_COMPONENT_COUNT,
+            strideInBytes = STRIDE
         )
         dataOffset += PARTICLE_START_TIME_COMPONENT_COUNT
 
         vertexArray.setVertexAttribPointer(
-            dataOffset,
-            particleProgram.aParticleSizeLocation,
-            SIZE_COMPONENT_COUNT,
-            STRIDE
+            offsetInFloats = dataOffset,
+            attributeLocation = particleProgram.aParticleSizeLocation,
+            componentCount = SIZE_COMPONENT_COUNT,
+            strideInBytes = STRIDE
         )
     }
 
     fun draw() = glDrawArrays(GL_POINTS, 0, currentParticleCount)
+
+    fun release() = vertexArray.release()
 }

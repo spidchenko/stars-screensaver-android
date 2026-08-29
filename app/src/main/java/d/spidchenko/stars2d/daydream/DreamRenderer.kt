@@ -102,7 +102,8 @@ class DreamRenderer(
 
     fun releaseResources() {
         glDeleteTextures(1, intArrayOf(textureId), 0)
-        Logger.log("releaseResources: Deleted textures")
+        particleSystem.release()
+        Logger.log("releaseResources: Deleted textures and vertex arrays")
     }
 
     private fun logAverageFPS() {

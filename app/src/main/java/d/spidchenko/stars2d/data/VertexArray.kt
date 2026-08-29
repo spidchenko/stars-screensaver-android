@@ -9,36 +9,99 @@ import java.nio.FloatBuffer
 class VertexArray(
     vertexData: FloatArray
 ) {
-    private val floatBuffer = ByteBuffer
+    private val byteBuffer: ByteBuffer = ByteBuffer
         .allocateDirect(vertexData.size * BYTES_PER_FLOAT)
         .order(ByteOrder.nativeOrder())
-        .asFloatBuffer()
-        .put(vertexData)
 
+    private val floatBuffer: FloatBuffer = byteBuffer.asFloatBuffer()
+
+    private var vboId: Int = 0
+
+    init {
+        // Upload initial data to the buffers
+        floatBuffer.put(vertexData)
+        floatBuffer.position(0)
+        
+        // Ensure the ByteBuffer is also reset
+        byteBuffer.position(0)
+        byteBuffer.limit(byteBuffer.capacity())
+
+        val buffers = IntArray(1)
+        glGenBuffers(1, buffers, 0)
+        vboId = buffers[0]
+
+        glBindBuffer(GL_ARRAY_BUFFER, vboId)
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            byteBuffer.capacity(),
+            byteBuffer,
+            GL_DYNAMIC_DRAW
+        )
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+    }
+
+    /**
+     * Binds a shader attribute to this vertex array.
+     * @param offsetInFloats The starting index in the buffer for this attribute.
+     * @param attributeLocation The shader attribute location.
+     * @param componentCount Number of components (e.g. 3 for XYZ).
+     * @param strideInBytes Byte offset between consecutive attributes.
+     */
     fun setVertexAttribPointer(
-        dataOffset: Int,
-        attributeHandle: Int,
+        offsetInFloats: Int,
+        attributeLocation: Int,
         componentCount: Int,
-        stride: Int
+        strideInBytes: Int
     ) {
-        floatBuffer.position(dataOffset)
+        glBindBuffer(GL_ARRAY_BUFFER, vboId)
         glVertexAttribPointer(
-            attributeHandle,
+            attributeLocation,
             componentCount,
             GL_FLOAT,
             false,
-            stride,
-            floatBuffer
+            strideInBytes,
+            offsetInFloats * BYTES_PER_FLOAT
         )
-        glEnableVertexAttribArray(attributeHandle)
-        floatBuffer.position(0)
+        glEnableVertexAttribArray(attributeLocation)
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
     }
 
-    fun updateBuffer(vertexData: FloatArray, start: Int, count: Int): FloatBuffer =
-        floatBuffer.apply {
-            position(start)
-            put(vertexData, start, count)
-            position(0)
-        }
+    /**
+     * Updates a portion of the GPU buffer with new data.
+     */
+    fun updateBuffer(vertexData: FloatArray, startOffsetInFloats: Int, count: Int) {
+        floatBuffer.position(startOffsetInFloats)
+        floatBuffer.put(vertexData, startOffsetInFloats, count)
+        floatBuffer.position(0)
 
+        glBindBuffer(GL_ARRAY_BUFFER, vboId)
+        
+        // Calculate byte positions
+        val startByte = startOffsetInFloats * BYTES_PER_FLOAT
+        val countBytes = count * BYTES_PER_FLOAT
+        
+        // Set ByteBuffer state exactly for the update range
+        byteBuffer.position(startByte)
+        byteBuffer.limit(startByte + countBytes)
+        
+        glBufferSubData(
+            GL_ARRAY_BUFFER,
+            startByte,
+            countBytes,
+            byteBuffer
+        )
+        
+        // Reset ByteBuffer state for safety
+        byteBuffer.position(0)
+        byteBuffer.limit(byteBuffer.capacity())
+        
+        glBindBuffer(GL_ARRAY_BUFFER, 0)
+    }
+
+    fun release() {
+        if (vboId != 0) {
+            glDeleteBuffers(1, intArrayOf(vboId), 0)
+            vboId = 0
+        }
+    }
 }
