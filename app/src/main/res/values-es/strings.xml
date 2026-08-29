@@ -24,4 +24,5 @@
     <string name="charged_message">Su dispositivo está cargado</string>
     <string name="settings">Configuración</string>
     <string name="is_screen_bright">Mantener la pantalla brillante durante el salvapantallas</string>
+    <string name="error_open_settings">No se pudo abrir la configuración del salvapantallas automáticamente.</string>
 </resources>

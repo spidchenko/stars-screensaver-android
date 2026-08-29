@@ -24,4 +24,5 @@
     <string name="premium_unlocked_message">Fonction Premium déverrouillée</string>
     <string name="charged_message">Votre appareil est chargé</string>
     <string name="is_screen_bright">Garder l\'écran lumineux pendant l\'économiseur d\'écran</string>
+    <string name="error_open_settings">Impossible d\'ouvrir automatiquement les paramètres de l\'économiseur d\'écran.</string>
 </resources>

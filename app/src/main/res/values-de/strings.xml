@@ -24,4 +24,5 @@
     <string name="charged_message">Ihr Gerät ist vollständig aufgeladen.</string>
     <string name="settings">Einstellungen</string>
     <string name="is_screen_bright">Bildschirm während des Bildschirmschoners hell lassen</string>
+    <string name="error_open_settings">Bildschirmschoner-Einstellungen konnten nicht automatisch geöffnet werden.</string>
 </resources>

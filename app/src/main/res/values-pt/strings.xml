@@ -24,4 +24,5 @@
     <string name="charged_message">Seu dispositivo está carregado</string>
     <string name="settings">Configurações</string>
     <string name="is_screen_bright">Manter a tela brilhante durante o protetor de tela</string>
+    <string name="error_open_settings">Não foi possível abrir as configurações do protetor de tela automaticamente.</string>
 </resources>

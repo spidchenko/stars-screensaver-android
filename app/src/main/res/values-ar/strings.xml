@@ -24,4 +24,5 @@
     <string name="charged_message">تم شحن جهازك</string>
     <string name="settings">الإعدادات</string>
     <string name="is_screen_bright">حافظ على سطوع الشاشة أثناء شاشة التوقف</string>
+    <string name="error_open_settings">تعذر فتح إعدادات شاشة التوقف تلقائيًا.</string>
 </resources>

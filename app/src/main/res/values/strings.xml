@@ -38,6 +38,7 @@
     <string name="charged_message">Your device is charged</string>
 
     <string name="is_screen_bright">Keep screen bright during screensaver</string>
+    <string name="error_open_settings">Could not open Screensaver settings automatically.</string>
 
 
 </resources>

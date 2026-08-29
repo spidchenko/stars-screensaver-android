@@ -24,4 +24,5 @@
     <string name="charged_message">Ваш пристрій заряджено</string>
     <string name="settings">Налаштування</string>
     <string name="is_screen_bright">Не гасити екран під час роботи заставки</string>
+    <string name="error_open_settings">Не вдалося автоматично відкрити налаштування заставки.</string>
 </resources>

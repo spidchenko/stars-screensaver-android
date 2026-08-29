@@ -24,4 +24,5 @@
     <string name="premium_unlocked_message">Funzionalità premium sbloccata</string>
     <string name="charged_message">Il tuo dispositivo è carico</string>
     <string name="is_screen_bright">Mantieni lo schermo luminoso durante il salvaschermo</string>
+    <string name="error_open_settings">Impossibile aprire automaticamente le impostazioni del salvaschermo.</string>
 </resources>

@@ -24,4 +24,5 @@
     <string name="premium_unlocked_message">Премиум-функция разблокирована</string>
     <string name="charged_message">Ваше устройство заряжено</string>
     <string name="is_screen_bright">Не гасить экран во время работы заставки</string>
+    <string name="error_open_settings">Не удалось автоматически открыть настройки заставки.</string>
 </resources>
