@@ -2,6 +2,7 @@ package d.spidchenko.stars2d.objects
 
 import android.content.SharedPreferences
 import android.graphics.Color
+import d.spidchenko.stars2d.util.PreferenceKeys
 import d.spidchenko.stars2d.util.Point
 import d.spidchenko.stars2d.util.Vector
 import kotlin.random.Random
@@ -10,9 +11,9 @@ enum class MovementDirection {
     LEFT_TO_RIGHT, RIGHT_TO_LEFT, TOP_TO_BOTTOM, BOTTOM_TO_UP
 }
 
-private const val PARTICLE_SIZE_MODIFIER_KEY = "size_of_particles"
-private const val PARTICLE_COUNT_MODIFIER_KEY = "number_of_particles"
-private const val MOVEMENT_DIRECTION_KEY = "movement_direction"
+private const val PARTICLE_SIZE_MODIFIER_KEY = PreferenceKeys.SIZE_OF_PARTICLES
+private const val PARTICLE_COUNT_MODIFIER_KEY = PreferenceKeys.NUMBER_OF_PARTICLES
+private const val MOVEMENT_DIRECTION_KEY = PreferenceKeys.MOVEMENT_DIRECTION
 private const val PARTICLE_MIN_SIZE = 10
 private const val PARTICLE_MAX_SIZE = 30
 private const val COLOR_COMPONENT_MAX_VALUE = 255
@@ -98,7 +99,7 @@ class ParticleShooter(
         val directionString = preferences.getString(MOVEMENT_DIRECTION_KEY, DEFAULT_MOVEMENT_DIRECTION.name)
         movementDirection = try {
             MovementDirection.valueOf(directionString!!)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             DEFAULT_MOVEMENT_DIRECTION
         }
     }

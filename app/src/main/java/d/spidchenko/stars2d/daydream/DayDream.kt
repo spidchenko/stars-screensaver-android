@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.minutes
 
 private val TIME_30_MINUTES = 30.minutes
-private const val KEEP_SCREEN_BRIGHT_KEY = "is_screen_bright"
+private const val KEEP_SCREEN_BRIGHT_KEY = PreferenceKeys.IS_SCREEN_BRIGHT
 private const val DEFAULT_KEEP_SCREEN_BRIGHT = true
 
 class DayDream : DreamService(), LifecycleOwner {

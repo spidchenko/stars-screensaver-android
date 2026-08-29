@@ -12,7 +12,7 @@ import androidx.core.content.edit
 
 
 private const val PREMIUM_ID = "d.spidchenko.stars2d.inapp.premium"
-private const val KEY_PREMIUM_TOKEN = "purchaseToken"
+private const val KEY_PREMIUM_TOKEN = PreferenceKeys.PREMIUM_TOKEN
 
 class Billing(val context: Context) {
     private val mainCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)

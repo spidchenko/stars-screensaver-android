@@ -1,6 +1,5 @@
 package d.spidchenko.stars2d.activities
 
-import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
@@ -18,6 +17,7 @@ import d.spidchenko.stars2d.R
 import d.spidchenko.stars2d.daydream.DreamSurfaceView
 import d.spidchenko.stars2d.util.Billing
 import d.spidchenko.stars2d.util.Logger
+import d.spidchenko.stars2d.util.PreferenceKeys
 import d.spidchenko.stars2d.util.SoundEngine
 import d.spidchenko.stars2d.util.VibrateUtil
 
@@ -75,21 +75,25 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            if (activity is SettingsActivity) {
-                this.gLView = (activity as SettingsActivity).gLView
-            } else {
-                throw RuntimeException("Fragment not attached to SettingsActivity")
-            }
+            (activity as? SettingsActivity)?.let {
+                this.gLView = it.gLView
+            } ?: Logger.log("SettingsFragment: Activity is not SettingsActivity")
 
-            // Now you can use gLViewFromActivity
             if (gLView == null) {
                 Logger.log("SettingsFragment: gLView is null in onViewCreated!")
             }
         }
 
+        override fun onDestroy() {
+            super.onDestroy()
+            if (::soundEngine.isInitialized) {
+                soundEngine.release()
+            }
+        }
+
         override fun onDetach() {
             super.onDetach()
-            gLView = null // Clear the reference to avoid memory leaks
+            gLView = null
         }
 
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -98,37 +102,39 @@ class SettingsActivity : AppCompatActivity() {
             soundEngine = SoundEngine(requireContext())
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            premiumOption = findPreference("premium")
+            premiumOption = findPreference(PreferenceKeys.PREMIUM)
             premiumOption?.setOnPreferenceClickListener {
                 Logger.log("onCreatePreferences: CLICKED PREM LINK!")
                 billing.launchBuyPremiumBillingFlow(requireActivity())
                 true
             }
+            updatePremiumVisibility()
+        }
+
+        private fun updatePremiumVisibility() {
             if (Billing.checkPremium(requireContext())) {
                 premiumOption?.isVisible = false
-            }
-            if (gLView == null) {
-                Logger.log("SettingsFragment: gLView is null in onCreatePreferences!")
             }
         }
 
         override fun onSharedPreferenceChanged(sharedPref: SharedPreferences?, key: String?) {
             gLView?.reloadPreferences()
             Logger.log("onSharedChanged: isPrem: ${Billing.checkPremium(requireContext())}")
-            if (Billing.checkPremium(requireContext())) {
-                premiumOption?.isVisible = false
-            }
+            updatePremiumVisibility()
 
-            // TODO Move "magic strings" to PreferenceKeys object
-
-            if ((key == "play_sound") && (sharedPref?.getBoolean("play_sound", false) == true)) {
-                Logger.log("onSharedChanged: pop!")
-                soundEngine.playPop()
-            }
-
-            if ((key == "vibrate") && (sharedPref?.getBoolean("vibrate", false) == true)) {
-                Logger.log("onSharedChanged: vibrate!")
-                VibrateUtil.vibrate(requireContext())
+            when (key) {
+                PreferenceKeys.PLAY_SOUND -> {
+                    if (sharedPref?.getBoolean(key, false) == true) {
+                        Logger.log("onSharedChanged: pop!")
+                        soundEngine.playPop()
+                    }
+                }
+                PreferenceKeys.VIBRATE -> {
+                    if (sharedPref?.getBoolean(key, false) == true) {
+                        Logger.log("onSharedChanged: vibrate!")
+                        VibrateUtil.vibrate(requireContext())
+                    }
+                }
             }
         }
     }
@@ -141,5 +147,12 @@ class SettingsActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         preferences.unregisterOnSharedPreferenceChangeListener(settingsFragment)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (::gLView.isInitialized) {
+            gLView.releaseResources()
+        }
     }
 }

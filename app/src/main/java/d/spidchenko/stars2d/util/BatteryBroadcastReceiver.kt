@@ -15,8 +15,8 @@ class BatteryBroadcastReceiver(
     override fun onReceive(context: Context, intent: Intent) {
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val playSound = sharedPreferences.getBoolean("play_sound", false)
-        val vibrate = sharedPreferences.getBoolean("vibrate", false)
+        val playSound = sharedPreferences.getBoolean(PreferenceKeys.PLAY_SOUND, false)
+        val vibrate = sharedPreferences.getBoolean(PreferenceKeys.VIBRATE, false)
 
         val status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1)
         val statusFull = BatteryManager.BATTERY_STATUS_FULL
