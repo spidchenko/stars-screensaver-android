@@ -21,7 +21,7 @@ class PreviewActivity : AppCompatActivity() {
         hideSystemUI()
 
         val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        gLView = DreamSurfaceView(this, preferences)
+        gLView = DreamSurfaceView(this, preferences = preferences)
         setContentView(gLView)
     }
 

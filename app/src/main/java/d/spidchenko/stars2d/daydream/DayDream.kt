@@ -58,8 +58,10 @@ class DayDream : DreamService(), LifecycleOwner {
             isScreenBright = preferences.getBoolean(KEEP_SCREEN_BRIGHT_KEY, DEFAULT_KEEP_SCREEN_BRIGHT)
 
             // Initialize GL view
-            gLView = DreamSurfaceView(this, preferences)
-            setContentView(gLView)
+            val view = DreamSurfaceView(this, preferences = preferences)
+            gLView = view
+            setContentView(view)
+            view.onResume()
 
             // Safely register battery receiver
             registerBatteryReceiver()
@@ -89,6 +91,7 @@ class DayDream : DreamService(), LifecycleOwner {
         unregisterBatteryReceiver()
 
         // Release GL resources if view exists
+        gLView?.onPause()
         gLView?.releaseResources()
         gLView = null
     }

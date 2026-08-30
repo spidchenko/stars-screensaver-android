@@ -52,7 +52,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        gLView = DreamSurfaceView(this, preferences)
+        gLView = DreamSurfaceView(this, preferences = preferences)
         setContentView(R.layout.settings_activity)
         if (savedInstanceState == null) {
             settingsFragment = SettingsFragment()
@@ -141,11 +141,13 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        gLView.onResume()
         preferences.registerOnSharedPreferenceChangeListener(settingsFragment)
     }
 
     override fun onPause() {
         super.onPause()
+        gLView.onPause()
         preferences.unregisterOnSharedPreferenceChangeListener(settingsFragment)
     }
 
